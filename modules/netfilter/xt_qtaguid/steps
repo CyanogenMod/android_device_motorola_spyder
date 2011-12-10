@@ -1,0 +1,7 @@
+my_top_dir=~/android/cyanogenmod
+kernel_out_dir=~/android/cyanogenmod/out/target/product/solana
+cross=$my_top_dir/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
+
+make PREFIX=$kernel_out_dir CROSS=$cross CROSS_COMPILE=$cross PROCFAMILY=OMAP4430 PROJROOT= HOST_PLATFORM=sdc4430 KRNLSRC=$my_top_dir/kernel/omap4 KERNEL_DIR=$kernel_out_dir -C $my_top_dir/kernel/omap4 ARCH=arm O=$kernel_out_dir M=~/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/xt_qtaguid modules
+
+

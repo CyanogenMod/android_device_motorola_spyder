@@ -1,0 +1,6 @@
+0x00000000	ip6t_unregister_table	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
+0x00000000	ip6t_do_table	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
+0x00000000	ip6t_alloc_initial_table	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL_GPL
+0x00000000	ip6t_ext_hdr	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
+0x00000000	ip6t_register_table	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
+0x00000000	ipv6_find_hdr	/home/scottml/android/cyanogenmod-ics/device/motorola/solana/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL

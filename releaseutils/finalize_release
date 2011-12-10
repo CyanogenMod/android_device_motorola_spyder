@@ -1,0 +1,10 @@
+#!/sbin/sh
+
+PATH="/system/xbin:/system/bin:/sbin:${PATH}"
+
+# first we setup hijacking
+mv /system/bin/logwrapper /system/bin/logwrapper.bin
+ln -s hijack /system/bin/logwrapper
+
+# kill off our release utilities (not needed on-system)
+rm -r -f /system/etc/finalize_release
