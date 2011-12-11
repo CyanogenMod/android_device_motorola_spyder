@@ -5,11 +5,17 @@ on init
     export EXTERNAL_STORAGE /mnt/sdcard
     export PHONE_STORAGE /mnt/emmc
 
+    mkdir /osh 0755 root root
+
+on fs
+
 on post-fs-data
+    exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
+    exec /osh/etc/init.d/udev start
 
 # prepare generic keypad name
     exec /init_prep_keypad.sh
-    mount ext3 /dev/block/mmcblk1p23 /system ro noatime nodiratime remount
+    mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
 
     mkdir /cdrom 0770 system system
@@ -74,6 +80,8 @@ on post-fs-data
     write /proc/sys/fs/suid_dumpable 2
     # Set core pattern
     write /proc/sys/kernel/core_pattern "|/system/bin/coredump %e %p %t"
+    # Set core filter
+    write /proc/self/coredump_filter "0x7f"
     # Power Management
     write /sys/power/sleep_while_idle 1
     write /sys/power/enable_off_mode 1
@@ -89,6 +97,12 @@ on post-fs-data
     write /sys/power/sr_vdd2_autocomp 1
     write /sys/power/enable_abb_mode 1
     write /sys/devices/w1\ bus\ master/w1_master_search 2
+    write /sys/devices/system/cpu/cpu0/cpuidle/enable_state 1
+    # Increase MMC block device readaheads
+    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
+    write /sys/block/mmcblk1/queue/read_ahead_kb 1024
+    # Set enable_smp if BT LE is supported
+    write /sys/module/bluetooth/parameters/enable_smp 1
 # Change ownership for vibrators
     chown system system /sys/class/timed_output/lvibrator/enable
     chown system system /sys/class/timed_output/vibrator/enable
@@ -105,6 +119,10 @@ on post-fs-data
     mkdir /mnt/usbdisk_1.5 0755 system system
     mkdir /mnt/usbdisk_1.6 0755 system system
     mkdir /mnt/usbdisk_1.7 0755 system system
+
+# Change permission of tiler's free_page_max to allow mot_osh access
+    chmod 0660 /sys/module/tiler_omap/parameters/free_page_max
+    chown mot_osh mot_osh /sys/module/tiler_omap/parameters/free_page_max
 # Mount mtd partitions
     # mount /pds as r/w
     # We chown/chmod /pds again so because mount is run as root + defaults
@@ -204,6 +222,47 @@ on post-fs-data
     chown radio radio /sys/class/radio/w3g_lte/command
     chmod 777 /sys/class/radio/w3g_lte/command
     
+    # create the lost+found directories, so as to enforce our permissions
+    mkdir /pds/lost+found 0770
+
+    # double check the perms, in case lost+found already exists, and set owner
+    chown root root /pds/lost+found
+    chmod 0770 /pds/lost+found
+
+# create the necessary pds dirs for tpapi with proper permission
+    mkdir /pds/security
+    chmod 2770 /pds/security
+    chown mot_tpapi mot_tpapi /pds/security
+    chown mot_tpapi mot_tpapi /pds/security/counter.bin
+    chown mot_tpapi mot_tpapi /pds/security/system.bin
+    chown mot_tpapi mot_tpapi /pds/security/storage.bin
+    chown mot_tpapi mot_tpapi /pds/security/keymaptable.dat
+    # Create wmdrm directory
+    mkdir /pds/wmdrm 0775 mot_drm mot_drm
+# Permission for USB
+    chown root mot_usb /proc/mtpctl
+    chmod 0660 /proc/mtpctl
+# Install kernel modules
+    insmod /system/lib/modules/sec.ko
+# Install product specific kernel modules
+    exec /system/bin/load_modules.sh
+# chown/chmod for FOTA
+    chown system system /cache/fota
+    chmod 0770 /cache/fota
+#Set the default value for bluedroid_ref
+    write /data/tmp/bluedroid_ref 0
+    chown system system /data/tmp/bluedroid_ref
+    chmod 0660 /data/tmp/bluedroid_ref
+    # create moto specific dirs for mystuff
+    mkdir /data/download 0775 system system
+    mkdir /data/download/mystuff 0775 system system
+    # create moto specific dirs for wifi
+    mkdir /data/system 0771 system system
+    # wifi dirs
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
     # create logger folder
     mkdir /data/logger 0770 radio log
     chown radio log /data/logger
@@ -211,23 +270,17 @@ on post-fs-data
     mkdir /data/panicreports
     chown root radio /data/panicreports
     chmod 0775 /data/panicreports
-
+    mkdir /data/tombstones
+    chown system mot_tombstone /data/tombstones
+    chmod 0775 /data/tombstones
     # Backup ramconsole on abnormal reboot.
     copy /proc/last_kmsg /data/dontpanic/last_kmsg
     chown root log /data/dontpanic/last_kmsg
     chmod 0644 /data/dontpanic/last_kmsg
-
-    # workaround: in targa somebody deletes the logfile.
+    # workaround: in spyder somebody deletes the logfile.
     # we have to back it up.
     copy /data/dontpanic/apanic_console /data/logger/last_apanic_console
     chmod 0700 /data/logger/apanic_console
-
-    # create the lost+found directories, so as to enforce our permissions
-    mkdir /pds/lost+found 0770
-
-    # double check the perms, in case lost+found already exists, and set owner
-    chown root root /pds/lost+found
-    chmod 0770 /pds/lost+found
 
     #Create location directory
     mkdir /data/location 0771 radio radio
@@ -237,21 +290,14 @@ on post-fs-data
     chmod 0777 /data/anr
 
 # create the necessary dirs for tpapi with proper permission
-    mkdir /pds/security
     mkdir /data/tpapi
     mkdir /data/tpapi/etc
     mkdir /data/tpapi/etc/tpa
     mkdir /data/tpapi/etc/tpa/persistent
-    chmod 2770 /pds/security
     chmod 2770 /data/tpapi
     chmod 2770 /data/tpapi/etc
     chmod 2770 /data/tpapi/etc/tpa
     chmod 2770 /data/tpapi/etc/tpa/persistent
-    chown mot_tpapi mot_tpapi /pds/security
-    chown mot_tpapi mot_tpapi /pds/security/counter.bin
-    chown mot_tpapi mot_tpapi /pds/security/system.bin
-    chown mot_tpapi mot_tpapi /pds/security/storage.bin
-    chown mot_tpapi mot_tpapi /pds/security/keymaptable.dat
     chown mot_tpapi mot_tpapi /data/tpapi
     chown mot_tpapi mot_tpapi /data/tpapi/etc
     chown mot_tpapi mot_tpapi /data/tpapi/etc/tpa
@@ -261,9 +307,8 @@ on post-fs-data
 
 # directory for encryption management tool, enc_mgt_tool
     mkdir /data/emt
-    chmod 0700 /data/emt
-    # Create wmdrm directory
-    mkdir /pds/wmdrm 0775 mot_drm mot_drm
+    chown root system /data/emt
+    chmod 0770 /data/emt
     # Temp workaround for HP library cleanup
     symlink /dev/hp3a-omap /dev/hp3A-omap
 # Permissions for video
@@ -279,25 +324,16 @@ on post-fs-data
     chown media graphics /dev/video2
     mount rootfs rootfs / ro remount
 
-# Install kernel modules
-    insmod /system/lib/modules/sec.ko
-
-# Install product specific kernel modules
-    exec /system/bin/load_modules.sh
-
-# chown/chmod for FOTA
-    chown system system /cache/fota
-    chmod 0770 /cache/fota
-
 # MTU for USB tethering
     write /sys/class/net/gether0/mtu 1428
 
 on early-boot
 # Define the BLAN interface
     setprop ro.blan.interface usb0
-
-# mount eCryptFS if required
+# Launch SMC script and allow it to read cmdline option
+    chmod 0444 /proc/cmdline
     start smc
+# mount eCryptFS if required
     exec /system/bin/enc_mgt_tool
     class_start media_early_init
 
@@ -313,7 +349,14 @@ on boot
     setprop ro.sys.atvc_allow_efem 0
     setprop ro.sys.atvc_allow_bp_log 0
     setprop ro.sys.atvc_allow_ap_mot_log 0
-
+    setprop ro.sys.atvc_allow_simswap 0
+# OSH properties
+    setprop sys.SystemMode RM_SM_MOBILE
+    setprop sys.FbOwner 3
+    setprop sys.DispOwnerLcd 3
+    setprop sys.DispOwnerHdmi 7
+    setprop sys.AiwFocus 3
+    setprop sys.AMActiveTask 2
 # Change the ownership of led files.
    chown media media /sys/class/leds/af-led/brightness
    chown system system /sys/class/leds/lcd-backlight/als
@@ -357,8 +400,18 @@ on boot
    chown system system /sys/class/backlight/lm3532_bl/brightness
    chmod 0660 /sys/class/backlight/430_540_960_amoled_bl/brightness
    chown system system /sys/class/backlight/430_540_960_amoled_bl/brightness
+   chmod 0660 /sys/devices/omapdss/display0/acl_mode
+   chown system system /sys/devices/omapdss/display0/acl_mode
+# Change the ownership of sensor files.
+   chmod 0660 /sys/module/bmp180/parameters/accuracy
+   chown system system /sys/module/bmp180/parameters/accuracy
+   chmod 0660 /sys/module/bmp180/parameters/poll_interval
+   chown system system /sys/module/bmp180/parameters/poll_interval
+   chmod 0660 /sys/module/bmp180/parameters/enable
+   chown system system /sys/module/bmp180/parameters/enable
 # Change the ownership of touch screen file
-   chown root mot_tcmd /sys/bus/i2c/drivers/qtouch-obp-ts/2-004a/irq_enable
+   chmod 0660 /sys/bus/i2c/drivers/atmxt-i2c/2-004a/drv_irq
+   chown root mot_tcmd /sys/bus/i2c/drivers/atmxt-i2c/2-004a/drv_irq
 # Change the ownership of cpcap
    chmod 0666 /dev/cpcap
    chmod 0666 /dev/cpcap_batt
@@ -395,13 +448,6 @@ on boot
    chown media media /dev/omap-devh2
    chmod 0660 /sys/devices/platform/omapdss/overlay0/zorder
    chown system system /sys/devices/platform/omapdss/overlay0/zorder
-   # change permissions for Overlay
-   chmod 0660 /dev/video1
-   chmod 0660 /dev/video2
-   chmod 0660 /dev/video3
-   chown system system /dev/video1
-   chown system system /dev/video2
-   chown system system /dev/video3
    chmod 0660 /sys/bus/usb/devices/usb1/power/control
    chmod 0660 /sys/bus/usb/devices/usb2/power/control
    chown system radio /sys/bus/usb/devices/usb1/power/control
@@ -511,6 +557,25 @@ on boot
    # change permissions for omap_cpuboost parameters
    chmod 0660 /sys/module/omap_cpuboost/parameters/cpuboost_time
    chown media media /sys/module/omap_cpuboost/parameters/cpuboost_time
+   # Change permission of secret_off to allow system access
+   chmod 0660 /sys/devices/omapdss/display0/secret_off
+   chown system system /sys/devices/omapdss/display0/secret_off
+   # Change file permissions for Thermal Manager
+   # For OMAP CPU Temp
+   chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+   chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+   chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
+   chown system system /sys/class/hwmon/hwmon1/device/temp1_max
+   chown system system /sys/class/hwmon/hwmon1/device/temp1_max_hyst
+   chown system system /sys/class/hwmon/hwmon1/device/update_rate
+   # for PCB Temp
+   chown system system /sys/devices/platform/omap4_duty_cycle/nitro_rate
+   chown system system /sys/devices/platform/omap4_duty_cycle/cooling_rate
+   chown system system /sys/devices/platform/omap4_duty_cycle/nitro_interval
+   chown system system /sys/devices/platform/omap4_duty_cycle/nitro_percentage
+   chown system system /sys/devices/platform/omap4_duty_cycle/enabled
+   chown system system /sys/class/hwmon/hwmon0/device/temp1_max
+   chown system system /sys/class/hwmon/hwmon0/device/temp1_max_hyst
 
    # change permissions for Overlay
    chmod 0660 /dev/video1
@@ -527,6 +592,10 @@ on boot
     setprop net.tcp.buffersize.umts 65536,131072,262144,4096,16384,131072
     setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
     setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
+    setprop net.tcp.buffersize.cdma 4096,12288,24576,4096,12288,24576
+    setprop net.tcp.buffersize.evdo 16384,32768,65536,4096,16384,51200
+    setprop net.tcp.buffersize.2ghotspot 4096,12288,24576,4096,12288,24576
+    setprop net.tcp.buffersize.3ghotspot 4096,16384,51200,16384,32768,65536
 # Define optimized TCP buffer sizes for various networks
 # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 131072,262144,524288,4096,16384,131072
@@ -541,6 +610,7 @@ on boot
 #    write /sys/module/lowmemorykiller/parameters/minfree 2048,3072,4096,6144,7168,8192
 
     setprop net.tcp.buffersize.lte 524288,1048576,2097152,262144,524288,1048576
+    setprop net.tcp.buffersize.4ghotspot 262144,524288,1048576,524288,1048576,2097152
 
 # Camera related
    chmod 0660 /dev/hplens-omap
@@ -548,7 +618,6 @@ on boot
 
 # Enable panic on softlockup
     write /proc/sys/kernel/softlockup_panic 1
-
 # Load traffic shaping modules
     insmod /system/lib/modules/ifb.ko
     insmod /system/lib/modules/act_mirred.ko
@@ -557,7 +626,6 @@ on boot
     insmod /system/lib/modules/cls_u32.ko
     insmod /system/lib/modules/sch_htb.ko
     insmod /system/lib/modules/em_u32.ko
-
 # Load Authentec VPN kernel module
 #    insmod /system/lib/modules/vpnclient.ko
 
@@ -690,6 +758,11 @@ on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
 
+# The following services are added by moto
+service qe /xbin/qe /system
+    class core
+    oneshot
+
 service telnet /system/bin/telnetd
     class core
     oneshot
@@ -714,6 +787,12 @@ service whisperd /system/bin/whisperd /dev/ttyO1
     group mot_whisper mot_pwric
     oneshot
 
+service msp430 /system/bin/msp430 boot
+    class core
+    user compass
+    group compass misc input
+    oneshot
+
 service uim /system/bin/uim-sysfs
     class core
     user root
@@ -731,7 +810,7 @@ service hciattach /system/bin/hciattach -l
     user bluetooth
     group bluetooth net_bt_admin
     disabled
-
+    oneshot
 service nap /system/bin/sdptool add NAP
     user bluetooth
     group bluetooth net_bt_admin
@@ -806,7 +885,12 @@ on property:tcmd.unload_wlan=1
 on property:tcmd.unload_wlan=2
     exec /system/bin/rmmod tiwlan_drv
     setprop wlan.driver.status unloaded
-
+# turn on bluetooth for tcmd
+on property:tcmd.bt_mod=1
+    insmod /system/lib/modules/wl127x_test.ko
+#turn off bluetooth for tcmd
+on property:tcmd.bt_mod=0
+    exec /system/bin/rmmod wl127x_test
 #execute tcmdhelp
 on property:tcmd.start_tcmdhelp=1
     start tcmdhelp
@@ -939,7 +1023,7 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
     oneshot
 
 on property:dev.bootcomplete=1
-    start savebpver
+#    start savebpver
 
 service mdm_panicd /system/bin/mdm_panicd
     class late_start
@@ -1007,6 +1091,18 @@ on property:ro.bootmode=bp-tools
     start wrigley-diag
     start logcatd-blan
 
+#OSH Startup
+service fbcp /etc/init.d/start_fbcp.sh
+    user mot_osh
+    group mot_osh
+    oneshot
+    disabled
+on property:init.svc.zygote=running
+    start fbcp
+on property:dev.bootcomplete=1
+    exec /ubuntu.sh
+on property:sys.SystemMode=RM_SM_DOCKED
+    exec /osh/etc/init.d/startX.sh
 
 service mdm_usb_suspend /system/bin/enable_mdm_usb_suspend.sh
     class core
