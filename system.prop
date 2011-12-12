@@ -50,8 +50,8 @@ wifi.supplicant_scan_interval = 45
 ro.cdma.otaspnumschema=SELC,1,80,99
 
 # write cdma MIN to property for VVM use in GSM/UMTS mode
-
 persist.radio.cdma.min = 0
+
 
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
