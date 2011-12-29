@@ -18,7 +18,7 @@ key 60    SOFT_RIGHT        WAKE
 # key 107   ENDCALL           WAKE_DROPPED
 # END IKSTABLEFIVE-10854
 # BEGIN Motorola, w36295, 07/29/11, IKPRODUCT5-1730, CLONE -Olympus: Lapdock. Pressing F4 key reboots the webtop application.
-key 62    ENDCALL           WAKE_DROPPED
+# key 62    ENDCALL           WAKE_DROPPED
 # END IKPRODUCT5-1730
 key 229   MENU              WAKE_DROPPED
 key 125   MENU              WAKE_DROPPED
@@ -68,9 +68,9 @@ key 38    L
 key 39    SEMICOLON
 key 40    APOSTROPHE
 key 14    DEL
-#BEGIN Moto:IKOLYMP-5280_a22335:mapped USB keyboard delete key to backspace
-key 111   DEL
-#END IKOLYMP-5280
+#BEGIN MOTO:IKSTABLE6-5151 jfx486:mapped USB keyboard delete key to delete
+key 111   FORWARD_DEL
+#END IKSTABLE6-5151
 
 key 44    Z
 key 45    X
@@ -145,3 +145,7 @@ key 126   MENU              WAKE_DROPPED
 
 #End Motorola IKSTABLEFOURV-3787
 
+# BEGIN Motorola, jtq784, Aug.8.2011, IKMAIN-25414
+# Switching Korean & English mode for External Keyboard
+key 122   HANGUL            WAKE_DROPPED
+# END IKMAIN-25414

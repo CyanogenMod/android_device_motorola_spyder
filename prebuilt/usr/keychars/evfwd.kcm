@@ -1,0 +1,33 @@
+[type=QWERTY]
+# keycode      Display   Number    Base      Shift     Alt       Shift+Alt
+A              'A'       '%'       'a'       'A'       '#'       0xA3
+B              'B'       '='       'b'       'B'       ';'       '\'
+C              'C'       '8'       'c'       'C'       '''       0xA9
+D              'D'       '5'       'd'       'D'       '%'       0xA2
+E              'E'       '2'       'e'       'E'       '3'       '|'
+F              'F'       '6'       'f'       'F'       '&'       0xB0
+G              'G'       '-'       'g'       'G'       '*'       '^'
+H              'H'       '['       'h'       'H'       '-'       '_'
+I              'I'       '$'       'i'       'I'       '8'       0xD7
+J              'J'       ']'       'j'       'J'       '+'       '='
+K              'K'       '"'       'k'       'K'       '('       '['
+L              'L'       '''       'l'       'L'       ')'       ']'
+M              'M'       '>'       'm'       'M'       '?'       '>'
+N              'N'       '<'       'n'       'N'       '/'       '<'
+O              'O'       '('       'o'       'O'       '9'       '{'
+P              'P'       ')'       'p'       'P'       '0'       '}'
+Q              'Q'       '*'       'q'       'Q'       '1'       '~'
+R              'R'       '3'       'r'       'R'       '4'       0x2219
+S              'S'       '4'       's'       'S'       '$'       0x20AC
+T              'T'       '+'       't'       'T'       '5'       0x221A
+U              'U'       '&'       'u'       'U'       '7'       0xF7
+V              'V'       '9'       'v'       'V'       ':'       0xB6
+W              'W'       '1'       'w'       'W'       '2'       '`'
+X              'X'       '7'       'x'       'X'       '"'       0xAE
+Y              'Y'       '!'       'y'       'Y'       '6'       0x220F
+Z              'Z'       '#'       'z'       'Z'       '!'       0x2122
+COMMA          ','       ','       ','       ','       ','       0x201E
+PERIOD         '.'       '.'       '.'       '.'       '.'       0x2026
+SPACE          0x20      0x20      0x20      0x20      0x20      0x20
+ENTER          0xA       0xA       0xA       0xA       0xA       0xA
+SLASH          '@'       '0'       0x0       0x0       '@'       0xA5

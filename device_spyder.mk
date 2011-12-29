@@ -125,7 +125,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     FileManager \
     AndroidTerm \
-    DSPManager \
     LatinImeDictionaryPack
 
 # Rootfs files
