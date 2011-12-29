@@ -19,8 +19,8 @@
 touch.deviceType = touchScreen
 touch.orientationAware = 1
 
-keyboard.layout = qtouch-touchscreen
-keyboard.characterMap = qtouch-touchscreen
+keyboard.layout = atmxt-i2c
+keyboard.characterMap = atmxt-i2c
 keyboard.orientationAware = 1
 keyboard.builtIn = 0
 
