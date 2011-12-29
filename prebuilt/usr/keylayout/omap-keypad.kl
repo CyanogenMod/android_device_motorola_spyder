@@ -1,4 +1,4 @@
-key 399   GRAVE
+key 41    GRAVE
 key 2     1                 WAKE_DROPPED
 key 3     2                 WAKE_DROPPED
 key 4     3                 WAKE_DROPPED
@@ -23,7 +23,12 @@ key 228   POUND             WAKE_DROPPED
 key 227   STAR
 key 231   CALL              WAKE_DROPPED
 key 61    CALL              WAKE_DROPPED
-key 102   HOME              WAKE
+key 232   DPAD_CENTER       WAKE_DROPPED
+key 108   DPAD_DOWN         WAKE_DROPPED
+key 103   DPAD_UP           WAKE_DROPPED
+key 102   HOME     		    WAKE
+key 105   DPAD_LEFT         WAKE_DROPPED
+key 106   DPAD_RIGHT        WAKE_DROPPED
 key 115   VOLUME_UP         WAKE
 key 114   VOLUME_DOWN       WAKE
 key 116   POWER             WAKE
@@ -81,6 +86,3 @@ key 155   ENVELOPE          WAKE
 key 12    MINUS             WAKE_DROPPED
 key 13    EQUALS            WAKE_DROPPED
 key 215   AT                WAKE_DROPPED
-
-key 167   VOICE             WAKE_DROPPED
-key 125   ALT_LOCK          WAKE_DROPPED

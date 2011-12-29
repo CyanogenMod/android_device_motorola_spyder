@@ -31,7 +31,7 @@ persist.service.adb.enable=1
 EOF
 
 # Restart with root hacked adbd
-echo msc_adb > /dev/usb_device_mode
+#echo msc_adb > /dev/usb_device_mode
 touch /tmp/recovery.log
 sync
 

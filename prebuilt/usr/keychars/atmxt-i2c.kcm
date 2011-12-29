@@ -1,0 +1,18 @@
+type SPECIAL_FUNCTION
+
+key HOME {
+    base: fallback HOME
+}
+
+key MENU {
+    base: fallback MENU
+}
+
+key BACK {
+    base: fallback BACK
+}
+
+key SEARCH {
+    base: fallback SEARCH
+}
+

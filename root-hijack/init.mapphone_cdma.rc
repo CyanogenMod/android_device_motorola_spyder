@@ -1,4 +1,9 @@
+import init.spyder.usb.rc
+
 on init
+
+    exec /sbin/fixboot.sh
+
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
@@ -9,12 +14,20 @@ on init
 
 on fs
 
+    mount ext3 /dev/block/mmcblk1p20 /system wait noatime nodiratime barrier=1
+    mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
+
 on post-fs-data
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
+# Enable ADB
+    write /dev/usb_device_mode msc_adb
+
 # prepare generic keypad name
     exec /init_prep_keypad.sh
+
     mount ext3 /dev/block/mmcblk1p20 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
 
@@ -23,8 +36,7 @@ on post-fs-data
 
     symlink /dev/ttyGS0 /dev/acm0
 
-# Create mountpoints and mount tmpfs
-
+    # Create mountpoints and mount tmpfs
     mkdir /mnt 0775 root system
     mkdir /osh 0755 root root
     mkdir /preinstall 0755 system system
@@ -64,14 +76,14 @@ on post-fs-data
     chmod 0220 /proc/sysrq-trigger
 
 #Set the default value for bluedroid_ref
-#    write /data/tmp/bluedroid_ref 0
-#    chown system system /data/tmp/bluedroid_ref
+    #    write /data/tmp/bluedroid_ref 0
+    #    chown system system /data/tmp/bluedroid_ref
 
 # Configure kernel options
 
-    # Disable automatic power control for OHCI USB IPC Temporarily
-
+# Disable automatic power control for OHCI USB IPC Temporarily
     write /sys/devices/platform/ohci-omap3/usb1/1-1/power/control auto
+
 # NFC configuration
     # Reset system time
     write /sys/class/rtc/rtc0/unsecured_rtc on
@@ -193,10 +205,10 @@ on post-fs-data
     chown root root /cache/lost+found
     chmod 0770 /cache/lost+found
 
-    chown system system /sys/class/android_usb/android0/f_mass_storage/lun/file
-    chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun/file
-    chown system system /sys/class/android_usb/android0/f_rndis/ethaddr
-    chmod 0660 /sys/class/android_usb/android0/f_rndis/ethaddr
+#    chown system system /sys/class/android_usb/android0/f_mass_storage/lun/file
+#    chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun/file
+#    chown system system /sys/class/android_usb/android0/f_rndis/ethaddr
+#    chmod 0660 /sys/class/android_usb/android0/f_rndis/ethaddr
 
     # allow net_raw to have access to /dev/socket directory
 #    chown root net_raw /dev/socket
@@ -217,7 +229,7 @@ on post-fs-data
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0664 /sys/class/rfkill/rfkill0/type
     chmod 0664 /sys/class/rfkill/rfkill0/state
-    
+
     # LTE Radio file
     chown radio radio /sys/class/radio/w3g_lte/command
     chmod 777 /sys/class/radio/w3g_lte/command
@@ -311,6 +323,7 @@ on post-fs-data
     chmod 0770 /data/emt
     # Temp workaround for HP library cleanup
     symlink /dev/hp3a-omap /dev/hp3A-omap
+
 # Permissions for video
     chmod 0770 /dev/hp3a-omap
     chmod 0770 /dev/hplens-omap
@@ -323,6 +336,20 @@ on post-fs-data
     chown media graphics /dev/video1
     chown media graphics /dev/video2
     mount rootfs rootfs / ro remount
+
+# Install kernel modules
+    insmod /system/lib/modules/sec.ko
+# Load Quota2 support modules
+#    insmod /system/lib/modules/ip6_tables.ko
+#    insmod /system/lib/modules/xt_TPROXY.ko
+#    insmod /system/lib/modules/xt_TRACE.ko
+#    insmod /system/lib/modules/xt_NFQUEUE.ko
+#    insmod /system/lib/modules/xt_qtaguid.ko
+    insmod /system/lib/modules/xt_owner2.ko
+    insmod /system/lib/modules/xt_quota2.ko
+
+# Install product specific kernel modules
+    exec /system/bin/load_modules.sh
 
 # MTU for USB tethering
     write /sys/class/net/gether0/mtu 1428
@@ -618,6 +645,7 @@ on boot
 
 # Enable panic on softlockup
     write /proc/sys/kernel/softlockup_panic 1
+
 # Load traffic shaping modules
     insmod /system/lib/modules/ifb.ko
     insmod /system/lib/modules/act_mirred.ko
@@ -626,16 +654,9 @@ on boot
     insmod /system/lib/modules/cls_u32.ko
     insmod /system/lib/modules/sch_htb.ko
     insmod /system/lib/modules/em_u32.ko
-# Load Authentec VPN kernel module
-#    insmod /system/lib/modules/vpnclient.ko
 
-# Load Quota2 support modules
-    insmod /system/lib/modules/ip6_tables.ko
-    insmod /system/lib/modules/xt_TPROXY.ko
-    insmod /system/lib/modules/xt_TRACE.ko
-    insmod /system/lib/modules/xt_NFQUEUE.ko
-    insmod /system/lib/modules/xt_qtaguid.ko
-    insmod /system/lib/modules/xt_quota2.ko
+# Load Authentec VPN kernel module
+    insmod /system/lib/modules/vpnclient.ko
 
 # Enable hardware watchdog
     write /sys/devices/platform/omap_wdt/enabled on
@@ -710,10 +731,16 @@ on property:ro.kernel.memsize=1024M
     write /sys/module/lowmemorykiller/parameters/minfree 3072,4608,7200,11776,17408,21000
 
 on property:sys.chargeonly.mode=1
-    start battd
+    class_reset main
+    class_reset late_start
+    class_start charger
     start console
-    write /data/chargeonlymode charging
-    exec /system/bin/charge_only_mode
+    start battd
+    start chargeonly
+    stop zygote
+
+on property:persist.service.adb.enable=1
+    start adbd
 
 # Power up to normal
 on property:tcmd.suspend=0
@@ -729,10 +756,6 @@ on property:tcmd.suspend=1
 # Normal to suspend
 on property:tcmd.suspend=2
     class_stop main
-
-#start console for userdebug and eng builds
-on property:ro.debuggable=1
-    start console
 
 # Moto safe power down
 on property:sys.reboot=1
@@ -770,6 +793,11 @@ service telnet /system/bin/telnetd
 service usbd /system/bin/usbd
     class core
 
+service chargeonly /system/bin/charge_only_mode
+    group root
+    oneshot
+    disabled
+
 service battd /system/bin/battd
     class core
     socket battdsock stream 0666 mot_accy mot_accy
@@ -785,12 +813,6 @@ service whisperd /system/bin/whisperd /dev/ttyO1
     class late_start
     user mot_whisper
     group mot_whisper mot_pwric
-    oneshot
-
-service msp430 /system/bin/msp430 boot
-    class core
-    user compass
-    group compass misc input
     oneshot
 
 service uim /system/bin/uim-sysfs
@@ -810,7 +832,7 @@ service hciattach /system/bin/hciattach -l
     user bluetooth
     group bluetooth net_bt_admin
     disabled
-    oneshot
+
 service nap /system/bin/sdptool add NAP
     user bluetooth
     group bluetooth net_bt_admin
@@ -923,43 +945,39 @@ service ap_fmloader_rfmd /system/bin/logwrapper /system/bin/tiap_loader -f /syst
 
 service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
     class late_start
-# we will start as root and wpa_supplicant will switch to user wifi
-# after setting up the capabilities required for WEXT
-#   user wifi
-#   group wifi inet keystore
     socket wpa_tiwlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
 service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service iprenew_p2p /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service iprenew_bnep0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service bugtogo /system/bin/bugtogo.sh
     class late_start
@@ -975,15 +993,15 @@ service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
     oneshot
 
 service pvrsrv /system/bin/pvrsrvinit
-	class core
-	user root
-	oneshot
+    class core
+    user root
+    oneshot
 
 service pppd-ril /system/bin/pppd-ril /dev/ttyUSB0 call pppd-ril.options plugin /system/lib/libpppd_plugin-ril.so
-	class late_start
-	user root
-	disabled
-	oneshot
+    class late_start
+    user root
+    disabled
+    oneshot
 
 service smc /system/bin/startup_smc.sh
     class core
@@ -1023,7 +1041,7 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
     oneshot
 
 on property:dev.bootcomplete=1
-#    start savebpver
+    start savebpver
 
 service mdm_panicd /system/bin/mdm_panicd
     class late_start

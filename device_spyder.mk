@@ -18,7 +18,7 @@ PRODUCT_PACKAGES := \
     charger \
     charger_res_images
 
-# Audio sucks currently.  Moto customized alsa_sound and while I'm working it out, I'll use phone libs.  blech.
+# Audio
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/acoustics.default.so:/system/lib/hw/acoustics.spyder.so \
     device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.spyder.so \
@@ -32,24 +32,25 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/imgtec/gralloc.omap4.so:system/lib/hw/gralloc.omap4.so \
 
-# Lights
+# Hardware HALs
 #PRODUCT_PACKAGES += \
-#    lights.spyder 
-
-# Sensors
-#PRODUCT_PACKAGES += \
+#    lights.spyder \
 #    sensors.spyder \
 #    IMSCServer \
 
 PRODUCT_PACKAGES += \
-    audio_policy.spyder \
-    audio.primary.spyder
-    
+    audio.primary.spyder \
+    audio_policy.spyder
+
 # Modem
 PRODUCT_PACKAGES += \
+    nc \
     Stk \
     libaudiomodemgeneric \
-    libreference-cdma-sms 
+    libreference-cdma-sms \
+    rild \
+    radiooptions \
+    sh 
 
 # Syslink and Tiler
 PRODUCT_PACKAGES += \
@@ -70,18 +71,14 @@ PRODUCT_PACKAGES += \
     wlan_loader \
     wlan_cu \
     dhcpcd.conf \
-    wpa_supplicant.conf \
-    iwmulticall \
-    hostap \
-    hostapd.conf 
+    wpa_supplicant.conf 
 
 # HotSpot
 PRODUCT_PACKAGES += \
     tiap_loader \
     tiap_cu \
     hostap \
-    hostapd.conf \
-    libhostapdcli
+    hostapd.conf 
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -89,12 +86,12 @@ PRODUCT_PACKAGES += \
     uim-sysfs 
 
 # FM Radio
-PRODUCT_PACKAGES += \
-    com.ti.fm.fmradioif.xml \
-    fmradioif \
-    FmRxApp \
-    FmTxApp \
-    FmService 
+#PRODUCT_PACKAGES += \
+#    com.ti.fm.fmradioif.xml \
+#    fmradioif \
+#    FmRxApp \
+#    FmTxApp \
+#    FmService 
 
 # Release utilities
 PRODUCT_PACKAGES += \
@@ -120,12 +117,15 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     librs_jni \
-    com.android.future.usb.accessory
-
-PRODUCT_PACKAGES += \
+    com.android.future.usb.accessory \
     FileManager \
-    AndroidTerm \
-    LatinImeDictionaryPack
+    CMSettings
+
+# WirelessTether Lib
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
+    device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-pre110.apk:system/app/wifi_tether_v3_1-pre110.apk \
+    device/motorola/spyder/prebuilt/app/xabber.apk:system/app/xabber.apk
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
@@ -133,14 +133,18 @@ PRODUCT_COPY_FILES += \
     out/target/product/spyder/root/sbin/adbd:system/etc/rootfs/sbin/adbd \
     device/motorola/spyder/root/default.prop:system/etc/rootfs/default.prop \
     device/motorola/spyder/root/init.rc:system/etc/rootfs/init.rc \
+    device/motorola/spyder/root/init.spyder.usb.rc:system/etc/rootfs/init.spyder.usb.rc \
     device/motorola/spyder/root/init.mapphone_cdma.rc:system/etc/rootfs/init.mapphone_cdma.rc \
+    device/motorola/spyder/root/usbcheck.sh:system/etc/rootfs/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:system/etc/rootfs/ueventd.rc \
 
 # Hijack files
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/default.prop:root/default.prop \
     device/motorola/spyder/root-hijack/init.rc:root/init.rc \
+    device/motorola/spyder/root/init.spyder.usb.rc:system/etc/root/init.spyder.usb.rc \
     device/motorola/spyder/root-hijack/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
+    device/motorola/spyder/root/usbcheck.sh:root/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:root/ueventd.rc \
 
 # Permissions files
@@ -159,23 +163,32 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/handheld_core_hardware.xml:/system/etc/permissions/handheld_core_hardware.xml \
+    frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 
+#    device/motorola/spyder/prebuilt/bin/hijack:system/bin/hijack \
+#    device/motorola/spyder/prebuilt/bin/hijack.log_dump:system/bin/hijack.log_dump \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
-    device/motorola/spyder/prebuilt/bin/hijack:system/bin/hijack \
-    device/motorola/spyder/prebuilt/bin/hijack.log_dump:system/bin/hijack.log_dump \
     device/motorola/spyder/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
     device/motorola/spyder/prebuilt/bin/strace:system/bin/strace \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
-    device/motorola/spyder/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
     device/motorola/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     device/motorola/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
     device/motorola/spyder/prebuilt/etc/wifi/tiwlan_ap.ini:system/etc/wifi/tiwlan_ap.ini \
     device/motorola/spyder/prebuilt/etc/wifi/tiwlan.ini:system/etc/wifi/tiwlan.ini \
-    device/motorola/spyder/prebuilt/usr/idc/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
+    device/motorola/spyder/prebuilt/usr/idc/cpcap-key.idc:system/usr/idc/cpcap-key.idc \
+    device/motorola/spyder/prebuilt/usr/idc/cy8c201xx.idc:system/usr/idc/cy8c201xx.idc \
+    device/motorola/spyder/prebuilt/usr/idc/light-prox.idc:system/usr/idc/light-prox.idc \
+    device/motorola/spyder/prebuilt/usr/idc/omap-keypad.idc:system/usr/idc/omap-keypad.idc \
+    device/motorola/spyder/prebuilt/usr/idc/atmxt-i2c.idc:system/usr/idc/atmxt-i2c.idc \
+    device/motorola/spyder/prebuilt/usr/keychars/cpcap-key.kcm:system/usr/keychars/cpcap-key.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/cy8c201xx.kcm:system/usr/keychars/cy8c201xx.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/light-prox.kcm:system/usr/keychars/light-prox.kcm \
     device/motorola/spyder/prebuilt/usr/keychars/omap-keypad.kcm:system/usr/keychars/omap-keypad.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/atmxt-i2c.kcm:system/usr/keychars/atmxt-i2c.kcm \
     device/motorola/spyder/prebuilt/usr/keylayout/aev_abs.kl:system/usr/keylayout/aev_abs.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/cdma_spyder-keypad.kl:system/usr/keylayout/cdma_spyder-keypad.kl \
@@ -183,9 +196,14 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/usr/keylayout/cy8c201xx.kl:system/usr/keylayout/cy8c201xx.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/evfwd.kl:system/usr/keylayout/evfwd.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/usb_keyboard_102_en_us.kl:system/usr/keylayout/usb_keyboard_102_en_us.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/atmxt-i2c.kl:system/usr/keylayout/atmxt-i2c.kl \
     device/motorola/spyder/prebuilt/media/bootanimation.zip:system/media/bootanimation.zip 
+
+# Phone settings
+PRODUCT_COPY_FILES += \
+    device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
+    device/motorola/spyder/prebuilt/etc/spn-conf.xml:system/etc/spn-conf.xml \
+
 
 # Graphics
 PRODUCT_COPY_FILES += \
@@ -202,9 +220,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/imgtec/libsrv_um.so:system/lib/libsrv_um.so \
     device/motorola/spyder/prebuilt/imgtec/libusc.so:system/lib/libusc.so \
     device/motorola/spyder/prebuilt/imgtec/libdrm.so:system/lib/libdrm.so \
-
-#FRAMEWORKS_BASE_SUBDIRS += \
-#    $(addsuffix /java, omapmmlib)
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -231,9 +246,8 @@ PRODUCT_COPY_FILES += \
 # stuff specific to ti OMAP4 hardware
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product, hardware/ti/wpan/ti-wpan-products.mk)
-#$(call inherit-product, hardware/ti/wpan/tools/FM/Android.mk)
-
 $(call inherit-product-if-exists, vendor/google/google-vendor.mk)
+$(call inherit-product-if-exists, vendor/verizon/verizon-vendor.mk)
 
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 

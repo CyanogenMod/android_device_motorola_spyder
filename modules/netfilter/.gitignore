@@ -1,4 +1,0 @@
-# ignore mod and object files
-*.mod
-*.cmd
-*.o

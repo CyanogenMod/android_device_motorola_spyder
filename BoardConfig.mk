@@ -33,8 +33,10 @@ BOARD_KERNEL_BASE := 0x80000000
 BOARD_PAGE_SIZE := 0x4096
 
 
-# Storage
+# Storage / Sharing
 BOARD_VOLD_MAX_PARTITIONS := 30
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
+BOARD_CUSTOM_USB_CONTROLLER := ../../device/motorola/targa/UsbController.cpp
 
 
 # Connectivity - Wi-Fi
@@ -66,6 +68,7 @@ BOARD_USES_AUDIO_LEGACY := true
 ifdef BOARD_USES_AUDIO_LEGACY
     COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
 endif
+TARGET_PROVIDES_LIBAUDIO := true
 
 
 # Bluetooth
@@ -131,18 +134,15 @@ endif
 
 
 # Media / Radio
-BUILD_FM_RADIO := true
-BUILD_TI_FM_APPS := true
-FM_CHR_DEV_ST := true
-BOARD_HAS_MAPPHONE_SWITCH := true
-
+#BUILD_FM_RADIO := true
+#BUILD_TI_FM_APPS := true
+#FM_CHR_DEV_ST := true
 
 # OTA Packaging
-TARGET_CUSTOM_RELEASETOOL := ./vendor/cm/tools/squisher
 TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_img_from_target_files
-
+TARGET_CUSTOM_RELEASETOOL := ./device/motorola/spyder/releasetools/squisher
 
 # Hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true

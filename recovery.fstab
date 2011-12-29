@@ -1,6 +1,7 @@
 # mount point   fstype          device
 
 /sdcard         vfat            /dev/block/mmcblk0p1    /dev/block/mmcblk0
+/osh            ext3            /dev/block/mmcblk1p23
 /emmc           vfat            /dev/block/mmcblk1p25
 #/pds           ext3            /dev/block/mmcblk1p7
 #/boot          mtd             /dev/block/mmcblk1p14

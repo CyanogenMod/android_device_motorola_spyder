@@ -22,15 +22,16 @@ PRODUCT_RELEASE_NAME := DROID_RAZR
 
 UTC_DATE := $(shell date +%s)
 DATE := $(shell date +%Y%m%d)
+ACT_DATE := $(shell date +%F/%R)
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-   BUILD_ID=6.5.1-73_DHD-11_TA-3 \
+   BUILD_ID=Pre-Alpha_${ACT_DATE} \\
    PRODUCT_NAME=${PRODUCT_DEVICE}_${PRODUCT_SFX} \
    BUILD_NUMBER=${DATE} \
    TARGET_DEVICE=cdma_spyder \
    BUILD_DISPLAY_ID=6.5.1-73_DHD-11_TA-3 \
-   BUILD_FINGERPRINT=verizon/spyder_vzw/cdma_spyder:4.0.1/6.5.1-73_DHD-11_TA-3/${BUILD_NUMBER}:user/release-keys \
-   PRIVATE_BUILD_DESC="cdma_spyder-user 4.0.1 6.5.1-73_DHD-11_TA-3 "${BUILD_NUMBER}" release-keys" \
+   BUILD_FINGERPRINT=verizon/spyder_vzw/cdma_spyder:4.0.3/6.5.1-73_DHD-11_TA-3/${BUILD_NUMBER}:user/release-keys \
+   PRIVATE_BUILD_DESC="cdma_spyder-user 4.0.3 6.5.1-73_DHD-11_TA-3 "${BUILD_NUMBER}" release-keys" \
    PRODUCT_BRAND=verizon \
    BUILD_UTC_DATE= \
    TARGET_BUILD_TYPE=user \

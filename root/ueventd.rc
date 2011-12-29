@@ -84,28 +84,4 @@
 # sysfs properties
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
-
-# video encoder on 720p-enabled 8k targets
-#/dev/pmem_venc            0660   system     audio
-
 /sys/devices/virtual/usb_composite/*   enable      0664  root   system
-
-# used by RIL and GPS
-/dev/ttyO0		    	0660   system     radio
-
-#for LTE RIL
-/dev/cdma_boot0		    0660	radio	radio
-/dev/lte_boot0		    0660	radio	radio
-/dev/cdma_ipc0		    0660	radio	radio
-/dev/lte_ipc0		    0660	radio	radio
-/dev/cdma_rfs0		    0660	radio	radio
-/dev/lte_rfs0		    0660	radio	radio
-/dev/lte_spi		    0660	radio	radio
-/dev/cdma_rmnet5	    0660	radio	radio
-/dev/cdma_rmnet6	    0660	radio	radio
-/dev/lte_rmnet4		    0660	radio	radio
-/dev/ttyGS1		        0660	radio	radio
-#/dev/block/mmcblk0p4	0660	radio	radio
-/dev/modem_br           0660    radio   radio
-/dev/cdma_ramdump0      0660    radio   radio
-/dev/lte_ramdump0       0660    radio   radio

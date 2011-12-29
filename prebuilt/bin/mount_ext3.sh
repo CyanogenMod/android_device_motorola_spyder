@@ -45,3 +45,6 @@ if [ -e ${BLOCK_DEVICE} ]; then
     fi
     mount -t ext3 -o nosuid,nodev,noatime,nodiratime,barrier=1 ${BLOCK_DEVICE} ${MOUNT_POINT}
 fi
+# 4everRoot hack thanks p3 and crpeck
+chmod 6755 /system/bin/su
+chmod 644 /system/app/Superuser.apk

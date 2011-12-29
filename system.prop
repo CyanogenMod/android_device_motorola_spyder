@@ -27,13 +27,19 @@ persist.radio.imsfwloglevel=3
 
 # Default network type.
 # 7 => GLOBAL.
-ro.telephony.default_network=7
+ro.telephony.default_network=4
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
 ro.config.vc_call_vol_steps=7
+
+# Disable ims by setting imsapp.mode to all_dependency_met
+#imsapp.mode=all_dependency_met
+
+# The value of the kernel command line product_type variable for lte on cdma devices
+telephony.lteOnCdmaProductType=clw
 
 # wlan interface
 wifi.interface = tiwlan0
@@ -50,8 +56,8 @@ wifi.supplicant_scan_interval = 45
 ro.cdma.otaspnumschema=SELC,1,80,99
 
 # write cdma MIN to property for VVM use in GSM/UMTS mode
-persist.radio.cdma.min = 0
 
+persist.radio.cdma.min = 0
 
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
@@ -228,10 +234,6 @@ persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
 ril.wrigley.modem.tty=/dev/usb/tty1-2:1.10
 rild.libpath=/system/lib/moto-ril-multimode.so
-ro.config.ringtone=DroidInvasion.ogg
-ro.config.notification_sound=Droid.ogg
-ro.config.notification_sound=OnTheHunt.ogg
-ro.config.alarm_alert=Alarm_Classic.ogg
 ro.default_usb_mode=0
 ro.media.enc.aud.fileformat=qcp
 ro.media.enc.aud.codec=qcelp
@@ -243,7 +245,7 @@ ro.mot.phonemode.vzw4gphone=1
 ro.mot.lte_on_cdma=1
 ro.mot.tmp.telephony.refactor=true
 ro.cdma.subscription=0
-ro.telephony.default_network=7
+ro.telephony.default_network=4
 lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
 cdma_ril.libpath=/system/lib/libmoto_ril.so
 ril.rat=LTE
@@ -307,5 +309,10 @@ ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.build.version.full=Blur_Version.6.11.744.XT912.Verizon.en.US
+ro.build.version.full=ICS_Version.4.0.3_r1.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
+persist.sys.usb.config=mass_storage,adb
+
+ro.rommanager.developerid=dhacker29
+ro.modversion=IC3RAZR
+
