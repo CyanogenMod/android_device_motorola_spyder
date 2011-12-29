@@ -25,7 +25,7 @@ DATE := $(shell date +%Y%m%d)
 ACT_DATE := $(shell date +%F/%R)
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-   BUILD_ID=Pre-Alpha_${ACT_DATE} \\
+   BUILD_ID=Pre-Alpha_${ACT_DATE} \
    PRODUCT_NAME=${PRODUCT_DEVICE}_${PRODUCT_SFX} \
    BUILD_NUMBER=${DATE} \
    TARGET_DEVICE=cdma_spyder \
@@ -36,8 +36,8 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
    BUILD_UTC_DATE= \
    TARGET_BUILD_TYPE=user \
    BUILD_VERSION_TAGS=release-keys \
-   USER=hashcode \
-   BUILD_HOST=unn-hashcode \
+   USER=dhacker29 \
+   BUILD_HOST=TH3ORYROM-BUILDBOX \
    PRODUCT_DEFAULT_LANGUAGE=en \
    PRODUCT_DEFAULT_REGION=US \
 
