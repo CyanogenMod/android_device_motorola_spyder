@@ -815,6 +815,12 @@ service whisperd /system/bin/whisperd /dev/ttyO1
     group mot_whisper mot_pwric
     oneshot
 
+service msp430 /system/bin/msp430 boot
+    class core
+    user compass
+    group compass misc input
+    oneshot
+
 service uim /system/bin/uim-sysfs
     class core
     user root

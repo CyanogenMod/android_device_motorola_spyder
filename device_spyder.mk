@@ -107,7 +107,8 @@ PRODUCT_PACKAGES += \
     utils_test \
     tiler_ptest \
     overlay_test \
-    omx_tests 
+    omx_tests \
+    evtest \
 #    camera_test \
 #    VideoEncTest 
 
@@ -119,7 +120,8 @@ PRODUCT_PACKAGES += \
     librs_jni \
     com.android.future.usb.accessory \
     FileManager \
-    CMSettings
+    CMSettings \
+    WirelessTether \
 
 # WirelessTether Lib
 PRODUCT_COPY_FILES += \
