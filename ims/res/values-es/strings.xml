@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-    <string name="ims_403_dialog">Error de autorización de la tarjeta SIM</string>
-    <string name="ims_403_dialog_activity_text">Puede que la tarjeta SIM no esté autorizada para el servicio LTE. Apaga el teléfono y póngase en contacto con el servicio de atención al cliente del proveedor de servicios.</string>
-    <string name="ticker_text">Error</string>
-    <string name="content_title">Error de autorización de la tarjeta SIM</string>
-    <string name="context_text">Ponte en contacto con el servicio de atención al cliente.</string>
-</resources>

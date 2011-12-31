@@ -7,10 +7,8 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export EXTERNAL_STORAGE /mnt/sdcard
-    export PHONE_STORAGE /mnt/emmc
-
-    mkdir /osh 0755 root root
+    export EXTERNAL_STORAGE /mnt/sdcard-ext
+    export PHONE_STORAGE /mnt/sdcard
 
 on fs
 
@@ -45,12 +43,12 @@ on post-fs-data
     mkdir /misc 0770 system misc
     mkdir /sd-ext 0771 system system
 
-    mkdir /mnt/emmc 0000 system system
     mkdir /mnt/sdcard 0000 system system
+    mkdir /mnt/sdcard-ext 0000 system system
 
     symlink /data/tmp /tmp
     symlink /mnt/sdcard /sdcard
-    symlink /mnt/emmc /emmc
+    symlink /mnt/sdcard-ext /sdcard-ext
 
     mount tmpfs tmpfs /tmp
 

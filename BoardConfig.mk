@@ -134,9 +134,7 @@ endif
 
 
 # Media / Radio
-#BUILD_FM_RADIO := true
-#BUILD_TI_FM_APPS := true
-#FM_CHR_DEV_ST := true
+# Off currently
 
 # OTA Packaging
 TARGET_PROVIDES_RELEASETOOLS := true
@@ -145,7 +143,7 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools
 TARGET_CUSTOM_RELEASETOOL := ./device/motorola/spyder/releasetools/squisher
 
 # Hijack
-TARGET_NEEDS_MOTOROLA_HIJACK := true
+#TARGET_NEEDS_MOTOROLA_HIJACK := true
 #BOARD_HIJACK_LOG_ENABLE := true
 
 
