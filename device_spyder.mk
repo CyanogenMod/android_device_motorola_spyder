@@ -148,7 +148,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/default.prop:root/default.prop \
     device/motorola/spyder/root/init.rc:root/init.rc \
-    device/motorola/spyder/root/init.spyder.usb.rc:system/etc/root/init.spyder.usb.rc \
+    device/motorola/spyder/root/init.spyder.usb.rc:root/init.spyder.usb.rc \
     device/motorola/spyder/root-hijack/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
     device/motorola/spyder/root-hijack/init.mapphone_umts.rc:system/etc/root/init.mapphone_umts.rc \
     device/motorola/spyder/root/usbcheck.sh:root/usbcheck.sh \

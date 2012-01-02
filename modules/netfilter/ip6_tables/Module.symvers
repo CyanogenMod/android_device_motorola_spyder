@@ -1,6 +1,0 @@
-0x00000000	ip6t_unregister_table	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
-0x00000000	ip6t_do_table	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
-0x00000000	ip6t_alloc_initial_table	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL_GPL
-0x00000000	ip6t_ext_hdr	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
-0x00000000	ip6t_register_table	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL
-0x00000000	ipv6_find_hdr	/home/dhacker29/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables/ip6_tables	EXPORT_SYMBOL

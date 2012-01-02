@@ -520,11 +520,12 @@ static struct proc_dir_entry *iface_stat_procdir;
 
 
 /*
- * For now we only track 2 sets of counters.
+ * For now we only track 2 sets of counters. 
  * The default set is 0.
  * Userspace can activate another set for a given uid being tracked.
  */
-#define IFS_MAX_COUNTER_SETS 2
+/* set to 1 for debugging */
+#define IFS_MAX_COUNTER_SETS 1
 
 enum ifs_tx_rx {
 	IFS_TX,
@@ -2211,7 +2212,7 @@ static int pp_stats_line(struct proc_print_info *ppi, int cnt_set)
 			"%llu %llu "
 			"%llu %llu "
 			"%llu %llu\n",
-			ppi->item_index,
+			(ppi->item_index+1), // this is so stupid.
 			ppi->iface_entry->ifname,
 			get_atag_from_tag(tag),
 			stat_uid,
@@ -2390,6 +2391,7 @@ static int __init qtaguid_mt_init(void)
 	    || xt_register_match(&qtaguid_mt_reg)) {
 		return -1;
 	} else {
+                return 0;
         }
 }
 

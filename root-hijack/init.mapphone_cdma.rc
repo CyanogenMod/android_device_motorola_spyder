@@ -23,7 +23,7 @@ on post-fs-data
 # Enable ADB
     write /dev/usb_device_mode msc_adb
 
-# prepare generic keypad name
+    # prepare generic keypad name
     exec /init_prep_keypad.sh
 
     mount ext3 /dev/block/mmcblk1p20 /system ro noatime nodiratime remount
@@ -337,13 +337,31 @@ on post-fs-data
 
 # Install kernel modules
     insmod /system/lib/modules/sec.ko
+
+# Load ipv6 netfilter/tables support
+    insmod /system/lib/modules/xt_hashlimit.ko
+    insmod /system/lib/modules/xt_HL.ko
+    insmod /system/lib/modules/ip6_tables.ko
+    insmod /system/lib/modules/ip6table_filter.ko
+    insmod /system/lib/modules/ip6table_mangle.ko
+    insmod /system/lib/modules/ip6table_raw.ko
+    insmod /system/lib/modules/ip6t_ah.ko
+    insmod /system/lib/modules/ip6t_eui64.ko
+    insmod /system/lib/modules/ip6t_frag.ko
+    insmod /system/lib/modules/ip6t_hbh.ko
+    insmod /system/lib/modules/ip6t_ipv6header.ko
+    insmod /system/lib/modules/ip6t_LOG.ko
+    insmod /system/lib/modules/ip6t_mh.ko
+    insmod /system/lib/modules/ip6t_REJECT.ko
+    insmod /system/lib/modules/ip6t_rt.ko
+    insmod /system/lib/modules/nf_conntrack_ipv6.ko
+
 # Load Quota2 support modules
-#    insmod /system/lib/modules/ip6_tables.ko
-#    insmod /system/lib/modules/xt_TPROXY.ko
-#    insmod /system/lib/modules/xt_TRACE.ko
-#    insmod /system/lib/modules/xt_NFQUEUE.ko
-#    insmod /system/lib/modules/xt_qtaguid.ko
-    insmod /system/lib/modules/xt_owner2.ko
+    insmod /system/lib/modules/ip6_tables.ko
+    insmod /system/lib/modules/xt_TPROXY.ko
+    insmod /system/lib/modules/xt_TRACE.ko
+    insmod /system/lib/modules/xt_NFQUEUE.ko
+    insmod /system/lib/modules/xt_qtaguid.ko
     insmod /system/lib/modules/xt_quota2.ko
 
 # Install product specific kernel modules

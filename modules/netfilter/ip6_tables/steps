@@ -1,7 +1,0 @@
-my_top_dir=~/ICS4DB
-kernel_out_dir=~/ICS4DB/out/target/product/targa
-cross=$my_top_dir/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-
-make PREFIX=$kernel_out_dir CROSS=$cross CROSS_COMPILE=$cross PROCFAMILY=OMAP4430 PROJROOT= HOST_PLATFORM=sdc4430 KRNLSRC=$my_top_dir/kernel/omap4 KERNEL_DIR=$kernel_out_dir -C $my_top_dir/kernel/omap4 ARCH=arm O=$kernel_out_dir M=~/ICS4DB/device/motorola/targa/modules/netfilter/ip6_tables modules
-
-
