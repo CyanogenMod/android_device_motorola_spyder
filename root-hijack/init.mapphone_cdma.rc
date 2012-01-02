@@ -1,5 +1,3 @@
-import init.spyder.usb.rc
-
 on init
 
     exec /sbin/fixboot.sh
@@ -151,6 +149,9 @@ on post-fs-data
     mkdir /pds/camera/module1 0775 system media
     chown system media /pds/camera/module1
     chmod 0775 /pds/camera/module1
+
+# usbd permissions
+    mkdir /data/usbd 0777 system system
 
 # Create basic filesystem structure
 
@@ -1064,6 +1065,60 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
 
 on property:dev.bootcomplete=1
     start savebpver
+
+# From Usb.apk code
+#    public static final int USB_MODE_NGP = 0;
+#    public static final int USB_MODE_MTP = 1;
+#    public static final int USB_MODE_MSC = 2;
+#    public static final int USB_MODE_RNDIS = 3;
+#    public static final int USB_MODE_MODEM = 4;
+#    public static final int USB_MODE_NONE = 5;
+
+on property:sys.usb.config=adb
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 5
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=mass_storage,adb
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 2
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=mass_storage
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 2
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=rndis
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 3
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=rndis,adb
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 3
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=mtp
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 1
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=mtp,adb
+    exec /system/bin/am broadcast \
+        -a com.motorola.intent.action.USB_MODE_SWITCH_FROM_UI \
+        --ei USB_MODE_INDEX 1
+    start adbd
+    setprop sys.usb.state $sys.usb.config
 
 service mdm_panicd /system/bin/mdm_panicd
     class late_start
