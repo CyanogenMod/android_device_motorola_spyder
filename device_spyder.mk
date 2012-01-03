@@ -116,7 +116,7 @@ PRODUCT_PACKAGES += \
     Camera \
     Superuser \
     su \
-    Usb \
+    Usb
 
 
 PRODUCT_PACKAGES += \
@@ -131,6 +131,7 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-pre110.apk:system/app/wifi_tether_v3_1-pre110.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
     device/motorola/spyder/prebuilt/app/xabber.apk:system/app/xabber.apk
+    device/motorola/spyder/prebuilt/app/Usb.apk:system/app/Usb.apk
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
