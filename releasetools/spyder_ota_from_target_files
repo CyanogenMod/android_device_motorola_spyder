@@ -354,15 +354,38 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.5, 0)
 
   if OPTIONS.wipe_user_data:
+	script.Print("Erasing user data...")
     script.FormatPartition("/data")
 
 #  CopyUtilityFiles(input_zip, output_zip)
-
+  script.Print("************************************************")
+  script.Print("*                                              *")
+  script.Print("*           TH3ORYROM.com presents             *")
+  script.Print("*                                              *")
+  script.Print("*        IC3RAZR $BUILD_DISPLAY_ID             *")
+  script.Print("*                                              *")
+  script.Print("*     Follow us  @dhacker29   @droidth3ory     *")
+  script.Print("*                                              *")
+  script.Print("*   And visit rootzwiki.com, droidforums.net   *")
+  script.Print("*        & mydroidworld.com for support        *")
+  script.Print("*                                              *")
+  script.Print("************************************************")
+  script.Print(" ")
+  script.Print("Formatting system...")
+  script.FormatPartition("/system")
+  script.Print("Formatting cache...")
+  script.FormatPartition("/cache")
+  script.Print("Wiping dalvik-cache...")
+  script.Mount("/data")  
+  script.Delete_recursive("/data/dalvik-cache")
 #  script.RunFormatAndTuneSystem()
+  script.Print("Mounting your system...")
   script.Mount("/system")
   script.DeleteRecursive("/system")
+  script.Print("Starting Installation...")
   script.UnpackPackageDir("system", "/system")
 
+  script.Print("Setting symlinks and permissions...")
   symlinks = CopySystemFiles(input_zip, output_zip)
   script.MakeSymlinks(symlinks)
 
@@ -385,6 +408,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.2, 10)
 
   script.ShowProgress(0.1, 0)
+  script.Print("Finished installing IC3RAZR, Enjoy!")
   device_specific.FullOTA_InstallEnd()
 
   if OPTIONS.extra_script is not None:

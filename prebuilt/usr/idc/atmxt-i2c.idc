@@ -19,17 +19,14 @@
 touch.deviceType = touchScreen
 touch.orientationAware = 1
 
-keyboard.layout = atmxt-i2c
-keyboard.characterMap = atmxt-i2c
-keyboard.orientationAware = 1
-keyboard.builtIn = 0
-
 cursor.mode = navigation
 cursor.orientationAware = 1
 
 # Size
-touch.size.calibration = diameter
-touch.size.scale = 10
+# Based on empirical measurements, we estimate the size of the contact
+# using size = sqrt(area) * 43 + 0.
+touch.size.calibration = area
+touch.size.scale = 43
 touch.size.bias = 0
 touch.size.isSummed = 0
 
@@ -39,7 +36,7 @@ touch.size.isSummed = 0
 # A normal thumb touch typically registers about 200 signal strength
 # units although we don't expect these values to be accurate.
 touch.pressure.calibration = amplitude
-touch.pressure.scale = 0.005
+touch.pressure.scale = 0.0125
 
 # Orientation
 touch.orientation.calibration = none
