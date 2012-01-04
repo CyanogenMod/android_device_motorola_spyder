@@ -362,7 +362,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("*           TH3ORYROM.com presents             *")
   script.Print("*                                              *")
-  script.Print("*        IC3RAZR $BUILD_DISPLAY_ID             *")
+  script.Print("*              IC3RAZR Pre-Alpha               *")
   script.Print("*                                              *")
   script.Print("*     Follow us  @dhacker29   @droidth3ory     *")
   script.Print("*                                              *")

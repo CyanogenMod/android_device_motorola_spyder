@@ -1,0 +1,3 @@
+kernel/drivers/gpu/ion/tiler2_dmm.ko
+kernel/drivers/gpu/ion/tiler2.ko
+kernel/drivers/gpu/ion/ion_driver.ko

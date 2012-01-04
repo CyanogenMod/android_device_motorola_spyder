@@ -13,11 +13,11 @@
  * ipv6_find_hdr
  */
 
-#define DEBUG
-#define IDEBUG
-#define MDEBUG
-#define RDEBUG
-#define CDEBUG
+//#define DEBUG
+//#define IDEBUG
+//#define MDEBUG
+//#define RDEBUG
+//#define CDEBUG
 
 /* Iface handling */
 #ifdef IDEBUG
@@ -524,7 +524,6 @@ static struct proc_dir_entry *iface_stat_procdir;
  * The default set is 0.
  * Userspace can activate another set for a given uid being tracked.
  */
-/* set to 1 for debugging */
 #define IFS_MAX_COUNTER_SETS 1
 
 enum ifs_tx_rx {

@@ -150,8 +150,6 @@ on post-fs-data
     chown system media /pds/camera/module1
     chmod 0775 /pds/camera/module1
 
-# usbd permissions
-    mkdir /data/usbd 0777 system system
 
 # Create basic filesystem structure
 
@@ -188,6 +186,9 @@ on post-fs-data
     mkdir /cache/download 0771 system cache
     mkdir /cache/dalvik-cache 0771 system system
     mkdir /cache/lost+found 0770 root root
+
+# usbd permissions
+    mkdir /data/usbd 0777 system system
 
 # Motorola tcmd/12m stuff
     mkdir /data/local/12m 0771 mot_tcmd shell

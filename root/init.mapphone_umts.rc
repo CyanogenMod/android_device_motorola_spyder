@@ -144,9 +144,6 @@ on post-fs-data
 #    chmod 0771 /preinstall
 #    chown system system /preinstall
 
-# usbd permissions
-    mkdir /data/usbd 0777 system system
-
 # Create basic filesystem structure
 
     # create moto specific dirs for mystuff
@@ -184,6 +181,9 @@ on post-fs-data
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0664 /sys/class/rfkill/rfkill0/type
     chmod 0664 /sys/class/rfkill/rfkill0/state
+
+# usbd permissions
+    mkdir /data/usbd 0777 system system
 
     # create logger folder
     mkdir /data/logger 0770 radio log

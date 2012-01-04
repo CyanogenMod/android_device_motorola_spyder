@@ -1,0 +1,11 @@
+export YOUR_PATH=~/android/d.moto-solana
+export MYDROID=$YOUR_PATH/mydroid
+export PATH=$PATH:$YOUR_PATH/build_tools/arm-2010q1/bin
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+export CROSS_COMPILE=arm-none-linux-gnueabi-
+export KERNEL_DIR=$YOUR_PATH/kernel
+export ARCH=arm
+
+make mapphone_defconfig
+make ARCH=arm CONFIG_ION_OMAP=true M=$MYDROID/device/motorola/solana/modules/rpmsg modules
+
