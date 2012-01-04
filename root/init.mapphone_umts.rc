@@ -1,5 +1,3 @@
-import init.spyder.usb.rc
-
 on init
     exec /sbin/fixboot.sh
 
