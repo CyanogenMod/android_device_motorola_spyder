@@ -371,8 +371,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("************************************************")
   script.Print(" ")
-  script.Print("Formatting cache...")
-  script.FormatPartition("/cache")
+  script.Print("Wiping cache...");
+  script.Mount("/cache");
+  script.DeleteRecursive("/cache");
   script.Print("Wiping dalvik-cache...")
   script.Mount("/data")  
   script.DeleteRecursive("/data/dalvik-cache")
