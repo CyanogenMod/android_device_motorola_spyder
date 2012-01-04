@@ -251,8 +251,8 @@
     <!-- IP address of the dns server to use if nobody else suggests one -->
     <string name="config_default_dns_server">8.8.8.8</string>
 
-    <!-- Use legacy USB device manager.
-    <bool name="config_usesLegacyUsbDeviceManager">true</bool> -->
+    <!-- Use legacy USB device manager. -->
+    <bool name="config_usesLegacyUsbDeviceManager">true</bool>
 
 </resources>
 
