@@ -25,6 +25,7 @@ on post-fs-data
 
     # prepare generic keypad name
     exec /init_prep_keypad.sh
+
     mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
 
@@ -116,10 +117,12 @@ on post-fs-data
     chown system system /sys/class/timed_output/lvibrator/enable
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/sweep
+
 # Change permission of vibrators
     chmod 0660 /sys/class/timed_output/lvibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/sweep
+
 # Mount Points for External Storage Devices
     mkdir /mnt/usbdisk_1.1 0755 system system
     mkdir /mnt/usbdisk_1.2 0755 system system
@@ -254,8 +257,8 @@ on post-fs-data
     # Create wmdrm directory
     mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
-    chown root mot_usb /proc/mtpctl
-    chmod 0660 /proc/mtpctl
+#    chown root mot_usb /proc/mtpctl
+#    chmod 0660 /proc/mtpctl
 # Install kernel modules
     insmod /system/lib/modules/sec.ko
 # Install product specific kernel modules

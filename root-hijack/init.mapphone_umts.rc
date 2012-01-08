@@ -20,7 +20,6 @@ on post-fs-data
 # prepare generic keypad name
     exec /init_prep_keypad.sh
     mount ext3 /dev/block/mmcblk1p20 /system ro noatime nodiratime remount
-
     mount rootfs rootfs / rw remount
 
     mkdir /cdrom 0770 system system

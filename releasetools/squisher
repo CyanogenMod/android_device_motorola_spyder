@@ -148,8 +148,11 @@ cat $img.md5sum
 echo
 )
 
-if [ -f ~/upload.sh ] && echo "Running upload script" || exit; then
+#if you want to run a custom upload script put it in ~/upload.sh
+if [ -f ~/razr.sh ];
+then
 	upload=~/razr.sh
+	echo "Running upload script"
 	. $upload
 fi
 
