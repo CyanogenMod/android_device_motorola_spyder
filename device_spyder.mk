@@ -42,6 +42,15 @@ PRODUCT_PACKAGES += \
     audio.primary.spyder \
     audio_policy.spyder
 
+# BlueZ a2dp Audio HAL module
+PRODUCT_PACKAGES += \
+    audio.a2dp.default
+
+# BlueZ test tools
+PRODUCT_PACKAGES += \
+    hciconfig \
+    hcitool
+
 # Modem
 PRODUCT_PACKAGES += \
     nc \

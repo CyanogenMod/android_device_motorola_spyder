@@ -6,5 +6,5 @@ export CROSS_COMPILE=arm-none-linux-gnueabi-
 export KERNEL_DIR=$YOUR_PATH/kernel
 export ARCH=arm
 
-make mapphone_defconfig
+make ARCH=arm mapphone_defconfig
 make ARCH=arm M=$MYDROID/device/motorola/solana/modules/netfilter/xt_qtaguid modules

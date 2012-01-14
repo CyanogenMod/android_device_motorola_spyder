@@ -5,10 +5,8 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export EXTERNAL_STORAGE /mnt/sdcard-ext
-    export PHONE_STORAGE /mnt/sdcard
-
-    mkdir /osh 0755 root root
+    export EXTERNAL_STORAGE /mnt/sdcard
+    export SECONDARY_STORAGE /mnt/sdcard-ext
 
 on fs
 

@@ -19,6 +19,10 @@
 
 #include <linux/types.h>
 
+/* SETUP CONFIG */
+#define CONFIG_ION y
+#define CONFIG_ION_OMAP y
+
 struct ion_handle;
 /**
  * enum ion_heap_types - list of all possible types of heaps

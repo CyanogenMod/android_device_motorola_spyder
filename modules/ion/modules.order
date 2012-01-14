@@ -1,3 +1,7 @@
-kernel/drivers/gpu/ion/tiler2_dmm.ko
-kernel/drivers/gpu/ion/tiler2.ko
-kernel/drivers/gpu/ion/ion_driver.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/tiler2_dmm.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/tiler2.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/ion_driver.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/virtio.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/virtio_rpmsg_bus.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/virtio_ring.ko
+kernel//home/scottml/android/d.moto-solana/mydroid/device/motorola/solana/modules/ion/rpres.ko

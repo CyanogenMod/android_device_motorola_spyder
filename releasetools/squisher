@@ -64,6 +64,8 @@ find ./ -name \*.apk | $XARGS $OPTICHARGER
 rm $REPACK/ota/system/app/FmRxApp.apk
 rm $REPACK/ota/system/app/FmService.apk
 rm $REPACK/ota/system/app/FmTxApp.apk
+rm $REPACK/ota/system/app/Music.apk
+
 
 if [ "$WANT_SQUASHFS" -eq 1 ]; then
 	squash_opts="-force-uid 1000 -force-gid 1000 -no-progress -noappend -no-exports -no-recovery"
@@ -128,7 +130,7 @@ printf "Zipping package..."
 echo
 printf "Signing package..."
 SECURITYDIR=$ANDROID_BUILD_TOP/build/target/product/security
-java -Xmx768m \
+java -Xmx2048m \
 	-jar $ANDROID_BUILD_TOP/out/host/$OUT_TARGET_HOST/framework/signapk.jar \
 	-w $SECURITYDIR/testkey.x509.pem $SECURITYDIR/testkey.pk8 \
 	$REPACK/update.zip $OUTFILE
@@ -151,8 +153,8 @@ echo
 #if you want to run a custom upload script put it in ~/upload.sh
 if [ -f ~/razr.sh ];
 then
-	upload=~/razr.sh
 	echo "Running upload script"
+	upload=~/razr.sh
 	. $upload
 fi
 

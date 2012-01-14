@@ -4,8 +4,8 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export EXTERNAL_STORAGE /mnt/sdcard-ext
-    export PHONE_STORAGE /mnt/sdcard
+    export EXTERNAL_STORAGE /mnt/sdcard
+    export SECONDARY_STORAGE /mnt/sdcard-ext
 
 on fs
     mount ext3 /dev/block/mmcblk1p22 /system wait noatime nodiratime barrier=1
@@ -286,7 +286,6 @@ on post-fs-data
     insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-    insmod /system/lib/modules/ip6_tables.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
     insmod /system/lib/modules/xt_NFQUEUE.ko
@@ -310,9 +309,6 @@ on early-boot
     class_start media_early_init
 
 on boot
-
-# Enable ADB
-    exec /usbcheck.sh
 
 # Define Motorola DBVC ATVC Property defaults (failsafe properties)
     setprop ro.sys.atvc_allow_netmon_usb 0

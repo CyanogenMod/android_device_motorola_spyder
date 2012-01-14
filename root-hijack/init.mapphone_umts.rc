@@ -4,8 +4,8 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export EXTERNAL_STORAGE /mnt/sdcard-ext
-    export PHONE_STORAGE /mnt/sdcard
+    export EXTERNAL_STORAGE /mnt/sdcard
+    export SECONDARY_STORAGE /mnt/sdcard-ext
 
 on fs
     mount ext3 /dev/block/mmcblk1p20 /system wait noatime nodiratime barrier=1
@@ -286,7 +286,6 @@ on post-fs-data
     insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-    insmod /system/lib/modules/ip6_tables.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
     insmod /system/lib/modules/xt_NFQUEUE.ko
@@ -310,9 +309,6 @@ on early-boot
     class_start media_early_init
 
 on boot
-
-# Enable ADB
-    exec /usbcheck.sh
 
 # Define Motorola DBVC ATVC Property defaults (failsafe properties)
     setprop ro.sys.atvc_allow_netmon_usb 0
@@ -1021,18 +1017,6 @@ service secclkd /system/bin/secclkd
 service dla /system/bin/dla
     class late_start
     oneshot
-
-on property:tcmd.ctrl_adb=1
-    setprop persist.service.adb.enable 1
-    setprop persist.factory.allow_adb 1
-    stop usbd
-    start usbd
-
-on property:tcmd.ctrl_adb=0
-    setprop persist.service.adb.enable 0
-    setprop persist.factory.allow_adb 0
-    stop usbd
-    start usbd
 
 #start Authentec VPN service
 service vpnclientpm /system/bin/vpnclientpm

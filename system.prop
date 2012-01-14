@@ -3,7 +3,7 @@
 #
 # rild.libpath=/system/lib/libril-moto-umts-1.so
 rild.libpath=/system/lib/libmoto_ril.so
-#rild.libargs=-d /dev/ttyO0
+rild.libargs=-d /dev/ttyO0
 ro.sf.lcd_density=240
 ro.default_usb_mode=2
 ro.mot.ril.danlist=611,*611,#611
@@ -12,10 +12,11 @@ persist.ril.ecclist=911,*911,#911
 # Enable ALWAYS_READ_IMSI_FROM_SIM
 persist.ril.features=800
 persist.ril.modem.mode =1
+
 # This defines the max event window manager can
 # handle in 1 s. We may adjust this # for performance
 # reason later
-windowsmgr.max_events_per_sec=100
+windowsmgr.max_events_per_sec=250
 
 # USB modes allowed for UI and switching
 ro.ngp_available=1
@@ -217,6 +218,9 @@ com.motorola.cg.tnWidth=160
 com.motorola.cg.tnHeight=160
 com.motorola.cg.tndisplay=1
 # END IKSTABLE6-13462
+
+# set default usb mode as usb mass storage
+ro.default_usb_mode=2
 
 #
 # ADDITIONAL_BUILD_PROPERTIES

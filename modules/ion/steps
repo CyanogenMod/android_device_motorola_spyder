@@ -6,6 +6,5 @@ export CROSS_COMPILE=arm-none-linux-gnueabi-
 export KERNEL_DIR=$YOUR_PATH/kernel
 export ARCH=arm
 
-make mapphone_defconfig
-make ARCH=arm CONFIG_ION_OMAP=true M=$MYDROID/device/motorola/solana/modules/rpmsg modules
-
+make ARCH=arm mapphone_defconfig
+make ARCH=arm M=$MYDROID/device/motorola/solana/modules/ion modules

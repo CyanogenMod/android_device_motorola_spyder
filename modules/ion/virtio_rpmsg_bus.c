@@ -30,7 +30,7 @@
 #include <linux/jiffies.h>
 #include <linux/sched.h>
 #include <linux/wait.h>
-#include "rpmsg.h"
+#include "linux-rpmsg.h"
 
 /**
  * struct virtproc_info - virtual remote processor info

@@ -1,3 +1,449 @@
+/* ALL INCLUDES */
+#include <linux/kernel.h>
+#include <linux/device.h>
+#include <linux/err.h>
+#include <linux/file.h>
+#include <linux/fs.h>
+#include <linux/io.h>
+#include <linux/spinlock.h>
+#include <linux/mm.h>
+#include <linux/mm_types.h>
+#include <linux/scatterlist.h>
+#include <linux/slab.h>
+#include <linux/vmalloc.h>
+#include <linux/genalloc.h>
+#include <linux/anon_inodes.h>
+#include <linux/list.h>
+#include <linux/miscdevice.h>
+#include <linux/rbtree.h>
+#include <linux/sched.h>
+#include <linux/seq_file.h>
+#include <linux/uaccess.h>
+#include <linux/debugfs.h>
+
+#include <linux/platform_device.h>
+
+#include <asm/mach/map.h>
+#include <asm/page.h>
+
+#include "ion.h"
+#include "ion_priv.h"
+#include "tiler.h"
+#include "omap_ion.h"
+#include "omap_ion_priv.h"
+
+#define DEBUG
+
+/*
+ * drivers/gpu/ion/ion_heap.c
+ *
+ * Copyright (C) 2011 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
+struct ion_heap *ion_heap_create(struct ion_platform_heap *heap_data)
+{
+	struct ion_heap *heap = NULL;
+
+	switch (heap_data->type) {
+	case ION_HEAP_TYPE_SYSTEM_CONTIG:
+		heap = ion_system_contig_heap_create(heap_data);
+		break;
+	case ION_HEAP_TYPE_SYSTEM:
+		heap = ion_system_heap_create(heap_data);
+		break;
+	case ION_HEAP_TYPE_CARVEOUT:
+		heap = ion_carveout_heap_create(heap_data);
+		break;
+	default:
+		pr_err("%s: Invalid heap type %d\n", __func__,
+		       heap_data->type);
+		return ERR_PTR(-EINVAL);
+	}
+
+	if (IS_ERR_OR_NULL(heap)) {
+		pr_err("%s: error creating heap %s type %d base %lu size %u\n",
+		       __func__, heap_data->name, heap_data->type,
+		       heap_data->base, heap_data->size);
+		return ERR_PTR(-EINVAL);
+	}
+
+	heap->name = heap_data->name;
+	heap->id = heap_data->id;
+	return heap;
+}
+
+void ion_heap_destroy(struct ion_heap *heap)
+{
+	if (!heap)
+		return;
+
+	switch (heap->type) {
+	case ION_HEAP_TYPE_SYSTEM_CONTIG:
+		ion_system_contig_heap_destroy(heap);
+		break;
+	case ION_HEAP_TYPE_SYSTEM:
+		ion_system_heap_destroy(heap);
+		break;
+	case ION_HEAP_TYPE_CARVEOUT:
+		ion_carveout_heap_destroy(heap);
+		break;
+	default:
+		pr_err("%s: Invalid heap type %d\n", __func__,
+		       heap->type);
+	}
+}
+
+/*
+ * drivers/gpu/ion/ion_system_heap.c
+ *
+ * Copyright (C) 2011 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
+static int ion_system_heap_allocate(struct ion_heap *heap,
+				     struct ion_buffer *buffer,
+				     unsigned long size, unsigned long align,
+				     unsigned long flags)
+{
+	buffer->priv_virt = vmalloc_user(size);
+	if (!buffer->priv_virt)
+		return -ENOMEM;
+	return 0;
+}
+
+void ion_system_heap_free(struct ion_buffer *buffer)
+{
+	vfree(buffer->priv_virt);
+}
+
+struct scatterlist *ion_system_heap_map_dma(struct ion_heap *heap,
+					    struct ion_buffer *buffer)
+{
+	struct scatterlist *sglist;
+	struct page *page;
+	int i;
+	int npages = PAGE_ALIGN(buffer->size) / PAGE_SIZE;
+	void *vaddr = buffer->priv_virt;
+
+	sglist = vmalloc(npages * sizeof(struct scatterlist));
+	if (!sglist)
+		return ERR_PTR(-ENOMEM);
+	memset(sglist, 0, npages * sizeof(struct scatterlist));
+	sg_init_table(sglist, npages);
+	for (i = 0; i < npages; i++) {
+		page = vmalloc_to_page(vaddr);
+		if (!page)
+			goto end;
+		sg_set_page(&sglist[i], page, PAGE_SIZE, 0);
+		vaddr += PAGE_SIZE;
+	}
+	/* XXX do cache maintenance for dma? */
+	return sglist;
+end:
+	vfree(sglist);
+	return NULL;
+}
+
+void ion_system_heap_unmap_dma(struct ion_heap *heap,
+			       struct ion_buffer *buffer)
+{
+	/* XXX undo cache maintenance for dma? */
+	if (buffer->sglist)
+		vfree(buffer->sglist);
+}
+
+void *ion_system_heap_map_kernel(struct ion_heap *heap,
+				 struct ion_buffer *buffer)
+{
+	return buffer->priv_virt;
+}
+
+void ion_system_heap_unmap_kernel(struct ion_heap *heap,
+				  struct ion_buffer *buffer)
+{
+}
+
+int ion_system_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
+			     struct vm_area_struct *vma)
+{
+	return remap_vmalloc_range(vma, buffer->priv_virt, vma->vm_pgoff);
+}
+
+static struct ion_heap_ops vmalloc_ops = {
+	.allocate = ion_system_heap_allocate,
+	.free = ion_system_heap_free,
+	.map_dma = ion_system_heap_map_dma,
+	.unmap_dma = ion_system_heap_unmap_dma,
+	.map_kernel = ion_system_heap_map_kernel,
+	.unmap_kernel = ion_system_heap_unmap_kernel,
+	.map_user = ion_system_heap_map_user,
+};
+
+struct ion_heap *ion_system_heap_create(struct ion_platform_heap *unused)
+{
+	struct ion_heap *heap;
+
+	heap = kzalloc(sizeof(struct ion_heap), GFP_KERNEL);
+	if (!heap)
+		return ERR_PTR(-ENOMEM);
+	heap->ops = &vmalloc_ops;
+	heap->type = ION_HEAP_TYPE_SYSTEM;
+	return heap;
+}
+
+void ion_system_heap_destroy(struct ion_heap *heap)
+{
+	kfree(heap);
+}
+
+static int ion_system_contig_heap_allocate(struct ion_heap *heap,
+					   struct ion_buffer *buffer,
+					   unsigned long len,
+					   unsigned long align,
+					   unsigned long flags)
+{
+	buffer->priv_virt = kzalloc(len, GFP_KERNEL);
+	if (!buffer->priv_virt)
+		return -ENOMEM;
+	return 0;
+}
+
+void ion_system_contig_heap_free(struct ion_buffer *buffer)
+{
+	kfree(buffer->priv_virt);
+}
+
+static int ion_system_contig_heap_phys(struct ion_heap *heap,
+				       struct ion_buffer *buffer,
+				       ion_phys_addr_t *addr, size_t *len)
+{
+	*addr = virt_to_phys(buffer->priv_virt);
+	*len = buffer->size;
+	return 0;
+}
+
+struct scatterlist *ion_system_contig_heap_map_dma(struct ion_heap *heap,
+						   struct ion_buffer *buffer)
+{
+	struct scatterlist *sglist;
+
+	sglist = vmalloc(sizeof(struct scatterlist));
+	if (!sglist)
+		return ERR_PTR(-ENOMEM);
+	sg_init_table(sglist, 1);
+	sg_set_page(sglist, virt_to_page(buffer->priv_virt), buffer->size, 0);
+	return sglist;
+}
+
+int ion_system_contig_heap_map_user(struct ion_heap *heap,
+				    struct ion_buffer *buffer,
+				    struct vm_area_struct *vma)
+{
+	unsigned long pfn = __phys_to_pfn(virt_to_phys(buffer->priv_virt));
+	return remap_pfn_range(vma, vma->vm_start, pfn + vma->vm_pgoff,
+			       vma->vm_end - vma->vm_start,
+			       vma->vm_page_prot);
+
+}
+
+static struct ion_heap_ops kmalloc_ops = {
+	.allocate = ion_system_contig_heap_allocate,
+	.free = ion_system_contig_heap_free,
+	.phys = ion_system_contig_heap_phys,
+	.map_dma = ion_system_contig_heap_map_dma,
+	.unmap_dma = ion_system_heap_unmap_dma,
+	.map_kernel = ion_system_heap_map_kernel,
+	.unmap_kernel = ion_system_heap_unmap_kernel,
+	.map_user = ion_system_contig_heap_map_user,
+};
+
+struct ion_heap *ion_system_contig_heap_create(struct ion_platform_heap *unused)
+{
+	struct ion_heap *heap;
+
+	heap = kzalloc(sizeof(struct ion_heap), GFP_KERNEL);
+	if (!heap)
+		return ERR_PTR(-ENOMEM);
+	heap->ops = &kmalloc_ops;
+	heap->type = ION_HEAP_TYPE_SYSTEM_CONTIG;
+	return heap;
+}
+
+void ion_system_contig_heap_destroy(struct ion_heap *heap)
+{
+	kfree(heap);
+}
+
+
+/*
+ * drivers/gpu/ion/ion_carveout_heap.c
+ *
+ * Copyright (C) 2011 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
+struct ion_carveout_heap {
+	struct ion_heap heap;
+	struct gen_pool *pool;
+	ion_phys_addr_t base;
+};
+
+ion_phys_addr_t ion_carveout_allocate(struct ion_heap *heap,
+				      unsigned long size,
+				      unsigned long align)
+{
+	struct ion_carveout_heap *carveout_heap =
+		container_of(heap, struct ion_carveout_heap, heap);
+	unsigned long offset = gen_pool_alloc(carveout_heap->pool, size);
+
+	if (!offset)
+		return ION_CARVEOUT_ALLOCATE_FAIL;
+
+	return offset;
+}
+
+void ion_carveout_free(struct ion_heap *heap, ion_phys_addr_t addr,
+		       unsigned long size)
+{
+	struct ion_carveout_heap *carveout_heap =
+		container_of(heap, struct ion_carveout_heap, heap);
+
+	if (addr == ION_CARVEOUT_ALLOCATE_FAIL)
+		return;
+	gen_pool_free(carveout_heap->pool, addr, size);
+}
+
+static int ion_carveout_heap_phys(struct ion_heap *heap,
+				  struct ion_buffer *buffer,
+				  ion_phys_addr_t *addr, size_t *len)
+{
+	*addr = buffer->priv_phys;
+	*len = buffer->size;
+	return 0;
+}
+
+static int ion_carveout_heap_allocate(struct ion_heap *heap,
+				      struct ion_buffer *buffer,
+				      unsigned long size, unsigned long align,
+				      unsigned long flags)
+{
+	buffer->priv_phys = ion_carveout_allocate(heap, size, align);
+	return buffer->priv_phys == ION_CARVEOUT_ALLOCATE_FAIL ? -ENOMEM : 0;
+}
+
+static void ion_carveout_heap_free(struct ion_buffer *buffer)
+{
+	struct ion_heap *heap = buffer->heap;
+
+	ion_carveout_free(heap, buffer->priv_phys, buffer->size);
+	buffer->priv_phys = ION_CARVEOUT_ALLOCATE_FAIL;
+}
+
+struct scatterlist *ion_carveout_heap_map_dma(struct ion_heap *heap,
+					      struct ion_buffer *buffer)
+{
+	return ERR_PTR(-EINVAL);
+}
+
+void ion_carveout_heap_unmap_dma(struct ion_heap *heap,
+				 struct ion_buffer *buffer)
+{
+	return;
+}
+
+void *ion_carveout_heap_map_kernel(struct ion_heap *heap,
+				   struct ion_buffer *buffer)
+{
+	return __arch_ioremap(buffer->priv_phys, buffer->size,
+			      MT_MEMORY_NONCACHED);
+}
+
+void ion_carveout_heap_unmap_kernel(struct ion_heap *heap,
+				    struct ion_buffer *buffer)
+{
+	__arch_iounmap(buffer->vaddr);
+	buffer->vaddr = NULL;
+	return;
+}
+
+int ion_carveout_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
+			       struct vm_area_struct *vma)
+{
+	return remap_pfn_range(vma, vma->vm_start,
+			       __phys_to_pfn(buffer->priv_phys) + vma->vm_pgoff,
+			       buffer->size,
+			       pgprot_noncached(vma->vm_page_prot));
+}
+
+static struct ion_heap_ops carveout_heap_ops = {
+	.allocate = ion_carveout_heap_allocate,
+	.free = ion_carveout_heap_free,
+	.phys = ion_carveout_heap_phys,
+	.map_user = ion_carveout_heap_map_user,
+	.map_kernel = ion_carveout_heap_map_kernel,
+	.unmap_kernel = ion_carveout_heap_unmap_kernel,
+};
+
+struct ion_heap *ion_carveout_heap_create(struct ion_platform_heap *heap_data)
+{
+	struct ion_carveout_heap *carveout_heap;
+
+	carveout_heap = kzalloc(sizeof(struct ion_carveout_heap), GFP_KERNEL);
+	if (!carveout_heap)
+		return ERR_PTR(-ENOMEM);
+
+	carveout_heap->pool = gen_pool_create(12, -1);
+	if (!carveout_heap->pool) {
+		kfree(carveout_heap);
+		return ERR_PTR(-ENOMEM);
+	}
+	carveout_heap->base = heap_data->base;
+	gen_pool_add(carveout_heap->pool, carveout_heap->base, heap_data->size,
+		     -1);
+	carveout_heap->heap.ops = &carveout_heap_ops;
+	carveout_heap->heap.type = ION_HEAP_TYPE_CARVEOUT;
+
+	return &carveout_heap->heap;
+}
+
+void ion_carveout_heap_destroy(struct ion_heap *heap)
+{
+	struct ion_carveout_heap *carveout_heap =
+	     container_of(heap, struct  ion_carveout_heap, heap);
+
+	gen_pool_destroy(carveout_heap->pool);
+	kfree(carveout_heap);
+	carveout_heap = NULL;
+}
+
 /*
  * drivers/gpu/ion/ion.c
  *
@@ -14,24 +460,6 @@
  *
  */
 
-#include <linux/device.h>
-#include <linux/file.h>
-#include <linux/fs.h>
-#include <linux/anon_inodes.h>
-#include "ion.h"
-#include <linux/list.h>
-#include <linux/miscdevice.h>
-#include <linux/mm.h>
-#include <linux/mm_types.h>
-#include <linux/rbtree.h>
-#include <linux/sched.h>
-#include <linux/slab.h>
-#include <linux/seq_file.h>
-#include <linux/uaccess.h>
-#include <linux/debugfs.h>
-
-#include "ion_priv.h"
-#define DEBUG
 
 /**
  * struct ion_device - the metadata of the ion device node
@@ -113,9 +541,11 @@ static inline void rb_init_node(struct rb_node *rb)
 	RB_CLEAR_NODE(rb);
 }
 
-/******************
+
+/****************************************************************
 ** kernel/cred.c */
 
+/*
 static inline int read_cred_subscribers(const struct cred *cred)
 {
 	return 0;
@@ -125,9 +555,6 @@ static inline void alter_cred_subscribers(const struct cred *_cred, int n)
 {
 }
 
-/*
- * Clean up a task's credentials when it exits
- */
 void exit_creds(struct task_struct *tsk)
 {
 	struct cred *cred;
@@ -155,15 +582,15 @@ void exit_creds(struct task_struct *tsk)
 		put_cred(cred);
 	}
 }
-
-/******************
+*/
+/**************************************************
 ** kernel/fork.c */
 
+/*
 #include <linux/taskstats_kern.h>
 #include <linux/delayacct.h>
 #include <linux/profile.h>
 
-/* SLAB cache for signal_struct structures (tsk->signal) */
 static struct kmem_cache *signal_cachep;
 static ATOMIC_NOTIFIER_HEAD(task_free_notifier);
 
@@ -189,16 +616,12 @@ void __put_task_struct(struct task_struct *tsk)
 	delayacct_tsk_free(tsk);
 	put_signal_struct(tsk->signal);
 
-	// FIXME-HASH atomic_notifier_call_chain(&task_free_notifier, 0, tsk);
+	atomic_notifier_call_chain(&task_free_notifier, 0, tsk);
 	if (!profile_handoff_task(tsk))
 		free_task(tsk);
 }
-
-/*********************
-** fs/anon_inodes.c */
-
-
-
+*/
+/*********************************************************************************************************/
 
 /* this function should only be called while dev->lock is held */
 static void ion_buffer_add(struct ion_device *dev,
@@ -755,7 +1178,7 @@ struct ion_client *ion_client_create(struct ion_device *dev,
 	/* don't bother to store task struct for kernel threads,
 	   they can't be killed anyway */
 	if (current->group_leader->flags & PF_KTHREAD) {
-		put_task_struct(current->group_leader);
+		//put_task_struct(current->group_leader);
 		task = NULL;
 	} else {
 		task = current->group_leader;
@@ -767,14 +1190,14 @@ struct ion_client *ion_client_create(struct ion_device *dev,
 	if (task) {
 		client = ion_client_lookup(dev, task);
 		if (!IS_ERR_OR_NULL(client)) {
-			// FIXME-HASH: put_task_struct(current->group_leader);
+			//put_task_struct(current->group_leader);
 			return client;
 		}
 	}
 
 	client = kzalloc(sizeof(struct ion_client), GFP_KERNEL);
 	if (!client) {
-		// FIXME-HASH: put_task_struct(current->group_leader);
+		//put_task_struct(current->group_leader);
 		return ERR_PTR(-ENOMEM);
 	}
 
@@ -840,7 +1263,7 @@ static void _ion_client_destroy(struct kref *kref)
 	mutex_lock(&dev->lock);
 	if (client->task) {
 		rb_erase(&client->node, &dev->user_clients);
-		// FIXME-HASH: put_task_struct(client->task);
+		//put_task_struct(client->task);
 	} else {
 		rb_erase(&client->node, &dev->kernel_clients);
 	}
@@ -1015,10 +1438,8 @@ static int ion_ioctl_share(struct file *parent, struct ion_client *client,
 	if (fd < 0)
 		return -ENFILE;
 
-        /* FIXME-HASH
 	file = anon_inode_getfile("ion_share_fd", &ion_share_fops,
 				  handle->buffer, O_RDWR);
-        */
 	if (IS_ERR_OR_NULL(file))
 		goto err;
 	ion_buffer_get(handle->buffer);
@@ -1282,3 +1703,374 @@ void ion_device_destroy(struct ion_device *dev)
 	/* XXX need to free the heaps and clients ? */
 	kfree(dev);
 }
+
+
+
+/***********************************
+** omap_tiler_heap.c
+*/
+
+static int omap_tiler_heap_allocate(struct ion_heap *heap,
+				    struct ion_buffer *buffer,
+				    unsigned long size, unsigned long align,
+				    unsigned long flags)
+{
+	if (size == 0)
+		return 0;
+
+	pr_err("%s: This should never be called directly -- use the "
+	       "OMAP_ION_TILER_ALLOC flag to the ION_IOC_CUSTOM "
+	       "instead\n", __func__);
+	return -EINVAL;
+}
+
+struct omap_tiler_info {
+	tiler_blk_handle tiler_handle;	/* handle of the allocation intiler */
+	u32 n_phys_pages;		/* number of physical pages */
+	u32 *phys_addrs;		/* array addrs of pages */
+	u32 n_tiler_pages;		/* number of tiler pages */
+	u32 *tiler_addrs;		/* array of addrs of tiler pages */
+	u32 tiler_start;		/* start addr in tiler -- if not page
+					   aligned this may not equal the
+					   first entry onf tiler_addrs */
+};
+
+int omap_tiler_alloc(struct ion_heap *heap,
+		     struct ion_client *client,
+		     struct omap_ion_tiler_alloc_data *data)
+{
+	struct ion_handle *handle;
+	struct ion_buffer *buffer;
+	struct omap_tiler_info *info;
+	int i, ret;
+
+	if (data->fmt == TILER_PIXEL_FMT_PAGE && data->h != 1) {
+		pr_err("%s: Page mode (1D) allocations must have a height "
+		       "of one\n", __func__);
+		return -EINVAL;
+	}
+
+	info = kzalloc(sizeof(struct omap_tiler_info), GFP_KERNEL);
+	if (!info)
+		return -ENOMEM;
+
+	ret = tiler2_memsize(data->fmt, data->w, data->h, &info->n_phys_pages,
+			    &info->n_tiler_pages);
+
+	if (ret) {
+		pr_err("%s: invalid tiler request w %u h %u fmt %u\n", __func__,
+		       data->w, data->h, data->fmt);
+		kfree(info);
+		return ret;
+	}
+
+	BUG_ON(!info->n_phys_pages || !info->n_tiler_pages);
+
+	info->phys_addrs = kzalloc(sizeof(u32) * info->n_phys_pages,
+				   GFP_KERNEL);
+	if (!info->phys_addrs) {
+		ret = -ENOMEM;
+		goto err_alloc_addrs;
+	}
+
+	info->tiler_addrs = kzalloc(sizeof(u32) * info->n_tiler_pages,
+				   GFP_KERNEL);
+	if (!info->tiler_addrs) {
+		ret = -ENOMEM;
+		goto err_tiler_addrs;
+	}
+
+	info->tiler_handle = tiler2_alloc_block_area(data->fmt, data->w, data->h,
+						    &info->tiler_start,
+						    info->tiler_addrs);
+	if (IS_ERR_OR_NULL(info->tiler_handle)) {
+		ret = PTR_ERR(info->tiler_handle);
+		pr_err("%s: failure to allocate address space from tiler\n",
+		       __func__);
+		goto err_tiler_block_alloc;
+	}
+
+	for (i = 0; i < info->n_phys_pages; i++) {
+		ion_phys_addr_t addr = ion_carveout_allocate(heap, PAGE_SIZE,
+							     0);
+
+		if (addr == ION_CARVEOUT_ALLOCATE_FAIL) {
+			ret = -ENOMEM;
+			goto err_alloc;
+			pr_err("%s: failure to pages to back tiler "
+			       "address space\n", __func__);
+		}
+		info->phys_addrs[i] = addr;
+	}
+
+	ret = tiler2_pin_block(info->tiler_handle, info->phys_addrs,
+			      info->n_phys_pages);
+	if (ret) {
+		pr_err("%s: failure to pin pages to tiler\n", __func__);
+		goto err_alloc;
+	}
+
+	data->stride = tiler2_block_vstride(info->tiler_handle);
+
+	/* create an ion handle  for the allocation */
+	handle = ion_alloc(client, 0, 0, 1 << OMAP_ION_HEAP_TILER);
+	if (IS_ERR_OR_NULL(handle)) {
+		ret = PTR_ERR(handle);
+		pr_err("%s: failure to allocate handle to manage tiler"
+		       " allocation\n", __func__);
+		goto err;
+	}
+
+	buffer = ion_handle_buffer(handle);
+	buffer->size = info->n_tiler_pages * PAGE_SIZE;
+	buffer->priv_virt = info;
+	data->handle = handle;
+	return 0;
+
+err:
+	tiler2_unpin_block(info->tiler_handle);
+err_alloc:
+	tiler2_free_block_area(info->tiler_handle);
+	for (i -= 1; i >= 0; i--)
+		ion_carveout_free(heap, info->phys_addrs[i], PAGE_SIZE);
+err_tiler_block_alloc:
+	kfree(info->tiler_addrs);
+err_tiler_addrs:
+	kfree(info->phys_addrs);
+err_alloc_addrs:
+	kfree(info);
+	return ret;
+}
+
+void omap_tiler_heap_free(struct ion_buffer *buffer)
+{
+	struct omap_tiler_info *info = buffer->priv_virt;
+	int i;
+
+	tiler2_unpin_block(info->tiler_handle);
+	tiler2_free_block_area(info->tiler_handle);
+
+	for (i = 0; i < info->n_phys_pages; i++)
+		ion_carveout_free(buffer->heap, info->phys_addrs[i], PAGE_SIZE);
+
+	kfree(info->tiler_addrs);
+	kfree(info->phys_addrs);
+	kfree(info);
+}
+
+static int omap_tiler_phys(struct ion_heap *heap,
+			   struct ion_buffer *buffer,
+			   ion_phys_addr_t *addr, size_t *len)
+{
+	struct omap_tiler_info *info = buffer->priv_virt;
+
+	*addr = info->tiler_start;
+	*len = buffer->size;
+	return 0;
+}
+
+int omap_tiler_pages(struct ion_client *client, struct ion_handle *handle,
+		     int *n, u32 **tiler_addrs)
+{
+	ion_phys_addr_t addr;
+	size_t len;
+	int ret;
+	struct omap_tiler_info *info = ion_handle_buffer(handle)->priv_virt;
+
+	/* validate that the handle exists in this client */
+	ret = ion_phys(client, handle, &addr, &len);
+	if (ret)
+		return ret;
+
+	*n = info->n_tiler_pages;
+	*tiler_addrs = info->tiler_addrs;
+	return 0;
+}
+
+int omap_tiler_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
+			     struct vm_area_struct *vma)
+{
+	struct omap_tiler_info *info = buffer->priv_virt;
+	unsigned long addr = vma->vm_start;
+	u32 vma_pages = (vma->vm_end - vma->vm_start) / PAGE_SIZE;
+	int n_pages = min(vma_pages, info->n_tiler_pages);
+	int i, ret;
+
+	for (i = vma->vm_pgoff; i < n_pages; i++, addr += PAGE_SIZE) {
+		ret = remap_pfn_range(vma, addr,
+				      __phys_to_pfn(info->tiler_addrs[i]),
+				      PAGE_SIZE,
+				      pgprot_noncached(vma->vm_page_prot));
+		if (ret)
+			return ret;
+	}
+	return 0;
+}
+
+static struct ion_heap_ops omap_tiler_ops = {
+	.allocate = omap_tiler_heap_allocate,
+	.free = omap_tiler_heap_free,
+	.phys = omap_tiler_phys,
+	.map_user = omap_tiler_heap_map_user,
+};
+
+struct ion_heap *omap_tiler_heap_create(struct ion_platform_heap *data)
+{
+	struct ion_heap *heap;
+
+	heap = ion_carveout_heap_create(data);
+	if (!heap)
+		return ERR_PTR(-ENOMEM);
+	heap->ops = &omap_tiler_ops;
+	heap->type = OMAP_ION_HEAP_TYPE_TILER;
+	heap->name = data->name;
+	heap->id = data->id;
+	return heap;
+}
+
+void omap_tiler_heap_destroy(struct ion_heap *heap)
+{
+	kfree(heap);
+}
+
+
+/***********************************
+** omap_ion.c
+*/
+
+struct ion_device *omap_ion_device;
+int num_heaps;
+struct ion_heap **heaps;
+struct ion_heap *tiler_heap;
+
+int omap_ion_tiler_alloc(struct ion_client *client,
+			 struct omap_ion_tiler_alloc_data *data)
+{
+	return omap_tiler_alloc(tiler_heap, client, data);
+}
+
+long omap_ion_ioctl(struct ion_client *client, unsigned int cmd,
+		    unsigned long arg)
+{
+	printk(KERN_WARNING "omap_ion_ioctl");
+	switch (cmd) {
+	case OMAP_ION_TILER_ALLOC:
+	{
+		struct omap_ion_tiler_alloc_data data;
+		int ret;
+
+		if (!tiler_heap) {
+			pr_err("%s: Tiler heap requested but no tiler "
+			       "heap exists on this platform\n", __func__);
+			return -EINVAL;
+		}
+		if (copy_from_user(&data, (void __user *)arg, sizeof(data)))
+			return -EFAULT;
+		ret = omap_ion_tiler_alloc(client, &data);
+		if (ret)
+			return ret;
+		if (copy_to_user((void __user *)arg, &data,
+				 sizeof(data)))
+			return -EFAULT;
+		break;
+	}
+	default:
+		pr_err("%s: Unknown custom ioctl\n", __func__);
+		return -ENOTTY;
+	}
+	return 0;
+}
+
+int omap_ion_probe(struct platform_device *pdev)
+{
+	struct ion_platform_data *pdata = pdev->dev.platform_data;
+	int err;
+	int i;
+
+	printk(KERN_WARNING "omap_ion_probe");
+
+	num_heaps = pdata->nr;
+
+	heaps = kzalloc(sizeof(struct ion_heap *) * pdata->nr, GFP_KERNEL);
+
+	omap_ion_device = ion_device_create(omap_ion_ioctl);
+	if (IS_ERR_OR_NULL(omap_ion_device)) {
+		kfree(heaps);
+		return PTR_ERR(omap_ion_device);
+	}
+
+	/* create the heaps as specified in the board file */
+	for (i = 0; i < num_heaps; i++) {
+		struct ion_platform_heap *heap_data = &pdata->heaps[i];
+
+		if (heap_data->type == OMAP_ION_HEAP_TYPE_TILER) {
+			heaps[i] = omap_tiler_heap_create(heap_data);
+			tiler_heap = heaps[i];
+		} else {
+			heaps[i] = ion_heap_create(heap_data);
+		}
+		if (IS_ERR_OR_NULL(heaps[i])) {
+			err = PTR_ERR(heaps[i]);
+			goto err;
+		}
+		ion_device_add_heap(omap_ion_device, heaps[i]);
+		pr_info("%s: adding heap %s of type %d with %lx@%x\n",
+			__func__, heap_data->name, heap_data->type,
+			heap_data->base, heap_data->size);
+
+	}
+
+	platform_set_drvdata(pdev, omap_ion_device);
+	return 0;
+err:
+	for (i = 0; i < num_heaps; i++) {
+		if (heaps[i]) {
+			if (heaps[i]->type == OMAP_ION_HEAP_TYPE_TILER)
+				omap_tiler_heap_destroy(heaps[i]);
+			else
+				ion_heap_destroy(heaps[i]);
+		}
+	}
+	kfree(heaps);
+	return err;
+}
+
+int omap_ion_remove(struct platform_device *pdev)
+{
+	struct ion_device *idev = platform_get_drvdata(pdev);
+	int i;
+
+	printk(KERN_WARNING "omap_ion_remove");
+	ion_device_destroy(idev);
+	for (i = 0; i < num_heaps; i++)
+		if (heaps[i]->type == OMAP_ION_HEAP_TYPE_TILER)
+			omap_tiler_heap_destroy(heaps[i]);
+		else
+			ion_heap_destroy(heaps[i]);
+	kfree(heaps);
+	return 0;
+}
+
+//      .owner = THIS_MODULE,
+static struct platform_driver ion_driver = {
+	.probe = omap_ion_probe,
+	.remove = omap_ion_remove,
+	.driver = { .name = "ion-omap4" }
+};
+
+static int __init ion_init(void)
+{
+	printk(KERN_WARNING "ion_init");
+	return platform_driver_register(&ion_driver);
+}
+
+static void __exit ion_exit(void)
+{
+	platform_driver_unregister(&ion_driver);
+}
+
+MODULE_LICENSE("GPL v2");
+MODULE_AUTHOR("Google 2011");
+module_init(ion_init);
+module_exit(ion_exit);
+

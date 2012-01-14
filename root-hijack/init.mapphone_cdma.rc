@@ -5,8 +5,8 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export EXTERNAL_STORAGE /mnt/sdcard-ext
-    export PHONE_STORAGE /mnt/sdcard
+    export EXTERNAL_STORAGE /mnt/sdcard
+    export SECONDARY_STORAGE /mnt/sdcard-ext
 
 on fs
 
@@ -359,7 +359,6 @@ on post-fs-data
     insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-    insmod /system/lib/modules/ip6_tables.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
     insmod /system/lib/modules/xt_NFQUEUE.ko
@@ -1166,7 +1165,7 @@ service wrigley-diag /system/bin/wrigley-diag.sh
 
 service logcatd-blan /system/bin/logcatd-blan
     user root
-     Immediately drops root, keeps CAP_SYS_ADMIN, and runs as below
+#     Immediately drops root, keeps CAP_SYS_ADMIN, and runs as below
      user system
      group system log inet
     disabled
