@@ -18,8 +18,6 @@ on post-fs-data
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
-# Enable ADB
-    write /dev/usb_device_mode msc_adb
 
     # prepare generic keypad name
     exec /init_prep_keypad.sh
