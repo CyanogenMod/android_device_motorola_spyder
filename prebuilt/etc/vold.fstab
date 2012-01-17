@@ -22,10 +22,10 @@
 ## <sysfs_path> - List of sysfs paths to source devices
 ######################
 
-# external sd card
-dev_mount sdcard /mnt/sdcard-ext auto /devices/platform/goldfish_mmc.0 /devices/platform/mmci-omap-hs.0/mmc_host/mmc0
 # internal eMMC
-dev_mount emmc /mnt/sdcard 26 /devices/platform/mmci-omap-hs.1/mmc_host/mmc1
+dev_mount sdcard /mnt/sdcard 26 /devices/platform/mmci-omap-hs.1/mmc_host/mmc1
+# external sd card
+dev_mount sdcard-ext /mnt/sdcard-ext auto /devices/platform/mmci-omap-hs.0/mmc_host/mmc0
 
 ## Example of a dual card setup
 # dev_mount left_sdcard  /sdcard1  auto /devices/platform/goldfish_mmc.0 /devices/platform/msm_sdcc.2/mmc_host/mmc1
