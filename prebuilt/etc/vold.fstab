@@ -23,7 +23,7 @@
 ######################
 
 # internal eMMC
-dev_mount sdcard /mnt/sdcard 26 /devices/platform/mmci-omap-hs.1/mmc_host/mmc1
+dev_mount sdcard /mnt/sdcard 25 /devices/platform/mmci-omap-hs.1/mmc_host/mmc1
 # external sd card
 dev_mount sdcard-ext /mnt/sdcard-ext auto /devices/platform/mmci-omap-hs.0/mmc_host/mmc0
 
