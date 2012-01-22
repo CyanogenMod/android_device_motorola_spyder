@@ -7,6 +7,7 @@
 /dev/urandom              0666   root       root
 /dev/ashmem               0666   root       root
 /dev/binder               0666   root       root
+/dev/socket/usbd		  066    system     system
 
 # logger should be world writable (for logging) but not readable
 /dev/log/*                0662   root       log

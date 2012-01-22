@@ -17,14 +17,14 @@
 #
 
 # Basic Parameters
- touch.deviceType = touchScreen
+touch.deviceType = touchScreen
 touch.orientationAware = 1
 
 # Size
-touch.size.calibration = diameter
-touch.size.scale = 10
-touch.size.bias = 0
-touch.size.isSummed = 0
+#touch.size.calibration = diameter
+#touch.size.scale = 10
+#touch.size.bias = 0
+#touch.size.isSummed = 0
 
 # Tool Size
 # Driver reports tool size as a linear width measurement summed over
@@ -36,19 +36,21 @@ touch.size.isSummed = 0
 # is 10px per mm we obtain a scale factor of 10 pixels / unit and
 # a bias of 160 pixels.  In addition, the raw width represents a
 # sum of all contact area so we note this fact in the calibration.
-touch.toolSize.calibration = linear
-touch.toolSize.linearScale = 10
-touch.toolSize.linearBias = 160
-touch.toolSize.isSummed = 1
+#touch.toolSize.calibration = linear
+#touch.toolSize.linearScale = 10
+#touch.toolSize.linearBias = 160
+#touch.toolSize.isSummed = 1
 
 # Pressure
 # Driver reports signal strength as pressure.
 #
 # A normal thumb touch typically registers about 200 signal strength
 # units although we don't expect these values to be accurate.
-touch.pressure.calibration = amplitude
-touch.pressure.source = default
-touch.pressure.scale = 0.01
+#touch.pressure.calibration = amplitude
+#touch.pressure.source = default
+#touch.pressure.scale = 0.01
 
 # Orientation
 touch.orientation.calibration = none
+
+device.internal = 1
