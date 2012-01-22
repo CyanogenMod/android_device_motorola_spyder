@@ -805,7 +805,7 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd
+service usbd /system/bin/usbd -r
     user usbd
     group usbd
     socket usbd 666
