@@ -808,6 +808,9 @@ service telnet /system/bin/telnetd
     oneshot
 
 service usbd /system/bin/usbd
+    user usbd
+    group usbd
+    socket usbd 666
     class core
 
 service chargeonly /system/bin/charge_only_mode
