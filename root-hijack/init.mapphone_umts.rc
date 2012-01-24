@@ -645,7 +645,10 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd
+service usbd /system/bin/usbd -r
+    user root
+    group shell
+    socket usbd 777 root shell
     class core
 
 service chargeonly /system/bin/charge_only_mode
