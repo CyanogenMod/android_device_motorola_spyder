@@ -321,5 +321,4 @@ ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
 
 ro.rommanager.developerid=dhacker29
-ro.modversion=IC3RAZR
 
