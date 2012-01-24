@@ -140,7 +140,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
-    device/motorola/spyder/prebuilt/app/xabber.apk:system/app/xabber.apk
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
