@@ -359,6 +359,7 @@ on post-fs-data
     insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
+	insmod /system/lib/modules/nf_tproxy_core.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
     insmod /system/lib/modules/xt_NFQUEUE.ko
