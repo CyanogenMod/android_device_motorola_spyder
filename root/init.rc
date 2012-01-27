@@ -421,7 +421,7 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
     onrestart restart netd
 
 service drm /system/bin/drmserver
-    class core
+    class main
     user drm
     group system inet drmrpc
 

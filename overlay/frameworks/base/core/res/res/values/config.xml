@@ -41,7 +41,7 @@
 
     <!-- Vibrator pattern for a very short but reliable vibration for soft keyboard tap -->
     <integer-array name="config_keyboardTapVibePattern">
-        <item>20</item>
+        <item>10</item>
     </integer-array>
 
     <!-- Our amoled doesn't animate well. -->
@@ -120,7 +120,7 @@
         <item>255</item>
         <item>255</item>
         <item>255</item>
-        <item>0</item>
+        <item>255</item>
     </integer-array>
 
     <!-- Array of output values for keyboard backlight corresponding to the LUX values
@@ -134,7 +134,7 @@
         <item>255</item>
         <item>255</item>
         <item>255</item>
-        <item>0</item>
+        <item>255</item>
     </integer-array>
 
     <!-- Amount of time it takes for the light sensor to warm up in milliseconds.
