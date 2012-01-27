@@ -799,6 +799,9 @@ on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
 
+on property: persist.service.drmserver=1
+	start drm
+
 # The following services are added by moto
 service qe /xbin/qe /system
     class core

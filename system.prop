@@ -319,6 +319,7 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.build.version.full=ICS_Version.4.0.3_r1.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
+persist.service.drmserver=1
 
 ro.rommanager.developerid=dhacker29
 

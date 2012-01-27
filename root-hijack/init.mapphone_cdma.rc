@@ -250,8 +250,8 @@ on post-fs-data
     # Create wmdrm directory
     mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
-    chown root mot_usb /proc/mtpctl
-    chmod 0660 /proc/mtpctl
+#    chown root mot_usb /proc/mtpctl
+#    chmod 0660 /proc/mtpctl
 # Install kernel modules
     insmod /system/lib/modules/sec.ko
 # Install product specific kernel modules
@@ -796,6 +796,9 @@ on property:ro.hdcp.support=2
     exec /system/bin/hdcp-mknod
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
+
+on property: persist.service.drmserver=1
+	start drm
 
 # The following services are added by moto
 service qe /xbin/qe /system
