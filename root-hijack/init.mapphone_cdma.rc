@@ -18,6 +18,8 @@ on post-fs-data
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
+# Enable ADB
+    write /dev/usb_device_mode msc_adb
 
     # prepare generic keypad name
     exec /init_prep_keypad.sh
@@ -797,9 +799,6 @@ on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
 
-on property: persist.service.drmserver=1
-	start drm
-
 # The following services are added by moto
 service qe /xbin/qe /system
     class core
@@ -809,10 +808,7 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd -r
-    user root
-    group shell
-    socket usbd 777 root shell
+service usbd /system/bin/usbd
     class core
 
 service chargeonly /system/bin/charge_only_mode
@@ -1070,6 +1066,7 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
 
 on property:dev.bootcomplete=1
     start savebpver
+    start drm
 
 # From Usb.apk code
 #    public static final int USB_MODE_NGP = 0;
@@ -1236,15 +1233,6 @@ service pbap  /system/bin/sdptool add --channel=19 PBAP
     group bluetooth net_bt_admin
     disabled
     oneshot
-
-#service flash_recovery /system/etc/install-recovery.sh
-#    class main
-#    oneshot
-
-# Copy 12M/batch files
-#service 12m_files_copy /system/etc/12m_files_copy.sh
-#     class core
-#     oneshot
 
 service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -C/data/misc/wifi/dns.conf -k
     class late_start

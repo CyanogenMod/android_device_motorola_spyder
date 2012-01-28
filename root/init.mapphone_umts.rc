@@ -13,6 +13,8 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs-data
+# Enable ADB
+    write /dev/usb_device_mode msc_adb
 
 # Backward compatibility
     symlink /dev /dev/netmux
@@ -286,7 +288,7 @@ on post-fs-data
     insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-	insmod /system/lib/modules/nf_tproxy_core.ko
+    insmod /system/lib/modules/nf_tproxy_core.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
     insmod /system/lib/modules/xt_NFQUEUE.ko
@@ -646,10 +648,7 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd -r
-    user root
-    group shell
-    socket usbd 777 root shell
+service usbd /system/bin/usbd
     class core
 
 service chargeonly /system/bin/charge_only_mode

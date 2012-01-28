@@ -265,7 +265,6 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
-    chmod 0777 /system/bin/drmserver
 
 # set the size of the dns cache.
     setprop ro.net.dns_cache_size 400

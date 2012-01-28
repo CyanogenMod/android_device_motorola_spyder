@@ -15,6 +15,9 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs-data
+# Enable ADB
+    write /dev/usb_device_mode msc_adb
+
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
@@ -799,9 +802,6 @@ on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
 
-on property: persist.service.drmserver=1
-	start drm
-
 # The following services are added by moto
 service qe /xbin/qe /system
     class core
@@ -811,10 +811,7 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd -r
-    user root
-    group shell
-    socket usbd 777 root shell
+service usbd /system/bin/usbd
     class core
 
 service chargeonly /system/bin/charge_only_mode
