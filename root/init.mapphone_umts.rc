@@ -13,8 +13,6 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs-data
-# Enable ADB
-    write /dev/usb_device_mode msc_adb
 
 # Backward compatibility
     symlink /dev /dev/netmux
@@ -648,7 +646,10 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd
+service usbd /system/bin/usbd -r
+    user root
+    group shell
+    socket usbd 777 root shell
     class core
 
 service chargeonly /system/bin/charge_only_mode

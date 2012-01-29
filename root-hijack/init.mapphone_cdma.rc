@@ -18,8 +18,6 @@ on post-fs-data
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
-# Enable ADB
-    write /dev/usb_device_mode msc_adb
 
     # prepare generic keypad name
     exec /init_prep_keypad.sh
@@ -122,8 +120,6 @@ on post-fs-data
     chmod 0660 /sys/class/timed_output/vibrator/sweep
 
 # Mount Points for External Storage Devices
-    mkdir /mnt/usbdisk_1.1.1 0755 system system
-    mkdir /mnt/usbdisk_1.0 0755 system system
     mkdir /mnt/usbdisk_1.1 0755 system system
     mkdir /mnt/usbdisk_1.2 0755 system system
     mkdir /mnt/usbdisk_1.3 0755 system system
@@ -257,8 +253,8 @@ on post-fs-data
     # Create wmdrm directory
     mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
-    chown root mot_usb /proc/mtpctl
-    chmod 0660 /proc/mtpctl
+#    chown root mot_usb /proc/mtpctl
+#    chmod 0660 /proc/mtpctl
 # Install kernel modules
     insmod /system/lib/modules/sec.ko
 # Install product specific kernel modules
@@ -636,15 +632,15 @@ on boot
 
 # Define TCP buffer sizes for various networks
 # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 131072,262144,524288,4096,16384,147456
-    setprop net.tcp.buffersize.wifi 131072,262144,524288,4096,16384,147456
-    setprop net.tcp.buffersize.umts 131072,262144,524288,4096,16384,147456
-    setprop net.tcp.buffersize.edge 16384,35040,65536,4096,16384,35040
-    setprop net.tcp.buffersize.gprs 4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.default 65536,131072,262144,4096,16384,131072
+    setprop net.tcp.buffersize.wifi 65536,131072,262144,4096,16384,131072
+    setprop net.tcp.buffersize.umts 65536,131072,262144,4096,16384,131072
+    setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
+    setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
     setprop net.tcp.buffersize.cdma 4096,12288,24576,4096,12288,24576
     setprop net.tcp.buffersize.evdo 16384,32768,65536,4096,16384,51200
-    setprop net.tcp.buffersize.2ghotspot 4096,16384,35040,16384,35040,65536
-    setprop net.tcp.buffersize.3ghotspot 4096,16384,147456,131072,262144,524288
+    setprop net.tcp.buffersize.2ghotspot 4096,12288,24576,4096,12288,24576
+    setprop net.tcp.buffersize.3ghotspot 4096,16384,51200,16384,32768,65536
 # Define optimized TCP buffer sizes for various networks
 # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 131072,262144,524288,4096,16384,131072
@@ -652,9 +648,6 @@ on boot
     setprop net.tcp.buffersize.umts 131072,262144,524288,4096,16384,131072
     setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
     setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
-
-# Network Bandwidth control for netd
-    setprop persist.bandwidth.enable 1
 
 # Memory management.  Basic kernel parameters, and allow the high
 # level system server to be able to adjust the kernel OOM driver
@@ -815,7 +808,10 @@ service telnet /system/bin/telnetd
     class core
     oneshot
 
-service usbd /system/bin/usbd
+service usbd /system/bin/usbd -r
+    user root
+    group shell
+    socket usbd 777 root shell
     class core
 
 service chargeonly /system/bin/charge_only_mode
@@ -830,9 +826,9 @@ service battd /system/bin/battd
     group mot_accy mot_pwric
     oneshot
 
-service catcommands /system/bin/catcommands
-    class core
-    group radio
+#service catcommands /system/bin/catcommands
+#    class core
+#    group radio
 
 service whisperd /system/bin/whisperd /dev/ttyO1
     class late_start
