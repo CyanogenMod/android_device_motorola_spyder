@@ -36,7 +36,6 @@ PRODUCT_COPY_FILES += \
 #PRODUCT_PACKAGES += \
 #    lights.spyder \
 #    sensors.spyder \
-#    IMSCServer \
 
 PRODUCT_PACKAGES += \
     audio.primary.spyder \
@@ -127,6 +126,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
+    device/motorola/spyder/prebuilt/app/CM_Music.apk:system/app/CM_Music.apk
 
 # Rootfs files
 PRODUCT_COPY_FILES += \

@@ -21,10 +21,10 @@ BASE=`pwd`
 BRUTECRUSH="-brute"
 TMPDIR=/tmp/opticharge-$$
 
-#if [ -z "$BRUTE_PNGCRUSH" ]
-#then
-#    BRUTECRUSH=""
-#fi
+if [ -z "$BRUTE_PNGCRUSH" ]
+then
+    BRUTECRUSH=""
+fi
 
 if [ "$APKCERTS" = "" ];
 then
