@@ -115,11 +115,15 @@ on post-fs-data
     chown system system /sys/class/timed_output/lvibrator/enable
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/sweep
+
 # Change permission of vibrators
     chmod 0660 /sys/class/timed_output/lvibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/sweep
+
 # Mount Points for External Storage Devices
+    mkdir /mnt/usbdisk_1.1.1 0755 system system
+    mkdir /mnt/usbdisk_1.0 0755 system system
     mkdir /mnt/usbdisk_1.1 0755 system system
     mkdir /mnt/usbdisk_1.2 0755 system system
     mkdir /mnt/usbdisk_1.3 0755 system system
@@ -131,6 +135,7 @@ on post-fs-data
 # Change permission of tiler's free_page_max to allow mot_osh access
     chmod 0660 /sys/module/tiler_omap/parameters/free_page_max
     chown mot_osh mot_osh /sys/module/tiler_omap/parameters/free_page_max
+
 # Mount mtd partitions
     # mount /pds as r/w
     # We chown/chmod /pds again so because mount is run as root + defaults
@@ -233,7 +238,7 @@ on post-fs-data
     # LTE Radio file
     chown radio radio /sys/class/radio/w3g_lte/command
     chmod 777 /sys/class/radio/w3g_lte/command
-    
+
     # create the lost+found directories, so as to enforce our permissions
     mkdir /pds/lost+found 0770
 
@@ -252,8 +257,8 @@ on post-fs-data
     # Create wmdrm directory
     mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
-#    chown root mot_usb /proc/mtpctl
-#    chmod 0660 /proc/mtpctl
+    chown root mot_usb /proc/mtpctl
+    chmod 0660 /proc/mtpctl
 # Install kernel modules
     insmod /system/lib/modules/sec.ko
 # Install product specific kernel modules
@@ -323,7 +328,6 @@ on post-fs-data
     chmod 0770 /data/emt
     # Temp workaround for HP library cleanup
     symlink /dev/hp3a-omap /dev/hp3A-omap
-
 # Permissions for video
     chmod 0770 /dev/hp3a-omap
     chmod 0770 /dev/hplens-omap
@@ -341,30 +345,30 @@ on post-fs-data
     insmod /system/lib/modules/sec.ko
 
 # Load ipv6 netfilter/tables support
-    insmod /system/lib/modules/xt_hashlimit.ko
-    insmod /system/lib/modules/xt_HL.ko
-    insmod /system/lib/modules/ip6_tables.ko
-    insmod /system/lib/modules/ip6table_filter.ko
-    insmod /system/lib/modules/ip6table_mangle.ko
-    insmod /system/lib/modules/ip6table_raw.ko
-    insmod /system/lib/modules/ip6t_ah.ko
-    insmod /system/lib/modules/ip6t_eui64.ko
-    insmod /system/lib/modules/ip6t_frag.ko
-    insmod /system/lib/modules/ip6t_hbh.ko
-    insmod /system/lib/modules/ip6t_ipv6header.ko
-    insmod /system/lib/modules/ip6t_LOG.ko
-    insmod /system/lib/modules/ip6t_mh.ko
-    insmod /system/lib/modules/ip6t_REJECT.ko
-    insmod /system/lib/modules/ip6t_rt.ko
-    insmod /system/lib/modules/nf_conntrack_ipv6.ko
+#    insmod /system/lib/modules/xt_hashlimit.ko
+#    insmod /system/lib/modules/xt_HL.ko
+#    insmod /system/lib/modules/ip6_tables.ko
+#    insmod /system/lib/modules/ip6table_filter.ko
+#    insmod /system/lib/modules/ip6table_mangle.ko
+#    insmod /system/lib/modules/ip6table_raw.ko
+#    insmod /system/lib/modules/ip6t_ah.ko
+#    insmod /system/lib/modules/ip6t_eui64.ko
+#    insmod /system/lib/modules/ip6t_frag.ko
+#    insmod /system/lib/modules/ip6t_hbh.ko
+#    insmod /system/lib/modules/ip6t_ipv6header.ko
+#    insmod /system/lib/modules/ip6t_LOG.ko
+#    insmod /system/lib/modules/ip6t_mh.ko
+#    insmod /system/lib/modules/ip6t_REJECT.ko
+#    insmod /system/lib/modules/ip6t_rt.ko
+#    insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-    insmod /system/lib/modules/nf_tproxy_core.ko
-    insmod /system/lib/modules/xt_TPROXY.ko
-    insmod /system/lib/modules/xt_TRACE.ko
-    insmod /system/lib/modules/xt_NFQUEUE.ko
-    insmod /system/lib/modules/xt_qtaguid.ko
-    insmod /system/lib/modules/xt_quota2.ko
+#    insmod /system/lib/modules/nf_tproxy_core.ko
+#    insmod /system/lib/modules/xt_TPROXY.ko
+#    insmod /system/lib/modules/xt_TRACE.ko
+#    insmod /system/lib/modules/xt_NFQUEUE.ko
+#    insmod /system/lib/modules/xt_qtaguid.ko
+#    insmod /system/lib/modules/xt_quota2.ko
 
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
@@ -632,15 +636,15 @@ on boot
 
 # Define TCP buffer sizes for various networks
 # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 65536,131072,262144,4096,16384,131072
-    setprop net.tcp.buffersize.wifi 65536,131072,262144,4096,16384,131072
-    setprop net.tcp.buffersize.umts 65536,131072,262144,4096,16384,131072
-    setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
-    setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
+    setprop net.tcp.buffersize.default 131072,262144,524288,4096,16384,147456
+    setprop net.tcp.buffersize.wifi 131072,262144,524288,4096,16384,147456
+    setprop net.tcp.buffersize.umts 131072,262144,524288,4096,16384,147456
+    setprop net.tcp.buffersize.edge 16384,35040,65536,4096,16384,35040
+    setprop net.tcp.buffersize.gprs 4092,8760,11680,4096,8760,11680
     setprop net.tcp.buffersize.cdma 4096,12288,24576,4096,12288,24576
     setprop net.tcp.buffersize.evdo 16384,32768,65536,4096,16384,51200
-    setprop net.tcp.buffersize.2ghotspot 4096,12288,24576,4096,12288,24576
-    setprop net.tcp.buffersize.3ghotspot 4096,16384,51200,16384,32768,65536
+    setprop net.tcp.buffersize.2ghotspot 4096,16384,35040,16384,35040,65536
+    setprop net.tcp.buffersize.3ghotspot 4096,16384,147456,131072,262144,524288
 # Define optimized TCP buffer sizes for various networks
 # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 131072,262144,524288,4096,16384,131072
@@ -648,6 +652,9 @@ on boot
     setprop net.tcp.buffersize.umts 131072,262144,524288,4096,16384,131072
     setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
     setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
+
+# Network Bandwidth control for netd
+    setprop persist.bandwidth.enable 1
 
 # Memory management.  Basic kernel parameters, and allow the high
 # level system server to be able to adjust the kernel OOM driver
@@ -823,9 +830,9 @@ service battd /system/bin/battd
     group mot_accy mot_pwric
     oneshot
 
-#service catcommands /system/bin/catcommands
-#    class core
-#    group radio
+service catcommands /system/bin/catcommands
+    class core
+    group radio
 
 service whisperd /system/bin/whisperd /dev/ttyO1
     class late_start
