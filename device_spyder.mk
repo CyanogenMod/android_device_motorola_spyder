@@ -37,6 +37,9 @@ PRODUCT_COPY_FILES += \
 #    lights.spyder \
 #    sensors.spyder \
 
+#PRODUCT_PACKAGES += \
+#    camera.omap4
+
 PRODUCT_PACKAGES += \
     audio.primary.spyder \
     audio_policy.spyder
@@ -122,11 +125,12 @@ PRODUCT_PACKAGES += \
     MusicFX \
     libjni_pinyinime 
 
-# WirelessTether Lib
+# WirelessTether
 PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/app/CM_Music.apk:system/app/CM_Music.apk
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
-    device/motorola/spyder/prebuilt/app/CM_Music.apk:system/app/CM_Music.apk
+
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
@@ -200,7 +204,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/usr/keylayout/evfwd.kl:system/usr/keylayout/evfwd.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/atmxt-i2c.kl:system/usr/keylayout/atmxt-i2c.kl \
-    device/motorola/spyder/prebuilt/media/bootanimation.zip:system/media/bootanimation.zip 
 
 # Phone settings
 PRODUCT_COPY_FILES += \
@@ -223,9 +226,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/imgtec/libsrv_um.so:system/lib/libsrv_um.so \
     device/motorola/spyder/prebuilt/imgtec/libusc.so:system/lib/libusc.so \
     device/motorola/spyder/prebuilt/imgtec/libdrm.so:system/lib/libdrm.so \
-
-FRAMEWORKS_BASE_SUBDIRS += \
-    $(addsuffix /java, omapmmlib)
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
