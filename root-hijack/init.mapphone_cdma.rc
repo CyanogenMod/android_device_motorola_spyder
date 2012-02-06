@@ -8,19 +8,38 @@ on init
     export EXTERNAL_STORAGE /mnt/sdcard
     export SECONDARY_STORAGE /mnt/sdcard-ext
 
+    mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
+    symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
+    mkdir /pds 0775 system system
+    mkdir /data/tmp 0777 system system
+    mkdir /preinstall 0771 system system
+    mkdir /cdrom 0770 system system
+    symlink /data/tmp /tmp
+    mkdir /osh 0755 root root
+# Mount Points for External Storage Devices
+    mkdir /mnt/usbdisk_1.1.1 0755 system system
+    mkdir /mnt/usbdisk_1.1 0755 system system
+    mkdir /mnt/usbdisk_1.2 0755 system system
+    mkdir /mnt/usbdisk_1.3 0755 system system
+    mkdir /mnt/usbdisk_1.4 0755 system system
+    mkdir /mnt/usbdisk_1.5 0755 system system
+    mkdir /mnt/usbdisk_1.6 0755 system system
+    mkdir /mnt/usbdisk_1.7 0755 system system
 on fs
 
     mount ext3 /dev/block/mmcblk1p20 /system wait noatime nodiratime barrier=1
+    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
-
-on post-fs-data
     exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
     exec /osh/etc/init.d/udev start
 
-
-    # prepare generic keypad name
-    exec /init_prep_keypad.sh
+on post-fs-data
+    # We chown/chmod /pds again so because mount is run as root + defaults
+    chown system system /pds
+    chmod 0775 /pds
+#    chmod 0771 /preinstall
+#    chown system system /preinstall
 
     mount ext3 /dev/block/mmcblk1p20 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
@@ -31,18 +50,12 @@ on post-fs-data
     symlink /dev/ttyGS0 /dev/acm0
 
     # Create mountpoints and mount tmpfs
-    mkdir /mnt 0775 root system
-    mkdir /osh 0755 root root
-    mkdir /preinstall 0755 system system
-    mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
     mkdir /misc 0770 system misc
     mkdir /sd-ext 0771 system system
 
     mkdir /mnt/sdcard 0000 system system
     mkdir /mnt/sdcard-ext 0000 system system
 
-    symlink /data/tmp /tmp
     symlink /mnt/sdcard /sdcard
     symlink /mnt/sdcard-ext /sdcard-ext
 
@@ -74,8 +87,7 @@ on post-fs-data
     #    chown system system /data/tmp/bluedroid_ref
 
 # Configure kernel options
-
-# Disable automatic power control for OHCI USB IPC Temporarily
+    # Enable automatic power control for OHCI USB IPC
     write /sys/devices/platform/ohci-omap3/usb1/1-1/power/control auto
 
 # NFC configuration
@@ -118,26 +130,11 @@ on post-fs-data
     chmod 0660 /sys/class/timed_output/lvibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/sweep
-
-# Mount Points for External Storage Devices
-    mkdir /mnt/usbdisk_1.1 0755 system system
-    mkdir /mnt/usbdisk_1.2 0755 system system
-    mkdir /mnt/usbdisk_1.3 0755 system system
-    mkdir /mnt/usbdisk_1.4 0755 system system
-    mkdir /mnt/usbdisk_1.5 0755 system system
-    mkdir /mnt/usbdisk_1.6 0755 system system
-    mkdir /mnt/usbdisk_1.7 0755 system system
-
 # Change permission of tiler's free_page_max to allow mot_osh access
     chmod 0660 /sys/module/tiler_omap/parameters/free_page_max
     chown mot_osh mot_osh /sys/module/tiler_omap/parameters/free_page_max
 
 # Mount mtd partitions
-    # mount /pds as r/w
-    # We chown/chmod /pds again so because mount is run as root + defaults
-    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
-    chown system system /pds
-    chmod 0775 /pds
     mkdir /pds/public 0775 system shell
     chown system shell /pds/public
     chmod 0775 /pds/public
@@ -185,7 +182,6 @@ on post-fs-data
     mkdir /data/tmp 0777 system system
 
     mkdir /cache/download 0771 system cache
-    mkdir /cache/dalvik-cache 0771 system system
     mkdir /cache/lost+found 0770 root root
 
 # usbd permissions
@@ -235,6 +231,25 @@ on post-fs-data
     chown radio radio /sys/class/radio/w3g_lte/command
     chmod 777 /sys/class/radio/w3g_lte/command
 
+    # create logger folder
+    mkdir /data/logger 0770 radio log
+    chown radio log /data/logger
+    chmod 0770 /data/logger
+    mkdir /data/panicreports
+    chown root radio /data/panicreports
+    chmod 0775 /data/panicreports
+    mkdir /data/tombstones
+    chown system mot_tombstone /data/tombstones
+    chmod 0775 /data/tombstones
+    # Backup ramconsole on abnormal reboot.
+    copy /proc/last_kmsg /data/dontpanic/last_kmsg
+    chown root log /data/dontpanic/last_kmsg
+    chmod 0644 /data/dontpanic/last_kmsg
+    # workaround: in spyder somebody deletes the logfile.
+    # we have to back it up.
+    copy /data/dontpanic/apanic_console /data/logger/last_apanic_console
+    chmod 0700 /data/logger/apanic_console
+
     # create the lost+found directories, so as to enforce our permissions
     mkdir /pds/lost+found 0770
 
@@ -242,16 +257,29 @@ on post-fs-data
     chown root root /pds/lost+found
     chmod 0770 /pds/lost+found
 
-# create the necessary pds dirs for tpapi with proper permission
+    #Create location directory
+    mkdir /data/location 0771 radio radio
+
+    # Create anr directory and change permission to 777 to save trace.txt
+    mkdir /data/anr
+    chmod 0777 /data/anr
+
+# create the necessary data dirs for tpapi with proper permission
     mkdir /pds/security
+    mkdir /data/tpapi
+    mkdir /data/tpapi/etc
+    mkdir /data/tpapi/etc/tpa
+    mkdir /data/tpapi/etc/tpa/persistent
     chmod 2770 /pds/security
+    chmod 2770 /data/tpapi
+    chmod 2770 /data/tpapi/etc
+    chmod 2770 /data/tpapi/etc/tpa
+    chmod 2770 /data/tpapi/etc/tpa/persistent
     chown mot_tpapi mot_tpapi /pds/security
     chown mot_tpapi mot_tpapi /pds/security/counter.bin
     chown mot_tpapi mot_tpapi /pds/security/system.bin
     chown mot_tpapi mot_tpapi /pds/security/storage.bin
     chown mot_tpapi mot_tpapi /pds/security/keymaptable.dat
-    # Create wmdrm directory
-    mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
 #    chown root mot_usb /proc/mtpctl
 #    chmod 0660 /proc/mtpctl
@@ -276,41 +304,6 @@ on post-fs-data
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
-    # create logger folder
-    mkdir /data/logger 0770 radio log
-    chown radio log /data/logger
-    chmod 0770 /data/logger
-    mkdir /data/panicreports
-    chown root radio /data/panicreports
-    chmod 0775 /data/panicreports
-    mkdir /data/tombstones
-    chown system mot_tombstone /data/tombstones
-    chmod 0775 /data/tombstones
-    # Backup ramconsole on abnormal reboot.
-    copy /proc/last_kmsg /data/dontpanic/last_kmsg
-    chown root log /data/dontpanic/last_kmsg
-    chmod 0644 /data/dontpanic/last_kmsg
-    # workaround: in spyder somebody deletes the logfile.
-    # we have to back it up.
-    copy /data/dontpanic/apanic_console /data/logger/last_apanic_console
-    chmod 0700 /data/logger/apanic_console
-
-    #Create location directory
-    mkdir /data/location 0771 radio radio
-
-    # Create anr directory and change permission to 777 to save trace.txt
-    mkdir /data/anr
-    chmod 0777 /data/anr
-
-# create the necessary dirs for tpapi with proper permission
-    mkdir /data/tpapi
-    mkdir /data/tpapi/etc
-    mkdir /data/tpapi/etc/tpa
-    mkdir /data/tpapi/etc/tpa/persistent
-    chmod 2770 /data/tpapi
-    chmod 2770 /data/tpapi/etc
-    chmod 2770 /data/tpapi/etc/tpa
-    chmod 2770 /data/tpapi/etc/tpa/persistent
     chown mot_tpapi mot_tpapi /data/tpapi
     chown mot_tpapi mot_tpapi /data/tpapi/etc
     chown mot_tpapi mot_tpapi /data/tpapi/etc/tpa
@@ -322,6 +315,8 @@ on post-fs-data
     mkdir /data/emt
     chown root system /data/emt
     chmod 0770 /data/emt
+    # Create wmdrm directory
+    mkdir /pds/wmdrm 0775 mot_drm mot_drm
     # Temp workaround for HP library cleanup
     symlink /dev/hp3a-omap /dev/hp3A-omap
 # Permissions for video
@@ -366,6 +361,10 @@ on post-fs-data
 #    insmod /system/lib/modules/xt_qtaguid.ko
 #    insmod /system/lib/modules/xt_quota2.ko
 
+# Allow everybody to read the xt_qtaguid resource tracking misc dev.
+# This is needed by any process that uses socket tagging.
+#    chmod 0644 /dev/xt_qtaguid
+
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
 
@@ -373,12 +372,14 @@ on post-fs-data
     write /sys/class/net/gether0/mtu 1428
 
 on early-boot
+# set the size of the dns cache.
+    setprop ro.net.dns_cache_size 400
 # Define the BLAN interface
     setprop ro.blan.interface usb0
 # Launch SMC script and allow it to read cmdline option
     chmod 0444 /proc/cmdline
-    start smc
 # mount eCryptFS if required
+    start smc
     exec /system/bin/enc_mgt_tool
     class_start media_early_init
 
@@ -1159,7 +1160,8 @@ service syslinkdaemon /system/bin/syslink_daemon.out -f /system/lib/ducati/Notif
 #    group input graphics
 #    class late_start
 
-service gadget-lte-modem /system/bin/tty2ttyd /dev/ttyACM0 /dev/ttyGS1 0 512
+#service gadget-lte-modem /system/bin/tty2ttyd /dev/ttyACM0 /dev/ttyGS1 0 512
+service gadget-lte-modem /system/bin/tty2ttyd ril.wrigley.modem.tty /dev/ttyGS1 0 512
     user radio
     group radio
     disabled
@@ -1175,12 +1177,12 @@ service logcatd-blan /system/bin/logcatd-blan
      group system log inet
     disabled
 
-service gadget-qbp-modem /system/bin/tty2ttyd /dev/ttyUSB4 /dev/ttyGS2 0 1024
+service gadget-qbp-modem /system/bin/tty2ttyd persist.ril.modem.ttydevice /dev/ttyGS2 0 1024
     user radio
     group radio
     disabled
 
-service gadget-qbp-diag /system/bin/tty2ttyd /dev/ttyUSB0 /dev/ttyGS3 0 1024
+service gadget-qbp-diag /system/bin/tty2ttyd persist.ril.diag.ttydevice /dev/ttyGS3 0 1024
     user radio
     group radio
     disabled

@@ -7,7 +7,6 @@
 /dev/urandom              0666   root       root
 /dev/ashmem               0666   root       root
 /dev/binder               0666   root       root
-/dev/socket/usbd          0755   root       shell
 
 # logger should be world writable (for logging) but not readable
 /dev/log/*                0662   root       log
@@ -80,6 +79,7 @@
 /dev/ttyUSB3			  0640	 radio  	radio
 /dev/ttyUSB4			  0640	 radio	    radio
 /dev/ttyUSB5			  0640	 radio	    radio
+/dev/tun                  0660   system     vpn
 
 # touchpad related stuff
 /dev/touchpad             0770   root       mot_tcmd
@@ -87,7 +87,6 @@
 # CDMA radio interface MUX
 /dev/ts0710mux*           0640   radio      radio
 /dev/ppp                  0660   radio      vpn
-/dev/tun                  0640   vpn        vpn
 
 # sysfs properties
 /sys/devices/virtual/input/input*   enable      0660  root   input
