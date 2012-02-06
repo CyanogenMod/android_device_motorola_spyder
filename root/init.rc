@@ -101,27 +101,6 @@ on post-fs
     # once everything is setup, no need to modify /
     mount rootfs rootfs / ro remount
 
-on post-fs-data
-    # We chown/chmod /data again so because mount is run as root + defaults
-    chown system system /data
-    chmod 0771 /data
-
-    # Create dump dir and collect dumps.
-    # Do this before we mount cache so eventually we can use cache for
-    # storing dumps on platforms which do not have a dedicated dump partition.
-    mkdir /data/dontpanic 0750 root log
-
-    # Collect apanic data, free resources and re-arm trigger
-    copy /proc/apanic_console /data/dontpanic/apanic_console
-    chown root log /data/dontpanic/apanic_console
-    chmod 0664 /data/dontpanic/apanic_console
-
-    copy /proc/apanic_threads /data/dontpanic/apanic_threads
-    chown root log /data/dontpanic/apanic_threads
-    chmod 0664 /data/dontpanic/apanic_threads
-
-    write /proc/apanic_console 1
-
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
     chmod 0771 /cache
@@ -142,6 +121,27 @@ on post-fs-data
 
     # create the lost+found directories, so as to enforce our permissions
     mkdir /cache/lost+found 0770 root root
+
+on post-fs-data
+    # We chown/chmod /data again so because mount is run as root + defaults
+    chown system system /data
+    chmod 0771 /data
+
+    # Create dump dir and collect dumps.
+    # Do this before we mount cache so eventually we can use cache for
+    # storing dumps on platforms which do not have a dedicated dump partition.
+    mkdir /data/dontpanic 0750 root log
+
+    # Collect apanic data, free resources and re-arm trigger
+    copy /proc/apanic_console /data/dontpanic/apanic_console
+    chown root log /data/dontpanic/apanic_console
+    chmod 0664 /data/dontpanic/apanic_console
+
+    copy /proc/apanic_threads /data/dontpanic/apanic_threads
+    chown root log /data/dontpanic/apanic_threads
+    chmod 0664 /data/dontpanic/apanic_threads
+
+    write /proc/apanic_console 1
 
 # create basic filesystem structure
     mkdir /data/misc 01771 system misc
@@ -199,7 +199,6 @@ on post-fs-data
     chmod 0660 /sys/class/android_usb/android0/f_rndis/ethaddr
 
 on boot
-
 
 # Allow everybody to read the xt_qtaguid resource tracking misc dev.
 # This is needed by any process that uses socket tagging.
