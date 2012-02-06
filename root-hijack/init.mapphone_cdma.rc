@@ -1245,8 +1245,8 @@ service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -C/data/misc/wifi/dns
     disabled
     oneshot
 
-service tund /system/bin/tund
-    class core
-    socket tund stream 0660 vpn system
-    ioprio be 2
+#service tund /system/bin/tund
+#    class core
+#    socket tund stream 0660 vpn system
+#    ioprio be 2
 
