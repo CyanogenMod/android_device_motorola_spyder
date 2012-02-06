@@ -15,7 +15,7 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := targa_releaseutils-check_kernel
+LOCAL_MODULE := spyder_releaseutils-check_kernel
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/releaseutils
@@ -24,7 +24,7 @@ LOCAL_SRC_FILES := check_kernel
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := targa_releaseutils-finalize_release
+LOCAL_MODULE := spyder_releaseutils-finalize_release
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/releaseutils
@@ -33,7 +33,7 @@ LOCAL_SRC_FILES := finalize_release
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := targa_releaseutils-mke2fs
+LOCAL_MODULE := spyder_releaseutils-mke2fs
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/releaseutils
@@ -42,7 +42,7 @@ LOCAL_SRC_FILES := mke2fs
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := targa_releaseutils-tune2fs
+LOCAL_MODULE := spyder_releaseutils-tune2fs
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/releaseutils
