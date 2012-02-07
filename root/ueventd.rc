@@ -80,6 +80,7 @@
 /dev/ttyUSB4			  0640	 radio	    radio
 /dev/ttyUSB5			  0640	 radio	    radio
 /dev/tun                  0660   system     vpn
+/dev/socket/usbd          0755   root       shell
 
 # touchpad related stuff
 /dev/touchpad             0770   root       mot_tcmd
