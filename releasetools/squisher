@@ -152,10 +152,10 @@ echo
 )
 
 #if you want to run a custom upload script put it in ~/upload.sh
-if [ -f ~/razr.sh ];
+if [ -f ~/razr175.sh ];
 then
 	echo "Running upload script"
-	upload=~/razr.sh
+	upload=~/razr175.sh
 	. $upload
 fi
 
