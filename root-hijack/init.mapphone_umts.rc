@@ -267,7 +267,7 @@ on post-fs-data
     insmod /system/lib/modules/netmux.ko
     insmod /system/lib/modules/netmux_linkdriver.ko
     insmod /system/lib/modules/modem_pm_driver.ko
-    insmod /system/lib/modules/sec.ko
+#    insmod /system/lib/modules/sec.ko
 
 # Load ipv6 netfilter/tables support
     insmod /system/lib/modules/xt_hashlimit.ko
@@ -291,7 +291,6 @@ on post-fs-data
     insmod /system/lib/modules/nf_tproxy_core.ko
     insmod /system/lib/modules/xt_TPROXY.ko
     insmod /system/lib/modules/xt_TRACE.ko
-    insmod /system/lib/modules/xt_NFQUEUE.ko
     insmod /system/lib/modules/xt_qtaguid.ko
     insmod /system/lib/modules/xt_quota2.ko
 
