@@ -123,7 +123,7 @@ cp -f $ANDROID_BUILD_TOP/vendor/google/prebuilt/lib/libvoicesearch.so $REPACK/ot
 # Determine what to name the new signed package
 REALDATE=`date +%F-%H_%M`
 
-OUTFILE=$OUT/ICS-4.0.3_r1-$TARGET_PRODUCT-$REALDATE.zip
+OUTFILE=$OUT/175-ICS-4.0.3_r1-$TARGET_PRODUCT-$REALDATE.zip
 
 # Pack it up and sign
 printf "Zipping package..."
