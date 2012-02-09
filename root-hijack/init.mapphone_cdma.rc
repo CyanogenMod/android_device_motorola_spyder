@@ -283,8 +283,6 @@ on post-fs-data
 # Permission for USB
 #    chown root mot_usb /proc/mtpctl
 #    chmod 0660 /proc/mtpctl
-# Install kernel modules
-    insmod /system/lib/modules/sec.ko
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
 # chown/chmod for FOTA
@@ -332,34 +330,30 @@ on post-fs-data
     chown media graphics /dev/video2
     mount rootfs rootfs / ro remount
 
-# Install kernel modules
-    insmod /system/lib/modules/sec.ko
-
 # Load ipv6 netfilter/tables support
-#    insmod /system/lib/modules/xt_hashlimit.ko
-#    insmod /system/lib/modules/xt_HL.ko
-#    insmod /system/lib/modules/ip6_tables.ko
-#    insmod /system/lib/modules/ip6table_filter.ko
-#    insmod /system/lib/modules/ip6table_mangle.ko
-#    insmod /system/lib/modules/ip6table_raw.ko
-#    insmod /system/lib/modules/ip6t_ah.ko
-#    insmod /system/lib/modules/ip6t_eui64.ko
-#    insmod /system/lib/modules/ip6t_frag.ko
-#    insmod /system/lib/modules/ip6t_hbh.ko
-#    insmod /system/lib/modules/ip6t_ipv6header.ko
-#    insmod /system/lib/modules/ip6t_LOG.ko
-#    insmod /system/lib/modules/ip6t_mh.ko
-#    insmod /system/lib/modules/ip6t_REJECT.ko
-#    insmod /system/lib/modules/ip6t_rt.ko
-#    insmod /system/lib/modules/nf_conntrack_ipv6.ko
+    insmod /system/lib/modules/xt_hashlimit.ko
+    insmod /system/lib/modules/xt_HL.ko
+    insmod /system/lib/modules/ip6_tables.ko
+    insmod /system/lib/modules/ip6table_filter.ko
+    insmod /system/lib/modules/ip6table_mangle.ko
+    insmod /system/lib/modules/ip6table_raw.ko
+    insmod /system/lib/modules/ip6t_ah.ko
+    insmod /system/lib/modules/ip6t_eui64.ko
+    insmod /system/lib/modules/ip6t_frag.ko
+    insmod /system/lib/modules/ip6t_hbh.ko
+    insmod /system/lib/modules/ip6t_ipv6header.ko
+    insmod /system/lib/modules/ip6t_LOG.ko
+    insmod /system/lib/modules/ip6t_mh.ko
+    insmod /system/lib/modules/ip6t_REJECT.ko
+    insmod /system/lib/modules/ip6t_rt.ko
+    insmod /system/lib/modules/nf_conntrack_ipv6.ko
 
 # Load Quota2 support modules
-#    insmod /system/lib/modules/nf_tproxy_core.ko
-#    insmod /system/lib/modules/xt_TPROXY.ko
-#    insmod /system/lib/modules/xt_TRACE.ko
-#    insmod /system/lib/modules/xt_NFQUEUE.ko
-#    insmod /system/lib/modules/xt_qtaguid.ko
-#    insmod /system/lib/modules/xt_quota2.ko
+    insmod /system/lib/modules/nf_tproxy_core.ko
+    insmod /system/lib/modules/xt_TPROXY.ko
+    insmod /system/lib/modules/xt_TRACE.ko
+    insmod /system/lib/modules/xt_qtaguid.ko
+    insmod /system/lib/modules/xt_quota2.ko
 
 # Allow everybody to read the xt_qtaguid resource tracking misc dev.
 # This is needed by any process that uses socket tagging.
