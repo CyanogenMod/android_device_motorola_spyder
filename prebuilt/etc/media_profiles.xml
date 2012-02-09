@@ -81,21 +81,21 @@
     <CamcorderProfiles cameraId="0">
 
         <EncoderProfile quality="high" fileFormat="mp4" duration="60">
-            <Video codec="m4v"
+            <Video codec="h264"
                    bitRate="8000000"
                    width="1280"
                    height="720"
-                   frameRate="24" />
+                   frameRate="30" />
 
             <Audio codec="aac"
-                   bitRate="96000"
+                   bitRate="128000"
                    sampleRate="44100"
-                   channels="1" />
+                   channels="2" />
         </EncoderProfile>
 
         <EncoderProfile quality="low" fileFormat="mp4" duration="30">
-            <Video codec="m4v"
-                   bitRate="200000"
+            <Video codec="h264"
+                   bitRate="128000"
                    width="320"
                    height="240"
                    frameRate="15" />
@@ -107,7 +107,7 @@
 
         </EncoderProfile>
 
-        <ImageEncoding quality="93" />
+        <ImageEncoding quality="95" />
         <ImageEncoding quality="80" />
         <ImageEncoding quality="70" />
         <ImageDecoding memCap="20000000" />
@@ -119,21 +119,21 @@
     <CamcorderProfiles cameraId="1">
 
         <EncoderProfile quality="high" fileFormat="mp4" duration="60">
-            <Video codec="m4v"
+            <Video codec="h264"
                    bitRate="8000000"
-                   width="640"
-                   height="480"
+                   width="1280"
+                   height="720"
                    frameRate="30" />
 
             <Audio codec="aac"
-                   bitRate="96000"
+                   bitRate="128000"
                    sampleRate="44100"
-                   channels="1" />
+                   channels="2" />
         </EncoderProfile>
 
         <EncoderProfile quality="low" fileFormat="mp4" duration="30">
-            <Video codec="m4v"
-                   bitRate="200000"
+            <Video codec="h264"
+                   bitRate="128000"
                    width="320"
                    height="240"
                    frameRate="15" />
@@ -145,7 +145,7 @@
 
         </EncoderProfile>
 
-        <ImageEncoding quality="93" />
+        <ImageEncoding quality="95" />
         <ImageEncoding quality="80" />
         <ImageEncoding quality="70" />
         <ImageDecoding memCap="20000000" />
@@ -153,8 +153,6 @@
         <Camera previewFrameRate="0" />
 
     </CamcorderProfiles>
-
-
 
     <EncoderOutputFileFormat name="3gp" />
     <EncoderOutputFileFormat name="mp4" />
@@ -187,7 +185,7 @@
         minSampleRate="16000" maxSampleRate="44100"
         minChannels="1" maxChannels="1" />
 
-    <AudioEncoderCap name="amrnb" enabled="false"
+    <AudioEncoderCap name="amrnb" enabled="true"
         minBitRate="5525" maxBitRate="12200"
         minSampleRate="8000" maxSampleRate="8000"
         minChannels="1" maxChannels="1" />
@@ -201,6 +199,6 @@
     -->
     <VideoDecoderCap name="wmv" enabled="true"/>
     <AudioDecoderCap name="wma" enabled="true"/>
-    <AudioDecoderCap name="qcp" enabled="false"/>
-    <AudioDecoderCap name="evrc" enabled="false"/>
+    <AudioDecoderCap name="qcp" enabled="true"/>
+    <AudioDecoderCap name="evrc" enabled="true"/>
 </MediaSettings>

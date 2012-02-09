@@ -16,7 +16,7 @@
 <prop-preview-size-values>128x96,160x120,176x144,240x160,352x288,320x240,640x480,768x576,720x480,720x576,800x480,864x480,1280x720,1920x1080</prop-preview-size-values>
 <prop-preview-format-values>yuv422i-yuyv,yuv420sp,rgb565</prop-preview-format-values>
 <prop-preview-frame-rate-values>30,25,24,20,15,10</prop-preview-frame-rate-values>
-<prop-framerate-range-values>(5000,15000),(10000,20000),(15000,30000),(15000,30000),(20000,30000)</prop-framerate-range-values>
+<prop-framerate-range-values>(5000,15000),(10000,20000),(15000,30000),(20000,30000)</prop-framerate-range-values>
 <prop-zoom-ratios>100,115,132,152,174,200,230,264,303,348,400,459,528,606,696,800</prop-zoom-ratios>
 <prop-zoom-stages>15</prop-zoom-stages>
 <prop-zoom-supported>true</prop-zoom-supported>
@@ -36,6 +36,7 @@
 <prop-focus-mode-values>fixed,auto,infinity,macro,continuous,continuous-video,extended,portrait,touch,face-priority</prop-focus-mode-values>
 <prop-scene-mode-values>auto,macro,action,portrait,landscape,night-portrait,sunset,steadyphoto</prop-scene-mode-values>
 <prop-flash-mode-values>off,on,auto,torch</prop-flash-mode-values>
+<prop-mot-image-stabilization-mode-values>off,on</prop-mot-image-stabilization-mode-values>
 <prop-mot-camera-sdm-disabled-values>false,true</prop-mot-camera-sdm-disabled-values>
 <prop-s3d2d-preview-values>0</prop-s3d2d-preview-values>
 <prop-auto-convergence-mode>0</prop-auto-convergence-mode>
@@ -70,6 +71,7 @@
 <prop-vstab-default>0</prop-vstab-default>
 <prop-vnf-default>1</prop-vnf-default>
 <prop-flash-mode-default>off</prop-flash-mode-default>
+<prop-mot-image-stabilization-mode-default>off</prop-mot-image-stabilization-mode-default>
 <prop-mot-camera-sdm-disabled-default>false</prop-mot-camera-sdm-disabled-default>
 <prop-s3d2d-preview>0</prop-s3d2d-preview>
 <prop-exif-make>default_make</prop-exif-make>
