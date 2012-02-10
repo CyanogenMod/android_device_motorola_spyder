@@ -364,7 +364,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("*          IC3RAZR Alpha for 6.12.175          *")
   script.Print("*                                              *")
-  script.Print("*             Follow us  @dhacker29            *")
+  script.Print("*     Follow us  @dhacker29 and @hashcode0f    *")
   script.Print("*                                              *")
   script.Print("*            And visit droidrzr.com            *")
   script.Print("*        & mydroidworld.com for support        *")
