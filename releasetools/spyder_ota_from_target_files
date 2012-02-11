@@ -360,11 +360,12 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #  CopyUtilityFiles(input_zip, output_zip)
   script.Print("************************************************")
   script.Print("*                                              *")
-  script.Print("*             dhacker29 presents               *")
+  script.Print("*            STS-Dev-Team presents             *")
   script.Print("*                                              *")
   script.Print("*          IC3RAZR Alpha for 6.12.175          *")
   script.Print("*                                              *")
   script.Print("*     Follow us  @dhacker29 and @hashcode0f    *")
+  script.Print("*   Get the GApps at STS-Dev-Team.us.to/gapps  *")
   script.Print("*                                              *")
   script.Print("*            And visit droidrzr.com            *")
   script.Print("*        & mydroidworld.com for support        *")
@@ -410,6 +411,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   script.ShowProgress(0.1, 0)
   script.Print("If you are not on system 6.12.17x this probably won't boot")
+  script.Print("")
+  script.Print("Don't forget to install the GApps beforey you reboot.")
+  script.Print("")
   script.Print("Finished installing IC3RAZR, Enjoy!")
   device_specific.FullOTA_InstallEnd()
 
