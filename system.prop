@@ -92,6 +92,9 @@ ro.mot.eri=1
 persist.mot.proximity.touch=1
 # End IKSHADOW-619
 
+#inphone calibration backup support
+ro.mot.hw.calibratedImager=1
+
 # BEGIN Motorola, a22976, 25-Feb-2010, IKSHADOW-702, FID 31841
 # VZW Requirement Specifications: NETWORK BASED PLUS CODE DIALING
 # 0 disable
@@ -184,8 +187,7 @@ persist.radio.ap.phonetype=2
 # (depends on sensor hub)
 # 0 disable
 # 1 enable
-# disabled until Spyder accelerometer hardware is improved
-persist.mot.gps.smart_battery=0
+persist.mot.gps.smart_battery=1
 # END IKLOCSEN-317
 
 # Motorola, IKHALFMWK-3, w001091
@@ -219,8 +221,9 @@ com.motorola.cg.tnHeight=160
 com.motorola.cg.tndisplay=1
 # END IKSTABLE6-13462
 
-# set default usb mode as usb mass storage
-ro.default_usb_mode=2
+# BEGIN Motorola, atzakis, 12-Oct-2011, IKSTABLE6-18830
+ro.mot.hw.navkeyboard.devname=cy8c201xx
+# END IKSTABLE6-18830
 
 #
 # ADDITIONAL_BUILD_PROPERTIES
@@ -241,13 +244,14 @@ persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
 ril.wrigley.modem.tty=/dev/usb/tty1-2:1.10
 rild.libpath=/system/lib/moto-ril-multimode.so
-ro.default_usb_mode=0
+# set default usb mode as usb mass storage
+ro.default_usb_mode=2
 ro.media.enc.aud.fileformat=3gp
 ro.media.enc.aud.codec=amrnb
 ro.media.enc.aud.bps=13300
 ro.media.enc.aud.ch=1
 ro.media.enc.aud.hz=8000
-ro.com.google.gmsversion=2.3_r7
+ro.com.google.gmsversion=2.3_r9
 ro.mot.phonemode.vzw4gphone=1
 ro.mot.lte_on_cdma=1
 ro.mot.tmp.telephony.refactor=true
