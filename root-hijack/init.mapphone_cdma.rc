@@ -796,9 +796,9 @@ on property:ro.hdcp.support=2
     chmod 0660 /dev/omap-hdcp
 
 # The following services are added by moto
-service qe /xbin/qe /system
-    class core
-    oneshot
+#service qe /xbin/qe /system
+#    class core
+#    oneshot
 
 service telnet /system/bin/telnetd
     class core

@@ -114,7 +114,8 @@ PRODUCT_PACKAGES += \
     Camera \
     Superuser \
     su \
-    Usb
+    Usb \
+    DockAudio \
 
 
 PRODUCT_PACKAGES += \
