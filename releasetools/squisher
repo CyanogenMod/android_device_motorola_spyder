@@ -118,8 +118,7 @@ rm -rf $REPACK/ota/recovery
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
 # Copy libvoicesearch as it's getting messed up in the build
-cp -f $ANDROID_BUILD_TOP/vendor/google/prebuilt/lib/libvoicesearch.so $REPACK/ota/system/lib/libvoicesearch.so
-mv -f $REPACK/ota/system/app/Usb.apk $REPACK/ota/system/app/Usb.apk.bak
+cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $REPACK/ota/system/lib/libvoicesearch.so
 
 # Determine what to name the new signed package
 REALDATE=`date +%F-%H_%M`

@@ -31,8 +31,9 @@ on fs
     mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
-    exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
-    exec /osh/etc/init.d/udev start
+# disabling webtop for now
+#    exec /system/bin/logwrapper /system/bin/mountosh -d /dev/block/webtop
+#    exec /osh/etc/init.d/udev start
 
 on post-fs-data
     # We chown/chmod /pds again so because mount is run as root + defaults
@@ -795,9 +796,9 @@ on property:ro.hdcp.support=2
     chmod 0660 /dev/omap-hdcp
 
 # The following services are added by moto
-service qe /xbin/qe /system
-    class core
-    oneshot
+#service qe /xbin/qe /system
+#    class core
+#    oneshot
 
 service telnet /system/bin/telnetd
     class core
