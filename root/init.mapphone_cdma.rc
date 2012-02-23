@@ -36,6 +36,9 @@ on fs
 #    exec /osh/etc/init.d/udev start
 
 on post-fs-data
+# Enable ADB
+#    write /dev/usb_device_mode msc_adb
+
     # We chown/chmod /pds again so because mount is run as root + defaults
     chown system system /pds
     chmod 0775 /pds

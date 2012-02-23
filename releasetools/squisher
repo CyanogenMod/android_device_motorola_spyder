@@ -64,7 +64,6 @@ find ./ -name \*.apk | $XARGS $OPTICHARGER
 rm $REPACK/ota/system/app/FmRxApp.apk
 rm $REPACK/ota/system/app/FmService.apk
 rm $REPACK/ota/system/app/FmTxApp.apk
-rm $REPACK/ota/system/app/Music.apk
 rm $REPACK/ota/system/app/RomManager.apk
 
 
@@ -123,7 +122,7 @@ cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $
 # Determine what to name the new signed package
 REALDATE=`date +%F-%H_%M`
 
-OUTFILE=$OUT/175-ICS-4.0.3_r1-$TARGET_PRODUCT-$REALDATE.zip
+OUTFILE=$OUT/ICS-4.0.3_r1-$TARGET_PRODUCT-$REALDATE.zip
 
 # Pack it up and sign
 printf "Zipping package..."

@@ -326,6 +326,10 @@ persist.sys.usb.config=mass_storage,adb
 ro.ril.disable.power.collaspe=1
 pm.sleep_mode=1
 
+
+# ril class extension for incoming forwarded calls
+#ro.telephony.ril_class=MotoWrigley3GRIL
+
 # To enable boot sounds set value to 1 and place /system/media/android_audio.mp3
 # or edit /system/bin/bootsound with the name of your audio
 ro.config.play.bootsound=0
