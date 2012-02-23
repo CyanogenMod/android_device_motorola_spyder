@@ -125,6 +125,13 @@ PRODUCT_PACKAGES += \
     MusicFX \
     libjni_pinyinime 
 
+# CameraFix
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/camerafix/hw/camera.omap4.so:system/lib/hw/camera.omap4.so \
+    device/motorola/spyder/prebuilt/camerafix/libcamera.so:system/lib/libcamera.so \
+    device/motorola/spyder/prebuilt/camerafix/libomxcameraadapter.so:system/lib/libomxcameraadapter.so \
+    device/motorola/spyder/prebuilt/camerafix/libtiutils.so:system/lib/libtiutils.so \
+
 # WirelessTether
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
