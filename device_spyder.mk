@@ -268,7 +268,7 @@ $(call inherit-product, hardware/ti/camera/camera.mk)
 $(call inherit-product, hardware/ti/wpan/ti-wpan-products.mk)
 #$(call inherit-product-if-exists, vendor/google/google-vendor.mk)
 $(call inherit-product-if-exists, vendor/verizon/spyder-verizon-vendor.mk)
-$(call inherit-product, packages/apps/DSPManager/cyanogen-dsp/Android.mk)
+#$(call inherit-product, packages/apps/DSPManager/cyanogen-dsp/Android.mk)
 
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 
