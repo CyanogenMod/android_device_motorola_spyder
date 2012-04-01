@@ -19,15 +19,15 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Audio
-#PRODUCT_COPY_FILES += \
-#    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-#    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
-#    device/motorola/spyder/audio/audio.primary.default.so:/system/lib/hw/audio.primary.default.so \
-#    device/motorola/spyder/audio/udio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
-#    device/motorola/spyder/audio/audio_policy.default.so:/system/lib/hw/audio_policy.default.so \
-#    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
-#    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-#    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
+    device/motorola/spyder/audio/audio.primary.default.so:/system/lib/hw/audio.primary.default.so \
+    device/motorola/spyder/audio/udio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+    device/motorola/spyder/audio/audio_policy.default.so:/system/lib/hw/audio_policy.default.so \
+    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
+    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
 # Hardware HALs
 #PRODUCT_PACKAGES += \
