@@ -49,11 +49,11 @@ HOSTAPD_VERSION             := VER_0_6_X
 BOARD_SOFTAP_DEVICE         := wl1283
 BOARD_WLAN_DEVICE           := wl1283
 #BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/wilink_6_1
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/wl12xx.ko"
 WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
 WIFI_DRIVER_MODULE_ARG      := ""
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
-WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/fw_wlan1283.bin"
+WIFI_DRIVER_FW_STA_PATH     := "/system/etc/firmware/ti-connectivity/wl128x-fw-multirole-plt.bin"
 WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_wlan1283_AP.bin"
 PRODUCT_WIRELESS_TOOLS      := true
 AP_CONFIG_DRIVER_WILINK     := true
@@ -65,11 +65,11 @@ BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 BUILD_WITH_ALSA_UTILS := true
 HAVE_2_3_DSP := 1
-BOARD_USES_AUDIO_LEGACY := true
+#BOARD_USES_AUDIO_LEGACY := true
 ifdef BOARD_USES_AUDIO_LEGACY
     COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
 endif
-TARGET_PROVIDES_LIBAUDIO := true
+#TARGET_PROVIDES_LIBAUDIO := true
 BOARD_USE_MOTO_DOCK_HACK := true
 
 

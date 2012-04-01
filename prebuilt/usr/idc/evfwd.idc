@@ -12,12 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Key layout used for Bluetooth AVRCP support.
-
-key 200   MEDIA_PLAY          WAKE
-key 201   MEDIA_PAUSE         WAKE
-key 166   MEDIA_STOP          WAKE
-key 163   MEDIA_NEXT          WAKE
-key 165   MEDIA_PREVIOUS      WAKE
-key 168   MEDIA_REWIND        WAKE
-key 208   MEDIA_FAST_FORWARD  WAKE
+#
+# Input Device Configuration File for webtop virtual device (evfwd).
+#
+device.internal=0
+keyboard.builtIn=0

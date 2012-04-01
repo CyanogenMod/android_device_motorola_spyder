@@ -110,9 +110,3 @@ key 215   AT
 # On an AT keyboard: ESC, F10
 key 1     BACK              WAKE_DROPPED
 key 68    MENU              WAKE_DROPPED
-
-key 113   MUTE
-key 163   MEDIA_NEXT
-key 164   MEDIA_PLAY_PAUSE
-key 165   MEDIA_PREVIOUS
-key 226   HEADSETHOOK WAKE

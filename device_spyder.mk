@@ -19,18 +19,15 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Audio
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/audio/acoustics.default.so:/system/lib/hw/acoustics.spyder.so \
-    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.spyder.so \
-    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-    device/motorola/spyder/audio/libaudio.so:/system/lib/libaudio.so \
-    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
-    device/motorola/spyder/audio/libaudiopolicy.so:/system/lib/libaudiopolicy.so \
-    device/motorola/spyder/audio/liba2dp.so:/system/lib/liba2dp.so 
-
-# Hardware HALs
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/imgtec/gralloc.omap4.so:system/lib/hw/gralloc.omap4.so \
+#PRODUCT_COPY_FILES += \
+#    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+#    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
+#    device/motorola/spyder/audio/audio.primary.default.so:/system/lib/hw/audio.primary.default.so \
+#    device/motorola/spyder/audio/udio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+#    device/motorola/spyder/audio/audio_policy.default.so:/system/lib/hw/audio_policy.default.so \
+#    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+#    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
+#    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
 # Hardware HALs
 #PRODUCT_PACKAGES += \
@@ -40,9 +37,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     camera.omap4
 
-PRODUCT_PACKAGES += \
-    audio.primary.spyder \
-    audio_policy.spyder
+#PRODUCT_PACKAGES += \
+#    audio.primary.spyder \
+#    audio_policy.spyder
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
@@ -101,12 +98,12 @@ PRODUCT_PACKAGES += \
 # Tests -- Can remove later
 PRODUCT_PACKAGES += \
     d2c_test \
-    memmgr_test \
-    utils_test \
-    tiler_ptest \
-    overlay_test \
-    omx_tests \
-    evtest \
+#    memmgr_test \
+#    utils_test \
+#    tiler_ptest \
+#    overlay_test \
+#    omx_tests \
+#    evtest \
 #    camera_test \
 #    VideoEncTest 
 
@@ -123,15 +120,7 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     FileManager \
     libjni_pinyinime 
-#    MusicFX \
-
-# CameraFix
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/camerafix/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
-    device/motorola/spyder/prebuilt/camerafix/camera.omap4.so:system/lib/hw/camera.omap4.so \
-    device/motorola/spyder/prebuilt/camerafix/libcamera.so:system/lib/libcamera.so \
-    device/motorola/spyder/prebuilt/camerafix/libomxcameraadapter.so:system/lib/libomxcameraadapter.so \
-    device/motorola/spyder/prebuilt/camerafix/libtiutils.so:system/lib/libtiutils.so \
+    MusicFX \
 
 # WirelessTether
 PRODUCT_COPY_FILES += \
@@ -182,8 +171,6 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 
 
-# Removed for camerafix
-#    device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
@@ -194,53 +181,25 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     device/motorola/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    device/motorola/spyder/prebuilt/etc/wifi/tiwlan_ap.ini:system/etc/wifi/tiwlan_ap.ini \
-    device/motorola/spyder/prebuilt/etc/wifi/tiwlan.ini:system/etc/wifi/tiwlan.ini \
     device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
-    device/motorola/spyder/prebuilt/usr/idc/cpcap-key.idc:system/usr/idc/cpcap-key.idc \
-    device/motorola/spyder/prebuilt/usr/idc/cy8c201xx.idc:system/usr/idc/cy8c201xx.idc \
-    device/motorola/spyder/prebuilt/usr/idc/light-prox.idc:system/usr/idc/light-prox.idc \
-    device/motorola/spyder/prebuilt/usr/idc/mapphone-switch.idc:system/usr/idc/mapphone-switch.idc \
-    device/motorola/spyder/prebuilt/usr/idc/omap-keypad.idc:system/usr/idc/omap-keypad.idc \
-    device/motorola/spyder/prebuilt/usr/idc/atmxt-i2c.idc:system/usr/idc/atmxt-i2c.idc \
-    device/motorola/spyder/prebuilt/usr/keychars/cpcap-key.kcm:system/usr/keychars/cpcap-key.kcm \
-    device/motorola/spyder/prebuilt/usr/keychars/cy8c201xx.kcm:system/usr/keychars/cy8c201xx.kcm \
-    device/motorola/spyder/prebuilt/usr/keychars/light-prox.kcm:system/usr/keychars/light-prox.kcm \
-    device/motorola/spyder/prebuilt/usr/keychars/mapphone-switch.kcm:system/usr/keychars/mapphone-switch.kcm \
-    device/motorola/spyder/prebuilt/usr/keychars/omap-keypad.kcm:system/usr/keychars/omap-keypad.kcm \
-    device/motorola/spyder/prebuilt/usr/keychars/atmxt-i2c.kcm:system/usr/keychars/atmxt-i2c.kcm \
-    device/motorola/spyder/prebuilt/usr/keylayout/aev_abs.kl:system/usr/keylayout/aev_abs.kl \
+    device/motorola/spyder/prebuilt/usr/idc/evfwd.idc:system/usr/idc/evfwd.idc \
+    device/motorola/spyder/prebuilt/usr/idc/qwerty.idc:system/usr/idc/qwerty.idc \
+    device/motorola/spyder/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
+    device/motorola/spyder/prebuilt/usr/keychars/evfwd.kcm:system/usr/keychars/evfwd.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/omap4-keypad.kcm:system/usr/keychars/omap4-keypad.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/qwerty.kcm:system/usr/keychars/qwerty.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/qwerty2.kcm:system/usr/keychars/qwerty2.kcm \
     device/motorola/spyder/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/cdma_spyder-keypad.kl:system/usr/keylayout/cdma_spyder-keypad.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/cpcap-key.kl:system/usr/keylayout/cpcap-key.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/light-prox.kl:system/usr/keylayout/light-prox.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/mapphone-switch.kl:system/usr/keylayout/mapphone-switch.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/cy8c201xx.kl:system/usr/keylayout/cy8c201xx.kl \
     device/motorola/spyder/prebuilt/usr/keylayout/evfwd.kl:system/usr/keylayout/evfwd.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
-    device/motorola/spyder/prebuilt/usr/keylayout/atmxt-i2c.kl:system/usr/keylayout/atmxt-i2c.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \
 
 # Phone settings
 PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
     vendor/cm/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml \
-
-
-# Graphics
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
-    device/motorola/spyder/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so:system/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/motorola/spyder/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so:system/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/motorola/spyder/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so:system/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/motorola/spyder/prebuilt/imgtec/libglslcompiler.so:system/lib/libglslcompiler.so \
-    device/motorola/spyder/prebuilt/imgtec/libIMGegl.so:system/lib/libIMGegl.so \
-    device/motorola/spyder/prebuilt/imgtec/libpvr2d.so:system/lib/libpvr2d.so \
-    device/motorola/spyder/prebuilt/imgtec/libpvrANDROID_WSEGL.so:system/lib/libpvrANDROID_WSEGL.so \
-    device/motorola/spyder/prebuilt/imgtec/libPVRScopeServices.so:system/lib/libPVRScopeServices.so \
-    device/motorola/spyder/prebuilt/imgtec/libsrv_init.so:system/lib/libsrv_init.so \
-    device/motorola/spyder/prebuilt/imgtec/libsrv_um.so:system/lib/libsrv_um.so \
-    device/motorola/spyder/prebuilt/imgtec/libusc.so:system/lib/libusc.so \
-    device/motorola/spyder/prebuilt/imgtec/libdrm.so:system/lib/libdrm.so \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise

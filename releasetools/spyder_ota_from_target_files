@@ -362,7 +362,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("*            STS-Dev-Team presents             *")
   script.Print("*                                              *")
-  script.Print("*          IC3RAZR Beta for 6.12.17X           *")
+  script.Print("*          IC3RAZR Beta for 6.14.75            *")
   script.Print("*                                              *")
   script.Print("*     Follow us  @dhacker29 and @hashcode0f    *")
   script.Print("*   Get the GApps at STS-Dev-Team.us.to/gapps  *")
@@ -410,6 +410,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.2, 10)
 
   script.ShowProgress(0.1, 0)
+  script.Print("")
+  script.Print("If you are not on the 6.14.75 VZW ICS you will probably brick")
+  script.Print("")
   script.Print("Don't forget to install the GApps beforey you reboot.")
   script.Print("")
   script.Print("Finished installing IC3RAZR, Enjoy!")

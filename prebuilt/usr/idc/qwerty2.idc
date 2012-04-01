@@ -12,12 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Key layout used for Bluetooth AVRCP support.
+#
+# Emulator keyboard configuration file #2.
+#
 
-key 200   MEDIA_PLAY          WAKE
-key 201   MEDIA_PAUSE         WAKE
-key 166   MEDIA_STOP          WAKE
-key 163   MEDIA_NEXT          WAKE
-key 165   MEDIA_PREVIOUS      WAKE
-key 168   MEDIA_REWIND        WAKE
-key 208   MEDIA_FAST_FORWARD  WAKE
+touch.deviceType = touchScreen
+touch.orientationAware = 1
+
+keyboard.layout = qwerty
+keyboard.characterMap = qwerty2
+keyboard.orientationAware = 1
+keyboard.builtIn = 1
+
+cursor.mode = navigation
+cursor.orientationAware = 1

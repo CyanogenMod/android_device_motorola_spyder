@@ -4,13 +4,11 @@
 # rild.libpath=/system/lib/libril-moto-umts-1.so
 rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyO0
+telephony.lteOnCdmaDevice=1
 ro.sf.lcd_density=240
 ro.default_usb_mode=2
 ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
-
-# Enable ALWAYS_READ_IMSI_FROM_SIM
-persist.ril.features=800
 persist.ril.modem.mode =1
 
 # This defines the max event window manager can
@@ -22,13 +20,6 @@ windowsmgr.max_events_per_sec=250
 ro.ngp_available=1
 ro.modem_available=0
 
-telephony.lteOnCdmaDevice=1
-
-# Turn on IMS by default
-persist.radio.imsregrequired=1
-persist.radio.imsallowmtsms=1
-persist.radio.imsfwloglevel=3
-
 # Default network type.
 # 7 => GLOBAL.
 ro.telephony.default_network=4
@@ -39,15 +30,9 @@ ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
 ro.config.vc_call_vol_steps=7
 
-# Disable ims by setting imsapp.mode to all_dependency_met
-#imsapp.mode=all_dependency_met
-
-# The value of the kernel command line product_type variable for lte on cdma devices
-telephony.lteOnCdmaProductType=clw
-
 # wlan interface
-wifi.interface = tiwlan0
-softap.interface = tiap0
+wifi.interface = wlan0
+softap.interface = wlan1
 
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
@@ -59,18 +44,16 @@ wifi.supplicant_scan_interval = 90
 # internal/telephony/cdma/CDMAPhone.java for the schema:
 ro.cdma.otaspnumschema=SELC,1,80,99
 
-# write cdma MIN to property for VVM use in GSM/UMTS mode
-
-persist.radio.cdma.min = 0
-
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
 ro.opengles.version = 131072
 
 # This is a high density device with more memory, so larger vm heaps for it.
 dalvik.vm.heapsize=76m
+# The URL for safety information
+#ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal
 
-# our HTML browser (not WAP browser ) does not need to specify UAProf URL
+# our HTML browser (not WAP browser ) based on requirements IKHSS6-1061 need to specify UAProf URL
 ro.mot.hw.uaprof=http://uaprof.vtext.com/mot/xt912/xt912.xml
 
 
@@ -91,9 +74,6 @@ ro.mot.eri=1
 # 1 enable
 persist.mot.proximity.touch=1
 # End IKSHADOW-619
-
-#inphone calibration backup support
-ro.mot.hw.calibratedImager=1
 
 # BEGIN Motorola, a22976, 25-Feb-2010, IKSHADOW-702, FID 31841
 # VZW Requirement Specifications: NETWORK BASED PLUS CODE DIALING
@@ -194,17 +174,8 @@ persist.mot.gps.smart_battery=1
 # Feature 32711, deep sleep mode support
 ro.mot.deep.sleep.supported=true
 
-# BEGIN Motorola, w36253, 15-August-2011,IKSTABLE6-7428
-ro.mot.bindervm.config = 140
-# END IKSTABLE6-7428
-
 # Give extra time for LTE bug dumps
 ril.dumpstate.timeout=60
-
-# BEGIN Motorola, dvw873, 8-Aug-2011, IKSTABLE6-4690, FID 36228
-ro.mot.tmp.telephony.refactor=true
-ro.cdma.subscription=0
-# END IKSTABLE6-4690
 
 # BEGIN Motorola, a22543, 16-Aug-2011, IKSTABLE6-8304
 persist.dbg.kwdt.report=0
@@ -214,20 +185,25 @@ persist.dbg.kwdt.report=0
 ro.hdcp.support=2
 # END IKSTABLE6-9125
 
-# BEGIN Motorola fit009c, 20-Sept-2011, IKSTABLE6-13462 - Thumbnail property change
-com.motorola.cg.lowres=1
-com.motorola.cg.tnWidth=160
-com.motorola.cg.tnHeight=160
-com.motorola.cg.tndisplay=1
-# END IKSTABLE6-13462
 
 # BEGIN Motorola, atzakis, 12-Oct-2011, IKSTABLE6-18830
 ro.mot.hw.navkeyboard.devname=cy8c201xx
 # END IKSTABLE6-18830
 
+# BEGIN Motorola abp095, 4-Jan-2012, IKHSS7-2427 - Thumbnail property change
+com.motorola.cg.lowres=1
+com.motorola.cg.tnWidth=160
+com.motorola.cg.tnHeight=160
+com.motorola.cg.tndisplay=1
+# END IKHSS7-2427
+
 #
 # ADDITIONAL_BUILD_PROPERTIES
 #
+dalvik.vm.heapstartsize=5m
+dalvik.vm.heapgrowthlimit=42m
+dalvik.vm.heapsize=128m
+drm.service.enabled=true
 ro.com.google.clientidbase=android-motorola
 ro.com.google.clientidbase.ms=android-verizon
 ro.com.google.clientidbase.am=android-verizon
@@ -242,40 +218,26 @@ persist.ril.diag.ttydevice=/dev/usb/tty2-1:1.0
 persist.ril.features=0x90A
 persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
+persist.ril.rssi.enable.param6=1
 ril.wrigley.modem.tty=/dev/usb/tty1-2:1.10
+persist.radio.lte.mm.disable=0
 rild.libpath=/system/lib/moto-ril-multimode.so
-# set default usb mode as usb mass storage
-ro.default_usb_mode=2
-ro.media.enc.aud.fileformat=3gp
-ro.media.enc.aud.codec=amrnb
+persist.sys.usb.config=mass_storage
+gsm.sim.mot.simswap=1
+ro.media.enc.aud.fileformat=qcp
+ro.media.enc.aud.codec=qcelp
 ro.media.enc.aud.bps=13300
 ro.media.enc.aud.ch=1
 ro.media.enc.aud.hz=8000
-ro.com.google.gmsversion=2.3_r9
-ro.mot.phonemode.vzw4gphone=1
-ro.mot.lte_on_cdma=1
-ro.mot.tmp.telephony.refactor=true
-ro.cdma.subscription=0
-ro.telephony.default_network=4
-lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
-cdma_ril.libpath=/system/lib/libmoto_ril.so
-ril.rat=LTE
-lte_ril.netcfg_to=90
-ro.telephony.call_ring.multiple=false
-ro.telephony.call_ring.delay=3000
-ro.setupwizard.enable_bypass=1
-ro.com.google.clientid=android-motorola
-ro.com.google.clientidbase=android-verizon
-ro.com.google.clientidbase.am=android-verizon
-ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
-ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.cdma.home.operator.numeric=310004
-ro.cdma.home.operator.alpha=Verizon
-ro.config.vc_call_vol_steps=7
-ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83
-ro.cdma.data_retry_config=default_randomization=2000,max_retries=infinite,0,0,120000,180000,540000,960000
-ro.gsm.data_retry_config=default_randomization=2000,max_retries=infinite,0,0,80000,125000,485000,905000
-ro.gsm.2nd_data_retry_config=max_retries=1,15000
+ro.mot.setuptype=2
+ro.HorizontalBUA=true
+ro.HorizontalVVM=true
+ro.horizontalIM=true
+ro.horizontalNGM=false
+ro.horizontalVMM=false
+ro.horizontalMOD=false
+ro.horizontalVOD=false
+ro.horizontalEmail=false
 ro.media.camcorder.1080p=mp4,h264,30,15000000,aac,128000,44100,2
 ro.media.camcorder.720p=mp4,h264,30,10000000,aac,128000,44100,2
 ro.media.camcorder.d1NTSC=mp4,h264,30,6000000,aac,128000,44100,2
@@ -292,28 +254,24 @@ ro.media.capture.flash=led
 ro.media.capture.flashMinV=3300000
 ro.media.capture.torchIntensity=40
 ro.media.capture.flashIntensity=100
+ro.media.capture.classification=classF
 ro.media.panorama.defres=3264x1840
 ro.media.panorama.frameres=1280x720
-media.stagefright.enable-player=true
-media.stagefright.enable-meta=false
-media.stagefright.enable-scan=false
-media.stagefright.enable-http=false
-ro.media.camera.focal=3451.0,3451.0
-ro.media.camera.principal=1632.0,1224.0
-ro.media.camera.skew=0.0
-ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0
-ro.media.camera.calresolution=3264,2448
-ro.HorizontalBUA=true
-ro.HorizontalVVM=true
-ro.horizontalIM=true
-ro.horizontalNGM=false
-ro.horizontalVMM=false
-ro.horizontalMOD=false
-ro.horizontalVOD=false
-ro.horizontalEmail=false
-ro.mot.setuptype=2
-ro.mot.internalsdcard=1
-dalvik.vm.dexopt-flags=m=y
+ro.sf.lcd_density=240
+ro.mot.phonemode.vzw4gphone=1
+ro.mot.lte_on_cdma=1
+ro.mot.tmp.telephony.refactor=true
+ro.cdma.subscription=0
+ro.telephony.default_network=8
+lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
+cdma_ril.libpath=/system/lib/libmoto_ril.so
+ril.rat=LTE
+lte_ril.netcfg_to=90
+ro.telephony.call_ring.multiple=false
+ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83
+ro.cdma.data_retry_config=max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000
+ro.gsm.data_retry_config=default_randomization=2000,max_retries=infinite,0,0,80000,125000,485000,905000
+ro.gsm.2nd_data_retry_config=max_retries=infinite,default_randomization=2000,0,0,80000,125000,485000,905000
 net.bt.name=Android
 dalvik.vm.stack-trace-file=/data/anr/traces.txt
 ro.mot.dpmext=true
@@ -325,7 +283,6 @@ ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
 ro.ril.disable.power.collaspe=1
 pm.sleep_mode=1
-
 
 # ril class extension for incoming forwarded calls
 #ro.telephony.ril_class=MotoWrigley3GRIL
@@ -341,4 +298,3 @@ ro.modversion=IC3RAZR
 ro.kernel.android.checkjni=0
 ro.media.enc.jpeg.quality=100
 debug.sf.hw=1
-

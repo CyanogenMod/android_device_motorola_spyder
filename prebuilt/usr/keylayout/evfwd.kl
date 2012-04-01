@@ -1,6 +1,4 @@
 key 399   GRAVE
-key 41    GRAVE
-key 1     BACK              WAKE_DROPPED
 key 2     1
 key 3     2
 key 4     3
@@ -12,10 +10,13 @@ key 9     8
 key 10    9
 key 11    0
 key 158   BACK              WAKE_DROPPED
+key 1     BACK              WAKE_DROPPED
 key 230   SOFT_RIGHT        WAKE
 key 60    SOFT_RIGHT        WAKE
+key 107   ENDCALL           WAKE_DROPPED
+key 62    ENDCALL           WAKE_DROPPED
+key 126   MENU              WAKE_DROPPED
 key 229   MENU              WAKE_DROPPED
-key 125   MENU              WAKE_DROPPED
 key 139   MENU              WAKE_DROPPED
 key 59    MENU              WAKE_DROPPED
 key 127   SEARCH            WAKE_DROPPED
@@ -58,7 +59,6 @@ key 38    L
 key 39    SEMICOLON
 key 40    APOSTROPHE
 key 14    DEL
-key 111   DEL
 
 key 44    Z
 key 45    X
@@ -85,17 +85,9 @@ key 12    MINUS
 key 13    EQUALS
 key 215   AT
 
-key 58    CAPS
-
 key 164   MEDIA_PLAY_PAUSE    WAKE
 key 166   MEDIA_STOP          WAKE
 key 163   MEDIA_NEXT          WAKE
 key 165   MEDIA_PREVIOUS      WAKE
 key 168   MEDIA_REWIND        WAKE
-
-key 29   MENU    WAKE_DROPPED
-key 97   MENU    WAKE_DROPPED
-key 63   SEARCH  WAKE_DROPPED
-
-key 226   MEDIA_POWER         WAKE
 

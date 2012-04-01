@@ -120,9 +120,9 @@ rm -rf $REPACK/ota/recovery
 cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $REPACK/ota/system/lib/libvoicesearch.so
 
 # Determine what to name the new signed package
-REALDATE=`date +%F-%H_%M`
+REALDATE=`date +%m-%d`
 
-OUTFILE=$OUT/ICS-4.0.3_r1-$TARGET_PRODUCT-$REALDATE.zip
+OUTFILE=$OUT/RAZR-CM9-$REALDATE-UNOFFICIAL.zip
 
 # Pack it up and sign
 printf "Zipping package..."
@@ -151,10 +151,10 @@ echo
 )
 
 #if you want to run a custom upload script put it in ~/upload.sh
-if [ -f ~/razr175.sh ];
+if [ -f ~/razr.sh ];
 then
 	echo "Running upload script"
-	upload=~/razr175.sh
+	upload=~/razr.sh
 	. $upload
 fi
 
