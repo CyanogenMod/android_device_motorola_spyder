@@ -122,7 +122,7 @@ cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $
 # Determine what to name the new signed package
 REALDATE=`date +%m-%d`
 
-OUTFILE=$OUT/RAZR-CM9-$REALDATE-UNOFFICIAL.zip
+OUTFILE=$OUT/RAZR-6_14_75-CM9-$REALDATE-UNOFFICIAL.zip
 
 # Pack it up and sign
 printf "Zipping package..."

@@ -18,7 +18,7 @@ PRODUCT_PACKAGES := \
     charger \
     charger_res_images
 
-# Audio
+# Audio - use stock ICS leak files for now
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
     device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
@@ -35,11 +35,18 @@ PRODUCT_COPY_FILES += \
 #    sensors.spyder \
 
 PRODUCT_PACKAGES += \
-    camera.omap4
+    camera.omap4 \
+    libinvensense_mpl \
+    hwcomposer.omap4 \
+    hwcomposer.default \
 
 #PRODUCT_PACKAGES += \
 #    audio.primary.spyder \
 #    audio_policy.spyder
+
+PRODUCT_PACKAGES += \
+    libaudioutils \
+    libaudiohw_legacy \
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
@@ -62,11 +69,13 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    libCustomWifi \
+    lib_driver_cmd_wl12xx \
     wlan_loader \
     wlan_cu \
     dhcpcd.conf \
-    wpa_supplicant.conf 
+    wpa_supplicant.conf \
+    TQS_D_1.7.ini \
+    tiwlan.ini
 
 # HotSpot
 PRODUCT_PACKAGES += \
