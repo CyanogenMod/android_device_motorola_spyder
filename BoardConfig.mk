@@ -34,13 +34,13 @@ BOARD_PAGE_SIZE := 0x4096
 
 
 # Storage / Sharing
-#BOARD_VOLD_MAX_PARTITIONS := 96
+BOARD_VOLD_MAX_PARTITIONS := 100
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 #TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
 #BOARD_CUSTOM_USB_CONTROLLER := ../../device/motorola/spyder/UsbController.cpp
 
 # Connectivity - Wi-Fi
-#USES_TI_MAC80211 := true
+USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
