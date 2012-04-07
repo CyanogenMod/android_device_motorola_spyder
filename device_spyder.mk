@@ -130,10 +130,12 @@ PRODUCT_PACKAGES += \
     libjni_pinyinime \
     MusicFX \
 
-# WirelessTether
+# WirelessTether and Swype
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
+    device/motorola/spyder/prebuilt/app/Swype.apk:system/app/Swype.apk \
+    device/motorola/spyder/prebuilt/lib/libSwypeCore.so:system/lib/libSwypeCore.so \
     device/motorola/spyder/prebuilt/bin/bootsound:system/bin/bootsound \
 #    device/motorola/spyder/prebuilt/media/android_audio.mp3:system/media/android_audio.mp3 \
 #    device/motorola/spyder/prebuilt/media/bootanimation.zip:system/media/bootanimation.zip \
@@ -175,8 +177,11 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/base/data/etc/android.hardware.wifi.direct.xml:/system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/base/data/etc/handheld_core_hardware.xml:/system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    vendor/motorola/spyder/proprietary/etc/permissions/platform.xml:system/etc/permissions/platform.xml \
 
 
 # Prebuilts
