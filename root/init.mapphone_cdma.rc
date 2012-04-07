@@ -25,6 +25,7 @@ on init
 
 
     mkdir /pds 0775 system system
+    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
 
     mkdir /cdrom 0770 system system
@@ -121,6 +122,7 @@ on post-fs
     mkdir /pds/lost+found 0770 root root
 # create the necessary pds dirs for tpapi with proper permission
     mkdir /pds/security 2770 mot_tpapi mot_tpapi
+
     chown mot_tpapi mot_tpapi /pds/security/counter.bin
     chown mot_tpapi mot_tpapi /pds/security/system.bin
     chown mot_tpapi mot_tpapi /pds/security/storage.bin
@@ -661,11 +663,11 @@ service msp430 /system/bin/msp430 boot
     user compass
     group compass misc input
     oneshot
-service ispupgrade /system/bin/ispupgrade flash_all
-     class core
-     user media
-     group mot_pwric camera
-     oneshot
+#service ispupgrade /system/bin/ispupgrade flash_all
+#     class core
+#     user media
+#     group mot_pwric camera
+#     oneshot
 service uim /system/bin/uim-sysfs
     class core
     user root
@@ -967,11 +969,11 @@ service gadget-qbp-diag /system/bin/tty2ttyd persist.ril.diag.ttydevice /dev/tty
     group radio
     disabled
 # auEmail provisioning daemon
-service aepls001 /system/bin/aepls001
-    class main
-    socket aepls001 stream 0666 system system
-    user nobody
-    group nobody
+#service aepls001 /system/bin/aepls001
+#    class main
+#    socket aepls001 stream 0666 system system
+#    user nobody
+#    group nobody
 on property:ro.bootmode=bp-tools
     start tcmd
     start gadget-qbp-modem
