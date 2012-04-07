@@ -298,3 +298,6 @@ ro.modversion=IC3RAZR
 ro.kernel.android.checkjni=0
 ro.media.enc.jpeg.quality=100
 debug.sf.hw=1
+
+#debugging
+debug.sf.ddms=1
