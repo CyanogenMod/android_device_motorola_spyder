@@ -4,7 +4,7 @@
 # Camera
 USE_CAMERA_STUB := false
 BOARD_USES_TI_CAMERA_HAL := true
-#BOARD_USE_LEGACY_TOUCHSCREEN := true
+BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 
 # inherit from the proprietary version
