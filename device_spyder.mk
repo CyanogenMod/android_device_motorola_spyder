@@ -22,17 +22,10 @@ PRODUCT_PACKAGES := \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
     device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
-    device/motorola/spyder/audio/audio.primary.default.so:/system/lib/hw/audio.primary.default.so \
     device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
-    device/motorola/spyder/audio/audio_policy.default.so:/system/lib/hw/audio_policy.default.so \
     device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
     device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
     device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
-
-# Hardware HALs
-#PRODUCT_PACKAGES += \
-#    lights.spyder \
-#    sensors.spyder \
 
 PRODUCT_PACKAGES += \
     camera.omap4 \
@@ -40,17 +33,9 @@ PRODUCT_PACKAGES += \
     hwcomposer.omap4 \
     hwcomposer.default \
 
-#PRODUCT_PACKAGES += \
-#    audio.primary.spyder \
-#    audio_policy.spyder
-
 PRODUCT_PACKAGES += \
     libaudioutils \
     libaudiohw_legacy \
-
-# BlueZ a2dp Audio HAL module
-PRODUCT_PACKAGES += \
-    audio.a2dp.default
 
 # BlueZ test tools
 PRODUCT_PACKAGES += \
@@ -68,34 +53,26 @@ PRODUCT_PACKAGES += \
     sh 
 
 # Wifi
+#    wlan_loader \
+#    wlan_cu \
+#    tiwlan.ini
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
-    wlan_loader \
-    wlan_cu \
     dhcpcd.conf \
     wpa_supplicant.conf \
     TQS_D_1.7.ini \
-    tiwlan.ini
 
 # HotSpot
-PRODUCT_PACKAGES += \
-    tiap_loader \
-    tiap_cu \
-    hostap \
-    hostapd.conf 
+#PRODUCT_PACKAGES += \
+#    tiap_loader \
+#    tiap_cu \
+#    hostap \
+#    hostapd.conf 
 
 # Bluetooth
 PRODUCT_PACKAGES += \
     bt_sco_app \
     uim-sysfs 
-
-# FM Radio
-#PRODUCT_PACKAGES += \
-#    com.ti.fm.fmradioif.xml \
-#    fmradioif \
-#    FmRxApp \
-#    FmTxApp \
-#    FmService 
 
 # Release utilities
 PRODUCT_PACKAGES += \
@@ -103,18 +80,6 @@ PRODUCT_PACKAGES += \
     spyder_releaseutils-finalize_release \
     spyder_releaseutils-mke2fs \
     spyder_releaseutils-tune2fs
-
-# Tests -- Can remove later
-PRODUCT_PACKAGES += \
-    d2c_test \
-#    memmgr_test \
-#    utils_test \
-#    tiler_ptest \
-#    overlay_test \
-#    omx_tests \
-#    evtest \
-#    camera_test \
-#    VideoEncTest 
 
 PRODUCT_PACKAGES += \
     Camera \
@@ -134,11 +99,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
-    device/motorola/spyder/prebuilt/app/Swype.apk:system/app/Swype.apk \
-    device/motorola/spyder/prebuilt/lib/libSwypeCore.so:system/lib/libSwypeCore.so \
-    device/motorola/spyder/prebuilt/bin/bootsound:system/bin/bootsound \
-#    device/motorola/spyder/prebuilt/media/android_audio.mp3:system/media/android_audio.mp3 \
-#    device/motorola/spyder/prebuilt/media/bootanimation.zip:system/media/bootanimation.zip \
     
 
 # Rootfs files
@@ -151,6 +111,8 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/init.mapphone_umts.rc:system/etc/rootfs/init.mapphone_umts.rc \
     device/motorola/spyder/root/usbcheck.sh:system/etc/rootfs/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:system/etc/rootfs/ueventd.rc \
+    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:system/etc/rootfs/ueventd.mapphone_cdma.rc \
+    device/motorola/spyder/root/ueventd.mapphone_umts.rc:system/etc/rootfs/ueventd.mapphone_umts.rc \
 
 # Hijack files
 PRODUCT_COPY_FILES += \
@@ -160,6 +122,8 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/root-hijack/init.mapphone_umts.rc:root/init.mapphone_umts.rc \
     device/motorola/spyder/root/usbcheck.sh:root/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:root/ueventd.rc \
+    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc \
+    device/motorola/spyder/root/ueventd.mapphone_umts.rc:root/ueventd.mapphone_umts.rc \
 
 
 # Permissions files

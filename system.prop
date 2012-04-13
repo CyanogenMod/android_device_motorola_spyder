@@ -6,15 +6,13 @@ rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyO0
 telephony.lteOnCdmaDevice=1
 ro.sf.lcd_density=240
-ro.default_usb_mode=2
 ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
 persist.ril.modem.mode =1
-
 # This defines the max event window manager can
 # handle in 1 s. We may adjust this # for performance
 # reason later
-windowsmgr.max_events_per_sec=250
+windowsmgr.max_events_per_sec=90
 
 # USB modes allowed for UI and switching
 ro.ngp_available=1
@@ -22,7 +20,7 @@ ro.modem_available=0
 
 # Default network type.
 # 7 => GLOBAL.
-ro.telephony.default_network=4
+ro.telephony.default_network=8
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
@@ -55,7 +53,6 @@ dalvik.vm.heapsize=76m
 
 # our HTML browser (not WAP browser ) based on requirements IKHSS6-1061 need to specify UAProf URL
 ro.mot.hw.uaprof=http://uaprof.vtext.com/mot/xt912/xt912.xml
-
 
 # Enable HAC to also display Call Setting Menu Option.
 ro.mot.hw.HAC=1
@@ -224,6 +221,8 @@ persist.radio.lte.mm.disable=0
 rild.libpath=/system/lib/moto-ril-multimode.so
 persist.sys.usb.config=mass_storage
 gsm.sim.mot.simswap=1
+ro.com.google.gmsversion=4.0_r1
+ro.crypto.state=unencrypted
 ro.media.enc.aud.fileformat=qcp
 ro.media.enc.aud.codec=qcelp
 ro.media.enc.aud.bps=13300
@@ -247,7 +246,7 @@ ro.media.camcorder.qvga=mp4,h264,15,500000,aac,64000,44100,2
 ro.media.camcorder.mms=3gp,h264,15,128000,amrnb,12200,8000,1
 ro.media.camcorder.mmsres=qvga
 ro.camcorder.zoom=true
-ro.media.capture.maxres=8m
+ro.media.capture.maxres=5m
 ro.media.capture.fast.fps=4
 ro.media.capture.slow.fps=120
 ro.media.capture.flash=led
@@ -281,23 +280,3 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.build.version.full=ICS_Version.4.0.3_r1.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
-ro.ril.disable.power.collaspe=1
-pm.sleep_mode=1
-
-# ril class extension for incoming forwarded calls
-#ro.telephony.ril_class=MotoWrigley3GRIL
-
-# To enable boot sounds set value to 1 and place /system/media/android_audio.mp3
-# or edit /system/bin/bootsound with the name of your audio
-ro.config.play.bootsound=0
-
-ro.rommanager.developerid=dhacker29
-ro.modversion=IC3RAZR
-
-#Tweaks
-ro.kernel.android.checkjni=0
-ro.media.enc.jpeg.quality=100
-debug.sf.hw=1
-
-#debugging
-debug.sf.ddms=1
