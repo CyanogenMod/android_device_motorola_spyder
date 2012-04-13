@@ -145,9 +145,9 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:/system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    vendor/motorola/spyder/proprietary/etc/permissions/platform.xml:system/etc/permissions/platform.xml \
 
 
+#    vendor/motorola/spyder/proprietary/etc/permissions/platform.xml:system/etc/permissions/platform.xml \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
