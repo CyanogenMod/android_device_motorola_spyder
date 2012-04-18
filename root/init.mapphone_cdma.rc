@@ -884,7 +884,7 @@ service dlnasrv /system/bin/dlnasrv
     oneshot
     disabled
 service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
-JuniperVPNTools    class main
+    class main
     group net_bt net_bt_admin
     disabled
     oneshot

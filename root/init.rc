@@ -147,7 +147,7 @@ on post-fs-data
     # If there is no apanic handle action in the init.<device>.rc file, you
     # must uncomment this line, otherwise apanic proc entry
     # won't be removed.
-      write /proc/apanic_console 1
+    # write /proc/apanic_console 1
 
     # create basic filesystem structure
     mkdir /data/misc 01771 system misc
@@ -444,22 +444,6 @@ service bootanim /system/bin/bootanimation
     group graphics
     disabled
     oneshot
-
-###Bootsound - Safe to Delete: Start ###
-
-service bootsound /system/bin/bootsound
-    user media
-    group audio
-    disabled
-    oneshot
-
-on property:init.svc.bootanim=running   # to correct timin
-    start bootsound
-
-on property:dev.bootcomplete=1
-    stop bootsound
-
-### Bootsound - Safe to Delete: End ###
 
 service dbus /system/bin/dbus-daemon --system --nofork
     class main
