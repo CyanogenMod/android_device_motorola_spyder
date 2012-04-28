@@ -126,7 +126,7 @@ cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $
 # Determine what to name the new signed package
 REALDATE=`date +%m-%d`
 
-OUTFILE=$OUT/RAZR-6_14_75-CM9-$REALDATE-UNOFFICIAL.zip
+OUTFILE=$OUT/RAZR-6_14_84-CM9-$REALDATE-UNOFFICIAL.zip
 
 # Pack it up and sign
 printf "Zipping package..."
@@ -153,13 +153,5 @@ echo "Package complete: $OUTFILE"
 cat $img.md5sum
 echo
 )
-
-#if you want to run a custom upload script put it in ~/upload.sh
-if [ -f ~/razr.sh ];
-then
-	echo "Running upload script"
-	upload=~/razr.sh
-	. $upload
-fi
 
 exit 0
