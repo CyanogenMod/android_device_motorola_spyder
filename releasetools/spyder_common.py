@@ -18,8 +18,8 @@ import getopt
 import getpass
 import imp
 import os
+import platform
 import re
-import sha
 import shutil
 import subprocess
 import sys
@@ -27,6 +27,11 @@ import tempfile
 import threading
 import time
 import zipfile
+
+try:
+  from hashlib import sha1 as sha1
+except ImportError:
+  from sha import sha as sha1
 
 # missing in Python 2.4 and before
 if not hasattr(os, "SEEK_SET"):
@@ -55,6 +60,22 @@ def Run(args, **kwargs):
   if OPTIONS.verbose:
     print "  running: ", " ".join(args)
   return subprocess.Popen(args, **kwargs)
+
+
+def CloseInheritedPipes():
+  """ Gmake in MAC OS has file descriptor (PIPE) leak. We close those fds
+  before doing other work."""
+  if platform.system() != "Darwin":
+    return
+  for d in range(3, 1025):
+    try:
+      stat = os.fstat(d)
+      if stat is not None:
+        pipebit = stat[0] & 0x1000
+        if pipebit != 0:
+          os.close(d)
+    except OSError:
+      pass
 
 
 def LoadInfoDict(zip):
@@ -121,10 +142,6 @@ def LoadInfoDict(zip):
   makeint("boot_size")
 
   d["fstab"] = LoadRecoveryFSTab(zip)
-  if not d["fstab"]:
-    if "fs_type" not in d: d["fs_type"] = "yaffs2"
-    if "partition_type" not in d: d["partition_type"] = "MTD"
-
   return d
 
 def LoadRecoveryFSTab(zip):
@@ -134,29 +151,41 @@ def LoadRecoveryFSTab(zip):
   try:
     data = zip.read("RECOVERY/RAMDISK/etc/recovery.fstab")
   except KeyError:
-    # older target-files that doesn't have a recovery.fstab; fall back
-    # to the fs_type and partition_type keys.
-    return
+    print "Warning: could not find RECOVERY/RAMDISK/etc/recovery.fstab in %s." % zip
+    data = ""
 
   d = {}
   for line in data.split("\n"):
     line = line.strip()
     if not line or line.startswith("#"): continue
     pieces = line.split()
-    if not (3 <= len(pieces) <= 5):
+    if not (3 <= len(pieces) <= 7):
       raise ValueError("malformed recovery.fstab line: \"%s\"" % (line,))
 
     p = Partition()
     p.mount_point = pieces[0]
-    if len(pieces) >= 5:
-      p.fs_type = pieces[4]
-    else:
-      p.fs_type = pieces[1]
+    p.fs_type = pieces[1]
     p.device = pieces[2]
+    p.length = 0
+    options = None
     if len(pieces) >= 4 and pieces[3] != 'NULL':
-      p.device2 = pieces[3]
+      if pieces[3].startswith("/"):
+        p.device2 = pieces[3]
+        if len(pieces) >= 5:
+          options = pieces[4]
+      else:
+        p.device2 = None
+        options = pieces[3]
     else:
       p.device2 = None
+
+    if options:
+      options = options.split(",")
+      for i in options:
+        if i.startswith("length="):
+          p.length = int(i[7:])
+        else:
+          print "%s: unknown option \"%s\"" % (p.mount_point, i)
 
     d[p.mount_point] = p
   return d
@@ -165,23 +194,6 @@ def LoadRecoveryFSTab(zip):
 def DumpInfoDict(d):
   for k, v in sorted(d.items()):
     print "%-25s = (%s) %s" % (k, type(v).__name__, v)
-
-def BuildAndAddBootableImage(sourcedir, targetname, output_zip, info_dict):
-  """Take a kernel, cmdline, and ramdisk directory from the input (in
-  'sourcedir'), and turn them into a boot image.  Put the boot image
-  into the output zip file under the name 'targetname'.  Returns
-  targetname on success or None on failure (if sourcedir does not
-  appear to contain files for the requested image)."""
-
-  print "creating %s..." % (targetname,)
-
-  img = BuildBootableImage(sourcedir)
-  if img is None:
-    return None
-
-  CheckSize(img, targetname, info_dict)
-  ZipWriteStr(output_zip, targetname, img)
-  return targetname
 
 def BuildBootableImage(sourcedir):
   """Take a kernel, cmdline, and ramdisk directory from the input (in
@@ -206,25 +218,41 @@ def BuildBootableImage(sourcedir):
   assert p1.returncode == 0, "mkbootfs of %s ramdisk failed" % (targetname,)
   assert p2.returncode == 0, "minigzip of %s ramdisk failed" % (targetname,)
 
-  cmd = ["mkbootimg", "--kernel", os.path.join(sourcedir, "kernel")]
-
-  fn = os.path.join(sourcedir, "cmdline")
+  """check if uboot is requested"""
+  fn = os.path.join(sourcedir, "ubootargs")
   if os.access(fn, os.F_OK):
-    cmd.append("--cmdline")
-    cmd.append(open(fn).read().rstrip("\n"))
+    cmd = ["mkimage"]
+    for argument in open(fn).read().rstrip("\n").split(" "):
+      cmd.append(argument)
+    cmd.append("-d")
+    cmd.append(os.path.join(sourcedir, "kernel")+":"+ramdisk_img.name)
+    cmd.append(img.name)
 
-  fn = os.path.join(sourcedir, "base")
-  if os.access(fn, os.F_OK):
-    cmd.append("--base")
-    cmd.append(open(fn).read().rstrip("\n"))
+  else:
+    cmd = ["mkbootimg", "--kernel", os.path.join(sourcedir, "kernel")]
 
-  fn = os.path.join(sourcedir, "pagesize")
-  if os.access(fn, os.F_OK):
-    cmd.append("--pagesize")
-    cmd.append(open(fn).read().rstrip("\n"))
+    fn = os.path.join(sourcedir, "cmdline")
+    if os.access(fn, os.F_OK):
+      cmd.append("--cmdline")
+      cmd.append(open(fn).read().rstrip("\n"))
 
-  cmd.extend(["--ramdisk", ramdisk_img.name,
-              "--output", img.name])
+    fn = os.path.join(sourcedir, "base")
+    if os.access(fn, os.F_OK):
+      cmd.append("--base")
+      cmd.append(open(fn).read().rstrip("\n"))
+
+    fn = os.path.join(sourcedir, "pagesize")
+    if os.access(fn, os.F_OK):
+      cmd.append("--pagesize")
+      cmd.append(open(fn).read().rstrip("\n"))
+
+    fn = os.path.join(sourcedir, "ramdiskaddr")
+    if os.access(fn, os.F_OK):
+      cmd.append("--ramdiskaddr")
+      cmd.append(open(fn).read().rstrip("\n"))
+
+    cmd.extend(["--ramdisk", ramdisk_img.name,
+                "--output", img.name])
 
   p = Run(cmd, stdout=subprocess.PIPE)
   p.communicate()
@@ -240,28 +268,53 @@ def BuildBootableImage(sourcedir):
   return data
 
 
-def AddRecovery(output_zip, info_dict):
-  BuildAndAddBootableImage(os.path.join(OPTIONS.input_tmp, "RECOVERY"),
-                           "recovery.img", output_zip, info_dict)
+def GetBootableImage(name, prebuilt_name, unpack_dir, tree_subdir):
+  """Return a File object (with name 'name') with the desired bootable
+  image.  Look for it in 'unpack_dir'/BOOTABLE_IMAGES under the name
+  'prebuilt_name', otherwise construct it from the source files in
+  'unpack_dir'/'tree_subdir'."""
 
-def AddBoot(output_zip, info_dict):
-  BuildAndAddBootableImage(os.path.join(OPTIONS.input_tmp, "BOOT"),
-                           "boot.img", output_zip, info_dict)
+  prebuilt_path = os.path.join(unpack_dir, "BOOTABLE_IMAGES", prebuilt_name)
+  if os.path.exists(prebuilt_path):
+    print "using prebuilt %s..." % (prebuilt_name,)
+    return File.FromLocalFile(name, prebuilt_path)
+  else:
+    print "building image from target_files %s..." % (tree_subdir,)
+    return File(name, BuildBootableImage(os.path.join(unpack_dir, tree_subdir)))
+
 
 def UnzipTemp(filename, pattern=None):
-  """Unzip the given archive into a temporary directory and return the name."""
+  """Unzip the given archive into a temporary directory and return the name.
+
+  If filename is of the form "foo.zip+bar.zip", unzip foo.zip into a
+  temp dir, then unzip bar.zip into that_dir/BOOTABLE_IMAGES.
+
+  Returns (tempdir, zipobj) where zipobj is a zipfile.ZipFile (of the
+  main file), open for reading.
+  """
 
   tmp = tempfile.mkdtemp(prefix="targetfiles-")
   OPTIONS.tempfiles.append(tmp)
-  cmd = ["unzip", "-o", "-q", filename, "-d", tmp]
-  if pattern is not None:
-    cmd.append(pattern)
-  p = Run(cmd, stdout=subprocess.PIPE)
-  p.communicate()
-  if p.returncode != 0:
-    raise ExternalError("failed to unzip input target-files \"%s\"" %
-                        (filename,))
-  return tmp
+
+  def unzip_to_dir(filename, dirname):
+    cmd = ["unzip", "-o", "-q", filename, "-d", dirname]
+    if pattern is not None:
+      cmd.append(pattern)
+    p = Run(cmd, stdout=subprocess.PIPE)
+    p.communicate()
+    if p.returncode != 0:
+      raise ExternalError("failed to unzip input target-files \"%s\"" %
+                          (filename,))
+
+  m = re.match(r"^(.*[.]zip)\+(.*[.]zip)$", filename, re.IGNORECASE)
+  if m:
+    unzip_to_dir(m.group(1), tmp)
+    unzip_to_dir(m.group(2), os.path.join(tmp, "BOOTABLE_IMAGES"))
+    filename = m.group(1)
+  else:
+    unzip_to_dir(filename, tmp)
+
+  return tmp, zipfile.ZipFile(filename, "r")
 
 
 def GetKeyPasswords(keylist):
@@ -318,8 +371,14 @@ def SignFile(input_name, output_name, key, password, align=None,
   else:
     sign_name = output_name
 
-  cmd = ["java", "-Xmx1024m", "-jar",
+  check = (sys.maxsize > 2**32)
+  if check is True:
+    cmd = ["java", "-Xmx2048m", "-jar",
            os.path.join(OPTIONS.search_path, "framework", "signapk.jar")]
+  else:
+    cmd = ["java", "-Xmx1024m", "-jar",
+           os.path.join(OPTIONS.search_path, "framework", "signapk.jar")]
+
   if whole_file:
     cmd.append("-w")
   cmd.extend([key + ".x509.pem", key + ".pk8",
@@ -353,27 +412,23 @@ def CheckSize(data, target, info_dict):
     p = info_dict["fstab"][mount_point]
     fs_type = p.fs_type
     limit = info_dict.get(p.device + "_size", None)
-  else:
-    fs_type = info_dict.get("fs_type", None)
-    limit = info_dict.get(target + "_size", None)
   if not fs_type or not limit: return
 
   if fs_type == "yaffs2":
     # image size should be increased by 1/64th to account for the
     # spare area (64 bytes per 2k page)
     limit = limit / 2048 * (2048+64)
-
-  size = len(data)
-  pct = float(size) * 100.0 / limit
-  msg = "%s size (%d) is %.2f%% of limit (%d)" % (target, size, pct, limit)
-  if pct >= 99.0:
-    raise ExternalError(msg)
-  elif pct >= 95.0:
-    print
-    print "  WARNING: ", msg
-    print
-  elif OPTIONS.verbose:
-    print "  ", msg
+    size = len(data)
+    pct = float(size) * 100.0 / limit
+    msg = "%s size (%d) is %.2f%% of limit (%d)" % (target, size, pct, limit)
+    if pct >= 99.0:
+      raise ExternalError(msg)
+    elif pct >= 95.0:
+      print
+      print "  WARNING: ", msg
+      print
+    elif OPTIONS.verbose:
+      print "  ", msg
 
 
 def ReadApkCerts(tf_zip):
@@ -654,7 +709,14 @@ class File(object):
     self.name = name
     self.data = data
     self.size = len(data)
-    self.sha1 = sha.sha(data).hexdigest()
+    self.sha1 = sha1(data).hexdigest()
+
+  @classmethod
+  def FromLocalFile(cls, name, diskname):
+    f = open(diskname, "rb")
+    data = f.read()
+    f.close()
+    return File(name, data)
 
   def WriteToTemp(self):
     t = tempfile.NamedTemporaryFile()
@@ -772,18 +834,17 @@ def ComputeDifferences(diffs):
 
 
 # map recovery.fstab's fs_types to mount/format "partition types"
-PARTITION_TYPES = { "yaffs2": "MTD", "mtd": "MTD",
-                    "ext4": "EMMC", "ext3": "EMMC",
-                    "emmc": "EMMC" }
+PARTITION_TYPES = { "ext2": "EMMC",
+                    "ext3": "EMMC",
+                    "ext4": "EMMC",
+                    "emmc": "EMMC",
+                    "mtd": "MTD",
+                    "yaffs2": "MTD",
+                    "vfat": "EMMC" }
 
 def GetTypeAndDevice(mount_point, info):
   fstab = info["fstab"]
   if fstab:
     return PARTITION_TYPES[fstab[mount_point].fs_type], fstab[mount_point].device
   else:
-    devices = {"/boot": "boot",
-               "/recovery": "recovery",
-               "/radio": "radio",
-               "/data": "userdata",
-               "/cache": "cache"}
-    return info["partition_type"], info.get("partition_path", "") + devices[mount_point]
+    return None
