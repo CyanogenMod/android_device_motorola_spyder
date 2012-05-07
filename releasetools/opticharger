@@ -3,6 +3,8 @@
 # Super-mega opticharger of doom
 # Shrinks apks by running pngcrush or optipng or pngout on png images
 #
+# Point APKCERTS at the full path to a generated apkcerts.txt file, such as:
+# /home/shade/dev/sources/android-cm-eclair/out/target/product/dream_sapphire/obj/PACKAGING/target_files_intermediates/cyanogen_dream_sapphire-target_files-eng.shade/META/apkcerts.txt
 #
 # cyanogen - shade@chemlab.org
 # ChrisSoyars - me@ctso.me
