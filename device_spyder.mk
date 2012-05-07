@@ -97,7 +97,7 @@ PRODUCT_PACKAGES += \
 
 # WirelessTether and Swype
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta11.apk:system/app/wifi_tether_v3_1-beta11.apk \
+    device/motorola/spyder/prebuilt/app/wifi_tether_v3_1-beta14.apk:system/app/wifi_tether_v3_1-beta14.apk \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
     
 
