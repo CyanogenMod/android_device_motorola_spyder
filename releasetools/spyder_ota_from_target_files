@@ -467,7 +467,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   if OPTIONS.modelidcfg:
     script.RunConfig("")
 
-  script.Mount("/data")
+  script.Mount("/system")
   script.RunFinalReleaseUtils()
 
   script.ShowProgress(0.2, 10)
