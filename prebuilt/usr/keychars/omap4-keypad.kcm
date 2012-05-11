@@ -1,4 +1,4 @@
-type QWERTY
+type ALPHA
 
 # keycode       display number  base    caps    fn      caps_fn
 

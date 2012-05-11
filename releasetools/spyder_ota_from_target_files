@@ -474,7 +474,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #  script.WriteRawImage("/boot", "boot.img")
 
   script.ShowProgress(0.1, 0)
-  script.Print("Don't forget to install the GApps beforey you reboot.")
+  script.Print("Don't forget to install the GApps if fresh install.")
   script.Print("")
   script.Print("Finished installing CM9 for Droid Razr Leak, Enjoy!")
   device_specific.FullOTA_InstallEnd()
