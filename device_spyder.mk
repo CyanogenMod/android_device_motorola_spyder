@@ -59,8 +59,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
     dhcpcd.conf \
+    hostapd.conf \
+    wifical.sh \
     wpa_supplicant.conf \
     TQS_D_1.7.ini \
+    crda \
+    regulatory.bin \
+    calibrator
 
 # HotSpot
 #PRODUCT_PACKAGES += \
@@ -83,6 +88,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     Camera \
+    CameraOMAP4 \
+    camera_test \
     Superuser \
     su \
     DockAudio \

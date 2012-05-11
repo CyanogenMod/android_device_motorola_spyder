@@ -194,18 +194,18 @@
          Wifi interfaces.  If the device doesn't want to support tethering over Wifi this
          should be empty.  An example would be "softap.*" -->
     <string-array translatable="false" name="config_tether_wifi_regexs">
-        <item>"wlan1\\d"</item>
+        <item>"wlan1"</item>
     </string-array>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
          bluetooth interfaces.  If the device doesn't want to support tethering over bluetooth this
          should be empty. -->
     <string-array translatable="false" name="config_tether_bluetooth_regexs">
-        <item>"bnep\\d"</item>
+        <item>"bnep"</item>
     </string-array>
 
-    <!-- Regex of wired ethernet ifaces -->
-    <string translatable="false" name="config_ethernet_iface_regex">eth\\d</string>
+    <!-- Regex of wired ethernet ifaces
+    <string translatable="false" name="config_ethernet_iface_regex">eth\\d</string> -->
 
     <!-- Array of ConnectivityManager.TYPE_xxxx values allowable for tethering -->
     <!-- Common options are [1, 4] for TYPE_WIFI and TYPE_MOBILE_DUN or
@@ -220,6 +220,9 @@
 
     <!-- Boolean indicating whether the wifi chipset has background scan support -->
     <bool translatable="false" name="config_wifi_background_scan_support">true</bool>
+    
+    <!-- Boolean indicating whether the wifi chipset has p2p support -->
+    <bool translatable="false" name="config_wifi_p2p_support">true</bool>
 
     <bool name="config_ui_enableFadingMarquee">false</bool>
 
