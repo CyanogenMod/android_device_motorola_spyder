@@ -130,8 +130,8 @@ on post-fs
     # Create wmdrm directory
     mkdir /pds/wmdrm 0775 mot_drm mot_drm
 # Permission for USB
-#    chown root mot_usb /proc/mtpctl
-#    chmod 0660 /proc/mtpctl
+    chown root mot_usb /proc/mtpctl
+    chmod 0660 /proc/mtpctl
 # Install kernel modules
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
@@ -884,7 +884,7 @@ service dlnasrv /system/bin/dlnasrv
     oneshot
     disabled
 service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
-JuniperVPNTools    class main
+    class main
     group net_bt net_bt_admin
     disabled
     oneshot

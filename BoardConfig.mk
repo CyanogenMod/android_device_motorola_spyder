@@ -2,6 +2,10 @@
 USE_CAMERA_STUB := false
 BOARD_USES_TI_CAMERA_HAL := true
 
+# ICS Leak Hacks
+BOARD_OVERRIDE_FB0_WIDTH := 540
+BOARD_OVERRIDE_FB0_HEIGHT := 960
+
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk
 
@@ -31,8 +35,9 @@ BOARD_PAGE_SIZE := 0x4096
 # Storage / Sharing
 BOARD_VOLD_MAX_PARTITIONS := 100
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
-#BOARD_CUSTOM_USB_CONTROLLER := ../../device/motorola/spyder/UsbController.cpp
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+#BOARD_CUSTOM_USB_CONTROLLER := ../../device/moto/spyder/UsbController.cpp
+
 
 # Connectivity - Wi-Fi
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
@@ -92,8 +97,8 @@ BOARD_SYSTEM_FILESYSTEM := ext3
 # Graphics
 BOARD_EGL_CFG := device/motorola/spyder/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
-#COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
-
+#COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
+COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
 
 # OMAP
 OMAP_ENHANCEMENT := true
