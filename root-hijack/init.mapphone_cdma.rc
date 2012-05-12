@@ -163,6 +163,9 @@ on post-fs-data
     # create moto specific dirs for mystuff
     mkdir /data/download 0775 system system
     mkdir /data/download/mystuff 0775 system system
+    # fix cache for market access
+    chmod 775 /cache
+    mkdir /cache/download 0775 system system
     # create moto specific dirs for wifi
     mkdir /data/system 0771 system system
     # wifi dirs
