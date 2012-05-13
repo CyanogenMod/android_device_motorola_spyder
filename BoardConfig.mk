@@ -37,7 +37,7 @@ BOARD_VOLD_MAX_PARTITIONS := 100
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 #BOARD_CUSTOM_USB_CONTROLLER := ../../device/moto/spyder/UsbController.cpp
-BOARD_MTP_DEVICE := "/dev/mtp-usb"
+BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Connectivity - Wi-Fi
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
