@@ -88,7 +88,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     Camera \
-    CameraOMAP4 \
     camera_test \
     Superuser \
     su \
@@ -99,7 +98,6 @@ PRODUCT_PACKAGES += \
     librs_jni \
     com.android.future.usb.accessory \
     FileManager \
-    libjni_pinyinime \
     MusicFX \
 
 # WirelessTether

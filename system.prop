@@ -8,6 +8,12 @@ telephony.lteOnCdmaDevice=1
 ro.sf.lcd_density=240
 ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
+
+# Custom RIL for Motorola LTE phones
+#ro.telephony.ril_class=MotoSIMNotReadyRIL
+
+# Enable ALWAYS_READ_IMSI_FROM_SIM
+persist.ril.features=800
 persist.ril.modem.mode =1
 # This defines the max event window manager can
 # handle in 1 s. We may adjust this # for performance
@@ -17,6 +23,11 @@ windowsmgr.max_events_per_sec=90
 # USB modes allowed for UI and switching
 ro.ngp_available=1
 ro.modem_available=0
+
+# Turn on IMS by default
+persist.radio.imsregrequired=1
+persist.radio.imsallowmtsms=1
+persist.radio.imsfwloglevel=3
 
 # Default network type.
 # 7 => GLOBAL.
@@ -280,3 +291,4 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.build.version.full=ICS_Version.4.0.4_r1.1.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
+
