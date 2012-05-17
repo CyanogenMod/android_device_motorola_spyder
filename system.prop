@@ -10,7 +10,7 @@ ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
 
 # Custom RIL for Motorola LTE phones
-ro.telephony.ril_class=MotoSIMNotReadyRIL
+#ro.telephony.ril_class=MotoSIMNotReadyRIL
 
 # Enable ALWAYS_READ_IMSI_FROM_SIM
 persist.ril.features=800
