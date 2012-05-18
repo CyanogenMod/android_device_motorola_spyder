@@ -31,7 +31,7 @@ persist.radio.imsfwloglevel=3
 
 # Default network type.
 # 7 => GLOBAL.
-ro.telephony.default_network=8
+ro.telephony.default_network=10
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
@@ -272,7 +272,7 @@ ro.mot.phonemode.vzw4gphone=1
 ro.mot.lte_on_cdma=1
 ro.mot.tmp.telephony.refactor=true
 ro.cdma.subscription=0
-ro.telephony.default_network=8
+ro.telephony.default_network=10
 lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
 cdma_ril.libpath=/system/lib/libmoto_ril.so
 ril.rat=LTE
@@ -288,7 +288,7 @@ ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.build.version.full=ICS_Version.4.0.4_r1.1.XT912.Verizon.en.US
+ro.build.version.full=ICS_Version.4.0.4_r1.2.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
 
