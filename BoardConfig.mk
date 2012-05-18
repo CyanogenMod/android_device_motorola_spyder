@@ -78,6 +78,7 @@ TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/spyder/recovery-kernel
 #BOARD_CUSTOM_GRAPHICS := ../../../device/motorola/spyder/recovery/graphics.c
 #BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/motorola/spyder/recovery/recovery_ui.c
 BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_MKE2FS := device/motorola/spyder/releaseutils/mke2fs
