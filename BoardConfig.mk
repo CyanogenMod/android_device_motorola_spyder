@@ -88,6 +88,7 @@ BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_HAS_WEBTOP := true
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
 
 # Sandbox Filesystem Settings
