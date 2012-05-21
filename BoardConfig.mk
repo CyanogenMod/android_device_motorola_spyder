@@ -3,8 +3,8 @@ USE_CAMERA_STUB := false
 BOARD_USES_TI_CAMERA_HAL := true
 
 # ICS Leak Hacks
-BOARD_OVERRIDE_FB0_WIDTH := 540
-BOARD_OVERRIDE_FB0_HEIGHT := 960
+#BOARD_OVERRIDE_FB0_WIDTH := 540
+#BOARD_OVERRIDE_FB0_HEIGHT := 960
 
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk

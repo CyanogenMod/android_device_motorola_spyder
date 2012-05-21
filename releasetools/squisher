@@ -154,7 +154,7 @@ REALDATE=`date +%m-%d`
 if [ -z "$CYANOGEN_NIGHTLY" ]; then
 	MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
 	: ${MODVERSION:=nightly}
-    OUTFILE=$OUT/RAZR-6_14_84-CM9-$REALDATE-UNOFFICIAL.zip
+    OUTFILE=$OUT/RAZR-ICS-LEAK-CM9-$REALDATE-UNOFFICIAL.zip
 	echo MODVERSION: $MODVERSION
 else
 	OUTFILE=$OUT/update-squished.zip
