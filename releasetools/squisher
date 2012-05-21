@@ -93,10 +93,7 @@ find ./ -name \*.apk | $XARGS $OPTICHARGER
 rm $REPACK/ota/system/app/FmRxApp.apk
 rm $REPACK/ota/system/app/FmService.apk
 rm $REPACK/ota/system/app/FmTxApp.apk
-
-# Fix Libraries
-mv $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so.old
-mv $REPACK/ota/system/lib/hw/hwcomposer.default.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so
+rm $REPACK/ota/system/app/RomManager.apk
 
 
 if [ "$WANT_SQUASHFS" -eq 1 ]; then
