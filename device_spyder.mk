@@ -99,6 +99,7 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     FileManager \
     MusicFX \
+    Apollo \
 
 # WirelessTether
 PRODUCT_COPY_FILES += \
