@@ -88,6 +88,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     Camera \
+    CameraOMAP4 \
     camera_test \
     Superuser \
     su \
