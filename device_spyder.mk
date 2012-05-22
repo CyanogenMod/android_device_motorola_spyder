@@ -87,7 +87,6 @@ PRODUCT_PACKAGES += \
     spyder_releaseutils-tune2fs
 
 PRODUCT_PACKAGES += \
-    Camera \
     CameraOMAP4 \
     camera_test \
     Superuser \
