@@ -42,6 +42,7 @@ ro.config.vc_call_vol_steps=7
 # wlan interface
 wifi.interface = wlan0
 softap.interface = wlan1
+wifi.ap.interface = wlan1
 
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
@@ -291,4 +292,7 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.build.version.full=ICS_Version.4.0.4_r1.2.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 persist.sys.usb.config=mass_storage,adb
+
+com.ti.omap_enhancement=true
+hwui.render_dirty_regions=false
 
