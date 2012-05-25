@@ -48,6 +48,23 @@ on init
     write /proc/sys/net/bridge/bridge-nf-call-iptables 0
     write /proc/sys/net/bridge/bridge-nf-call-ip6tables 0
 
+# Permissions for RIL. Need to be set before boot.
+
+    chown radio radio /sys/class/radio/w3g_lte/command
+
+
+    chmod 0660 /sys/bus/usb/devices/usb1/power/control
+    chmod 0660 /sys/bus/usb/devices/usb2/power/control
+    chown system radio /sys/bus/usb/devices/usb1/power/control
+    chown system radio /sys/bus/usb/devices/usb2/power/control
+
+
+# change permission/ownership for command sys file of mdm9600 ctrl driver if present
+    chown system radio /sys/class/radio/mdm9600/command
+
+# change permission/ownership for command sys file of mdm6600 ctrl driver if present
+    chown system radio /sys/class/radio/mdm6600/command
+
 on fs
 #    mount ext3 mmc@system /system wait ro noatime nodiratime barrier=1
 #    exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
@@ -117,12 +134,10 @@ on post-fs
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
-    chown radio radio /sys/class/radio/w3g_lte/command
     # create the lost+found directories, so as to enforce our permissions
     mkdir /pds/lost+found 0770 root root
 # create the necessary pds dirs for tpapi with proper permission
     mkdir /pds/security 2770 mot_tpapi mot_tpapi
-
     chown mot_tpapi mot_tpapi /pds/security/counter.bin
     chown mot_tpapi mot_tpapi /pds/security/system.bin
     chown mot_tpapi mot_tpapi /pds/security/storage.bin
@@ -352,14 +367,6 @@ on boot
    chown media media /dev/omap-devh2
    chmod 0660 /sys/devices/platform/omapdss/overlay0/zorder
    chown system system /sys/devices/platform/omapdss/overlay0/zorder
-   chmod 0660 /sys/bus/usb/devices/usb1/power/control
-   chmod 0660 /sys/bus/usb/devices/usb2/power/control
-   chown system radio /sys/bus/usb/devices/usb1/power/control
-   chown system radio /sys/bus/usb/devices/usb2/power/control
-   # change permission/ownership for command sys file of mdm9600 ctrl driver if present
-   chown system radio /sys/class/radio/mdm9600/command
-   # change permission/ownership for command sys file of mdm6600 ctrl driver if present
-   chown system radio /sys/class/radio/mdm6600/command
    # change permissions for display CABC mode
    chmod 0660 /sys/devices/omapdss/display0/cabc_mode
    chown system system /sys/devices/omapdss/display0/cabc_mode
