@@ -154,29 +154,29 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts
 PRODUCT_COPY_FILES += \
-    device/moto/spyder/prebuilt/bin/battd:system/bin/battd \
-    device/moto/spyder/prebuilt/bin/hijack:system/bin/hijack \
-    device/moto/spyder/prebuilt/bin/hijack.log_dump:system/bin/hijack.log_dump \
-    device/moto/spyder/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
-    device/moto/spyder/prebuilt/bin/strace:system/bin/strace \
-    device/moto/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
-    device/moto/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-    device/moto/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    device/moto/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
-    device/moto/spyder/prebuilt/usr/idc/evfwd.idc:system/usr/idc/evfwd.idc \
-    device/moto/spyder/prebuilt/usr/idc/Motorola_Mobility_Motorola_HD_Dock.idc:system/usr/idc/Motorola_Mobility_Motorola_HD_Dock.idc \
-    device/moto/spyder/prebuilt/usr/idc/qwerty.idc:system/usr/idc/qwerty.idc \
-    device/moto/spyder/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
-    device/moto/spyder/prebuilt/usr/keychars/evfwd.kcm:system/usr/keychars/evfwd.kcm \
-    device/moto/spyder/prebuilt/usr/keychars/omap4-keypad.kcm:system/usr/keychars/omap4-keypad.kcm \
-    device/moto/spyder/prebuilt/usr/keychars/qwerty.kcm:system/usr/keychars/qwerty.kcm \
-    device/moto/spyder/prebuilt/usr/keychars/qwerty2.kcm:system/usr/keychars/qwerty2.kcm \
-    device/moto/spyder/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/moto/spyder/prebuilt/usr/keylayout/cpcap-key.kl:system/usr/keylayout/cpcap-key.kl \
-    device/moto/spyder/prebuilt/usr/keylayout/cy8c201xx.kl:system/usr/keylayout/cy8c201xx.kl \
-    device/moto/spyder/prebuilt/usr/keylayout/evfwd.kl:system/usr/keylayout/evfwd.kl \
-    device/moto/spyder/prebuilt/usr/keylayout/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
-    device/moto/spyder/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \
+    device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
+    device/motorola/spyder/prebuilt/bin/hijack:system/bin/hijack \
+    device/motorola/spyder/prebuilt/bin/hijack.log_dump:system/bin/hijack.log_dump \
+    device/motorola/spyder/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
+    device/motorola/spyder/prebuilt/bin/strace:system/bin/strace \
+    device/motorola/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
+    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+    device/motorola/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
+    device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
+    device/motorola/spyder/prebuilt/usr/idc/evfwd.idc:system/usr/idc/evfwd.idc \
+    device/motorola/spyder/prebuilt/usr/idc/Motorola_Mobility_Motorola_HD_Dock.idc:system/usr/idc/Motorola_Mobility_Motorola_HD_Dock.idc \
+    device/motorola/spyder/prebuilt/usr/idc/qwerty.idc:system/usr/idc/qwerty.idc \
+    device/motorola/spyder/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
+    device/motorola/spyder/prebuilt/usr/keychars/evfwd.kcm:system/usr/keychars/evfwd.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/omap4-keypad.kcm:system/usr/keychars/omap4-keypad.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/qwerty.kcm:system/usr/keychars/qwerty.kcm \
+    device/motorola/spyder/prebuilt/usr/keychars/qwerty2.kcm:system/usr/keychars/qwerty2.kcm \
+    device/motorola/spyder/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/cpcap-key.kl:system/usr/keylayout/cpcap-key.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/cy8c201xx.kl:system/usr/keylayout/cy8c201xx.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/evfwd.kl:system/usr/keylayout/evfwd.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
+    device/motorola/spyder/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \
 
 
 # Phone settings
