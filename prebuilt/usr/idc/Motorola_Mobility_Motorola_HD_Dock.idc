@@ -15,6 +15,4 @@
 #
 # Input Device Configuration File for webtop virtual device (evfwd).
 #
-device.internal=0
-keyboard.builtIn=0
 webtop.ignore=1

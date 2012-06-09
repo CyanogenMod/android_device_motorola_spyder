@@ -6,6 +6,9 @@ BOARD_USES_TI_CAMERA_HAL := true
 BOARD_OVERRIDE_FB0_WIDTH := 540
 BOARD_OVERRIDE_FB0_HEIGHT := 960
 
+#Show battery percentage
+MOTO_PERCENT_BATTERY_MOD := true
+
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk
 

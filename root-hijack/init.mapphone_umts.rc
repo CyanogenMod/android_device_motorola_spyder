@@ -47,6 +47,15 @@ on init
     write /proc/sys/net/bridge/bridge-nf-call-iptables 0
     write /proc/sys/net/bridge/bridge-nf-call-ip6tables 0
 
+# Permissions for RIL. Need to be set before boot.
+
+    chown radio radio /sys/class/radio/w3g_lte/command
+
+
+    chmod 0660 /sys/bus/usb/devices/usb1/power/control
+    chmod 0660 /sys/bus/usb/devices/usb2/power/control
+    chown system radio /sys/bus/usb/devices/usb1/power/control
+    chown system radio /sys/bus/usb/devices/usb2/power/control
 on fs
 #    mount ext3 mmc@system /system wait ro noatime nodiratime barrier=1
 #    exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
@@ -119,7 +128,6 @@ on post-fs
     chmod 0660 /sys/class/rfkill/rfkill0/state
     # following dir is for storing BP Flex and PDS files. NVM Daemon is using this
     mkdir /pds/bp_nvm 0770 radio radio
-    chown radio radio /sys/class/radio/w3g_lte/command
     # create the lost+found directories, so as to enforce our permissions
     mkdir /pds/lost+found 0770 root root
 # create the necessary pds dirs for tpapi with proper permission
@@ -359,10 +367,6 @@ on boot
    chown media media /dev/omap-devh2
    chmod 0660 /sys/devices/platform/omapdss/overlay0/zorder
    chown system system /sys/devices/platform/omapdss/overlay0/zorder
-   chmod 0660 /sys/bus/usb/devices/usb1/power/control
-   chmod 0660 /sys/bus/usb/devices/usb2/power/control
-   chown system radio /sys/bus/usb/devices/usb1/power/control
-   chown system radio /sys/bus/usb/devices/usb2/power/control
    # change permissions for display CABC mode
    chmod 0660 /sys/devices/omapdss/display0/cabc_mode
    chown system system /sys/devices/omapdss/display0/cabc_mode
