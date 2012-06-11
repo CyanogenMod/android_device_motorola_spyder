@@ -14,7 +14,7 @@ MOTO_PERCENT_BATTERY_MOD := true
 
 
 # Processor
-TARGET_NO_BOOTLOADER := false
+TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
