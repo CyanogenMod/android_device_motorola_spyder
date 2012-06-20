@@ -295,3 +295,4 @@ persist.sys.usb.config=mass_storage,adb
 com.ti.omap_enhancement=true
 hwui.render_dirty_regions=false
 ril.subscription.types=NV,RUIM
+ro.ril.moto.newarch=true
