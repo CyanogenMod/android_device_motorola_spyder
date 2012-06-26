@@ -7,8 +7,7 @@ TI_CAMERAHAL_DEBUG_ENABLED := true
 BOARD_OVERRIDE_FB0_WIDTH := 540
 BOARD_OVERRIDE_FB0_HEIGHT := 960
 
-#Show battery percentage
-MOTO_PERCENT_BATTERY_MOD := true
+ENABLE_WEBGL := true
 
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk
@@ -40,7 +39,6 @@ BOARD_PAGE_SIZE := 0x4096
 BOARD_VOLD_MAX_PARTITIONS := 100
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
-#BOARD_CUSTOM_USB_CONTROLLER := ../../device/moto/spyder/UsbController.cpp
 BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Connectivity - Wi-Fi
@@ -62,10 +60,6 @@ BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 BUILD_WITH_ALSA_UTILS := true
 HAVE_2_3_DSP := 1
-#BOARD_USES_AUDIO_LEGACY := true
-#ifdef BOARD_USES_AUDIO_LEGACY
-#    COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
-#endif
 TARGET_PROVIDES_LIBAUDIO := true
 BOARD_USE_MOTO_DOCK_HACK := true
 
@@ -79,8 +73,6 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 BUILD_BOOTMENU_STANDALONE := true
 BOARD_HAS_LOCKED_BOOTLOADER := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/spyder/recovery-kernel
-#BOARD_CUSTOM_GRAPHICS := ../../../device/motorola/spyder/recovery/graphics.c
-#BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/motorola/spyder/recovery/recovery_ui.c
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_ALWAYS_INSECURE := true
@@ -104,8 +96,8 @@ BOARD_SYSTEM_FILESYSTEM := ext3
 # Graphics
 BOARD_EGL_CFG := device/motorola/spyder/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
-#COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
 COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
+
 
 # OMAP
 OMAP_ENHANCEMENT := true
