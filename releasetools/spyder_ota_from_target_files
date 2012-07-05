@@ -414,7 +414,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("*            STS-Dev-Team presents             *")
   script.Print("*                                              *")
-  script.Print("*    CM9 Unoffiical RAZR ICS Leak (.75-.20x)   *")
+  script.Print("*      CM9 Unoffical RAZR ICS OTA (.21x)       *")
   script.Print("*                                              *")
   script.Print("*     Follow us  @dhacker29 and @hashcode0f    *")
   script.Print("*        Get the GApps at goo.im/gapps         *")
@@ -476,7 +476,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.1, 0)
   script.Print("Don't forget to install the GApps if fresh install.")
   script.Print("")
-  script.Print("Finished installing CM9 for Droid Razr Leak, Enjoy!")
+  script.Print("Finished installing CM9 for Droid Razr ICS OTA, Enjoy!")
   device_specific.FullOTA_InstallEnd()
 
   if OPTIONS.extra_script is not None:

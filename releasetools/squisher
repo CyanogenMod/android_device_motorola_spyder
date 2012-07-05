@@ -87,7 +87,7 @@ cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/lib/libvoicesearch.so $
 
 # Determine what to name the new signed package
 MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
-OUTFILE=$OUT/ICS-LEAK-cm-$MODVERSION.zip
+OUTFILE=$OUT/cm-$MODVERSION.zip
 echo MODVERSION: $MODVERSION
 
 # Pack it up and sign
