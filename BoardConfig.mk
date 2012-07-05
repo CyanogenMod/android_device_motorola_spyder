@@ -46,6 +46,9 @@ KERNEL_EXTERNAL_MODULES:
 	mv kernel/motorola/spyder/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv kernel/motorola/spyder/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
 
+#$(KERNEL_OUT)
+
+TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
 # Storage / Sharing
 BOARD_VOLD_MAX_PARTITIONS := 100
