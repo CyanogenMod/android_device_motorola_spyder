@@ -34,18 +34,18 @@ BOARD_KERNEL_BASE := 0x80000000
 BOARD_PAGE_SIZE := 0x4096
 
 # Kernel Build
-TARGET_KERNEL_SOURCE := kernel/motorola/omap4_xt910s
+TARGET_KERNEL_SOURCE := kernel/motorola/omap4_xt912
 TARGET_KERNEL_CONFIG := mapphone_defconfig
 TARGET_PREBUILT_KERNEL := device/motorola/spyder/kernel
 
 KERNEL_EXTERNAL_MODULES:
-	make -C kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt910s/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+	make -C kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
 
 #$(KERNEL_OUT)
 
