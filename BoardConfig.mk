@@ -44,6 +44,8 @@ KERNEL_EXTERNAL_MODULES:
 	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
 	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+#	make -C kernel/motorola/omap4_xt912/external/vpndriver KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
+#	mv kernel/motorola/omap4_xt912/external/vpndriver/vpnclient.ko $(KERNEL_MODULES_OUT)
 
 #$(KERNEL_OUT)
 
