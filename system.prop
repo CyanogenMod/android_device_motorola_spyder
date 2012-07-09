@@ -290,6 +290,7 @@ ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.build.version.full=ICS_Version.4.0.4_r1.2.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
+ro.setupwizard.enable_bypass=1
 persist.sys.usb.config=mass_storage,adb
 
 com.ti.omap_enhancement=true
