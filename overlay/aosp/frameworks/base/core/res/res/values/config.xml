@@ -167,7 +167,6 @@
         <item>"mobile_fota,10,0,2,60000,true"</item>
         <item>"mobile_ims,11,0,2,60000,true"</item>
         <item>"mobile_cbs,12,0,2,60000,true"</item>
-        <item>"wifi_p2p,13,1,0,-1,true"</item>
     </string-array>
     
     <!-- Array of ConnectivityManager.TYPE_xxxx constants for networks that may only
@@ -223,9 +222,6 @@
 
     <!-- Boolean indicating whether the wifi chipset has background scan support -->
     <bool translatable="false" name="config_wifi_background_scan_support">true</bool>
-    
-    <!-- Boolean indicating whether the wifi chipset has p2p support -->
-    <bool translatable="false" name="config_wifi_p2p_support">true</bool>
 
     <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveNotificationLed">true</bool>
