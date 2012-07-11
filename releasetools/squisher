@@ -85,9 +85,9 @@ rm -rf $REPACK/ota/recovery
 # move hwcomposer default to omap4 temporarialy
 mv -f $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so.bak
 cp -f $REPACK/ota/system/lib/hw/hwcomposer.default.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so
-#if [ "$TARGET_PRODUCT" = "full_spyder" ]; then
-#cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/bin/su $REPACK/ota/system/xbin/su
-#fi
+if [ "$TARGET_PRODUCT" = "full_spyder" ]; then
+cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/bin/su $REPACK/ota/system/xbin/su
+fi
 
 # Determine what to name the new signed package
 REALDATE=`date +%m-%d`
