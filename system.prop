@@ -39,8 +39,8 @@ ro.config.vc_call_vol_steps=7
 
 # wlan interface
 wifi.interface = wlan0
-softap.interface = wlan1
-wifi.ap.interface = wlan1
+softap.interface = wlan0
+wifi.ap.interface = wlan0
 
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
