@@ -198,13 +198,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 # still need to set english for audio init
 PRODUCT_LOCALES += en_US
 
-
-# copy all kernel modules under the "modules" directory to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
-    find device/motorola/spyder/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
-
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/motorola/spyder/kernel
 else

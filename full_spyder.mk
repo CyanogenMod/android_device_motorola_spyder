@@ -30,6 +30,12 @@ PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml
 
+# copy all kernel modules under the "modules" directory to system/lib/modules
+PRODUCT_COPY_FILES += $(shell \
+    find device/motorola/spyder/modules -name '*.ko' \
+    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+    | tr '\n' ' ')
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # This is where we'd set a backup provider if we had one
