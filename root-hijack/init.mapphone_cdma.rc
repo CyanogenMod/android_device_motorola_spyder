@@ -158,6 +158,8 @@ on post-fs
     setprop wifi.interface "wlan0"
     setprop softap.interface "wlan0"
 # Load wifi drivers (all except wl12xx_sdio)
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
     insmod /system/lib/modules/compat.ko
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
@@ -683,7 +685,7 @@ service uim /system/bin/uim-sysfs
     class core
     user root
     group bluetooth net_bt_admin
-service hostapd /system/bin/logwrapper /system/bin/hostapd -dd /data/misc/wifi/hostapd.conf
+service hostapd /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
@@ -697,9 +699,11 @@ on property:wlan.driver.status=ok
     start initial_regdom
 on property:init.svc.hostapd=running
     start initial_regdom
-service p2p_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/p2p_supplicant.conf -dt
+service p2p_supplicant /system/bin/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -N \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf
     class main
-    socket wpa_p2p_wlan0 dgram 660 wifi wifi
+    socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
 service hciattach /system/bin/hciattach -l
@@ -791,7 +795,8 @@ service akmd8975 /system/bin/akmd8975
     class main
     user compass
     group compass misc input
-service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
     class main
 # we will start as root and wpa_supplicant will switch to user wifi
 # after setting up the capabilities required for WEXT
@@ -800,7 +805,7 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-service dhcpcd_wlan0 /system/bin/dhcpcd
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
@@ -816,11 +821,11 @@ service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-service dhcpcd_bnep0 /system/bin/dhcpcd
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
-service dhcpcd_usbeth0 /system/bin/dhcpcd
+service dhcpcd_usbeth0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot

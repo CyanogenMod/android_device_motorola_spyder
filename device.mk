@@ -42,6 +42,10 @@ PRODUCT_PACKAGES += \
     hciconfig \
     hcitool
 
+# Tiler
+PRODUCT_PACKAGES += \
+    libtimemmgr
+
 # Modem
 PRODUCT_PACKAGES += \
     nc \
@@ -53,12 +57,11 @@ PRODUCT_PACKAGES += \
     sh 
 
 PRODUCT_PACKAGES += \
-    lib_driver_cmd_wl12xx \
     dhcpcd.conf \
     hostapd.conf \
     wifical.sh \
-    wpa_supplicant.conf \
     TQS_D_1.7.ini \
+    TQS_D_1.7_127x.ini \
     crda \
     regulatory.bin \
     calibrator \
