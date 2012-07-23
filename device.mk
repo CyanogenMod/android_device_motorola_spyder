@@ -197,7 +197,7 @@ PRODUCT_COPY_FILES += \
 # Phone settings
 PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
-    device/motorola/spyder/prebuilt/etc//spn-conf.xml:system/etc/spn-conf.xml \
+    device/motorola/spyder/prebuilt/etc/spn-conf.xml:system/etc/spn-conf.xml \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
