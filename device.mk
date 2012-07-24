@@ -21,12 +21,12 @@ PRODUCT_PACKAGES := \
 # Audio
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
     device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
     device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
     device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
     device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
+#    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
 PRODUCT_PACKAGES += \
     camera.omap4 \
     libinvensense_mpl \
@@ -37,6 +37,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libaudioutils \
     libaudiohw_legacy \
+    audio.usb
+
+# BlueZ a2dp Audio HAL module
+PRODUCT_PACKAGES += \
+    audio.a2dp.default
 
 # BlueZ test tools
 PRODUCT_PACKAGES += \
