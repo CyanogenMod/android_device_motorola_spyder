@@ -47,7 +47,7 @@
     <!-- Mobile network settings, network mode choices for a device supporting CDMA and LTE [CHAR LIMIT=25] -->
     <string-array name="preferred_network_mode_choices_lte">
         <item>LTE ONLY</item>
-		<item>LTE / CMDA / EvDo / GSM/WCDMA</item>
+        <item>LTE / CMDA / EvDo / GSM/WCDMA</item>
         <item>LTE / CDMA</item>
         <item>CDMA / EvDo auto</item>
         <item>GSM only (only to get data up)</item>

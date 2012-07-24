@@ -18,7 +18,7 @@ PRODUCT_PACKAGES := \
     charger \
     charger_res_images
 
-# Audio - use stock ICS leak files for now
+# Audio
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
     device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
@@ -30,8 +30,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     camera.omap4 \
     libinvensense_mpl \
-    hwcomposer.omap4 \
-    hwcomposer.default \
+    parse_hdmi_edid \
+    libedid \
+    hwcomposer.spyder \
 
 PRODUCT_PACKAGES += \
     libaudioutils \
@@ -110,7 +111,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += wifi_tether_v3_2-pre1
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
-    
+
 
 # Rootfs files
 PRODUCT_COPY_FILES += \

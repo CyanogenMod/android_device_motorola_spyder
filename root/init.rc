@@ -44,7 +44,7 @@ loglevel 8
 
     mkdir /system
     mkdir /data 0771 system system
-    mkdir /cache 0770 system cache
+    mkdir /cache 0771 system cache
     mkdir /config 0500 root root
 
     # Directory for putting things only root should see.
@@ -122,7 +122,7 @@ on post-fs
 
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
-    chmod 0770 /cache
+    chmod 0771 /cache
 
     # This may have been created by the recovery system with odd permissions
     chown system cache /cache/recovery
@@ -154,11 +154,11 @@ on post-fs-data
     # Collect apanic data, free resources and re-arm trigger
     copy /proc/apanic_console /data/dontpanic/apanic_console
     chown root log /data/dontpanic/apanic_console
-    chmod 0640 /data/dontpanic/apanic_console
+    chmod 0664 /data/dontpanic/apanic_console
 
     copy /proc/apanic_threads /data/dontpanic/apanic_threads
     chown root log /data/dontpanic/apanic_threads
-    chmod 0640 /data/dontpanic/apanic_threads
+    chmod 0664 /data/dontpanic/apanic_threads
 
     # If there is no apanic handle action in the init.<device>.rc file, you
     # must uncomment this line, otherwise apanic proc entry
@@ -176,10 +176,7 @@ on post-fs-data
     # give system access to wpa_supplicant.conf for backup and restore
     mkdir /data/misc/wifi 0770 wifi wifi
     chmod 0660 /data/misc/wifi/wpa_supplicant.conf
-    mkdir /data/local 0751 root root
-
-    # For security reasons, /data/local/tmp should always be empty.
-    # Do not place files or directories in /data/local/tmp
+    mkdir /data/local 0771 shell shell
     mkdir /data/local/tmp 0771 shell shell
     mkdir /data/data 0771 system system
     mkdir /data/app-private 0771 system system
@@ -215,6 +212,9 @@ on post-fs-data
     # won't work.
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
+
+# Include extra init file
+    import /system/etc/init.local.rc
 
 on boot
 # basic network init

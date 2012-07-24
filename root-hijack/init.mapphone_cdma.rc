@@ -648,11 +648,11 @@ on property:ro.hdcp.support=2
 # ro.sys.atvc_allow_netmon_usb
 # ro.sys.atvc_allow_netmon_ih
 # ro.sys.atvc_allow_all_adb
-service atvc /system/bin/dbvc_atvc_property_set
-    class core
-    user system
-    group system mot_tpapi
-    oneshot
+#service atvc /system/bin/dbvc_atvc_property_set
+#    class core
+#    user system
+#    group system mot_tpapi
+#    oneshot
 service battd /system/bin/battd
     class core
     socket battdsock stream 0660 mot_accy mot_accy
@@ -917,18 +917,6 @@ service mot_backup /system/bin/logwrapper /system/xbin/run_backup /system/etc/ba
     disabled
     user root
     oneshot
-service mot_restore /system/bin/logwrapper /system/xbin/run_restore /system/etc/backup_targets.csv
-    disabled
-    user root
-    oneshot
-on property:mot.backup_restore.action="run_backup"
-    setprop mot.backup_restore.status "Running"
-    stop zygote
-    start mot_backup
-on property:mot.backup_restore.action="run_restore"
-    setprop mot.backup_restore.status "Running"
-    stop zygote
-    start mot_restore
 service secclkd /system/bin/secclkd
     class main
     socket secclk_socket stream 660 mot_secclkd mot_secclkd
