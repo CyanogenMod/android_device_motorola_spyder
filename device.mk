@@ -19,12 +19,12 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Audio
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
-    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
-    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
+#PRODUCT_COPY_FILES += \
+#    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+#    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+#    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+#    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
+#    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
 PRODUCT_PACKAGES += \
@@ -36,8 +36,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libaudioutils \
-    libaudiohw_legacy \
-    audio.usb
+    audio.primary.omap4 \
+    audio_policy.default \
+    audio.usb.default
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
@@ -181,6 +182,7 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
     device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
+    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 # omapzoom wifi firmware
@@ -192,6 +194,7 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl128x-fw-4-plt.bin:/system/etc/firmware/ti-connectivity/wl128x-fw-4-plt.bin \
     device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl128x-fw-4-sr.bin:/system/etc/firmware/ti-connectivity/wl128x-fw-4-sr.bin \
     device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs.bin:/system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
+    device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:/system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin \
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
