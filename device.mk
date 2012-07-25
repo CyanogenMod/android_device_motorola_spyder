@@ -19,12 +19,12 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Audio
-#PRODUCT_COPY_FILES += \
-#    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-#    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
-#    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
-#    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-#    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
+    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
 PRODUCT_PACKAGES += \
@@ -36,17 +36,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libaudioutils \
-    audio.primary.omap4 \
-    audio_policy.default \
-    audio.usb.default 
+    libaudiohw_legacy \
+    audio.usb.default
 
-# tinyalsa utils
-PRODUCT_PACKAGES += \
-    tinymix \
-    tinyplay \
-    tinycap
-
-#    libaudiohw_legacy \
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
     audio.a2dp.default
