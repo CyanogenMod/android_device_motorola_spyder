@@ -122,8 +122,6 @@
 #define MIXER_DMIC0R                        "DMic0R"
 #define MIXER_BT_LEFT                       "BT Left"
 #define MIXER_BT_RIGHT                      "BT Right"
-#define MIXER_AUX_LEFT                      "Aux/FM Left"
-#define MIXER_AUX_RIGHT                     "Aux/FM Right"
 #define MIXER_MM_EXT_IN_LEFT                "MMExt Left"
 #define MIXER_MM_EXT_IN_RIGHT               "MMExt Right"
 #define MIXER_450HZ_HIGH_PASS               "450Hz High-pass"
@@ -229,7 +227,7 @@
 #define PRODUCT_DEVICE_OMAP5_SEVM   "omap5sevm"
 
 enum supported_boards {
-    OMAP4_SPYDER,
+    SPYDER,
     OMAP4_TABLET,
     OMAP5_SEVM,
 };
@@ -804,14 +802,10 @@ static int get_boardtype(struct omap_audio_device *adev)
 
     LOGFUNC("%s(%p)", __FUNCTION__, adev);
 
-    property_get(PRODUCT_DEVICE_PROPERTY, board, "UNKNOWN");
-    if(!strcmp(board, "UNKNOWN")) {
-         return -ENODEV;
-    }
-
+    property_get(PRODUCT_DEVICE_PROPERTY, board, PRODUCT_DEVICE_SPYDER);
     /* return true if the property matches the given value */
     if(!strcmp(board, PRODUCT_DEVICE_SPYDER)) {
-            adev->board_type = OMAP4_SPYDER;
+            adev->board_type = SPYDER;
           /*true on devices that must use sidetone capture */
             adev->sidetone_capture = 1;
     }
@@ -1049,7 +1043,7 @@ static void set_input_volumes(struct omap_audio_device *adev, int main_mic_on,
         /* determine input volume by use case */
         switch (adev->active_input->source) {
         case AUDIO_SOURCE_MIC: /* general capture */
-            if((adev->board_type == OMAP4_SPYDER) ||
+            if((adev->board_type == SPYDER) ||
                (adev->board_type == OMAP5_SEVM)) {
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_MAIN_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
@@ -1086,7 +1080,7 @@ static void set_input_volumes(struct omap_audio_device *adev, int main_mic_on,
     }
 
     for (channel = 0; channel < 2; channel++) {
-        if((adev->board_type == OMAP4_SPYDER) ||
+        if((adev->board_type == SPYDER) ||
            (adev->board_type == OMAP5_SEVM)) {
             mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
         }else if(adev->board_type == OMAP4_TABLET) {
@@ -1334,20 +1328,20 @@ static void select_output_device(struct omap_audio_device *adev)
             if (headset_on || headphone_on || earpiece_on)
                 set_route_by_array(adev->mixer, vx_ul_amic_left, 1);
             else if (speaker_on) {
-                if((adev->board_type == OMAP4_SPYDER) ||
+                if((adev->board_type == SPYDER) ||
                    (adev->board_type == OMAP5_SEVM))
                     set_route_by_array(adev->mixer, vx_ul_amic_right, 1);
                 else if(adev->board_type == OMAP4_TABLET)
                     set_route_by_array(adev->mixer, vx_ul_dmic0,1);
             }
             else {
-                if((adev->board_type == OMAP4_SPYDER) ||
+                if((adev->board_type == SPYDER) ||
                    (adev->board_type == OMAP5_SEVM))
                     set_route_by_array(adev->mixer, vx_ul_amic_left, 0);
                 else if(adev->board_type == OMAP4_TABLET)
                     set_route_by_array(adev->mixer, vx_ul_dmic0,0);
             }
-            if((adev->board_type == OMAP4_SPYDER) ||
+            if((adev->board_type == SPYDER) ||
                (adev->board_type == OMAP5_SEVM)) {
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                         (earpiece_on || headphone_on) ? MIXER_MAIN_MIC :
@@ -1405,7 +1399,7 @@ static void select_input_device(struct omap_audio_device *adev)
     if (bt_on)
         set_route_by_array(adev->mixer, mm_ul2_bt, 1);
     else {
-        if((adev->board_type == OMAP4_SPYDER) ||
+        if((adev->board_type == SPYDER) ||
            (adev->board_type == OMAP5_SEVM)) {
             /* Select front end */
             if (main_mic_on || headset_on)
@@ -3132,7 +3126,6 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_IN_WIRED_HEADSET |
             AUDIO_DEVICE_IN_AUX_DIGITAL |
             AUDIO_DEVICE_IN_BACK_MIC |
-//            AUDIO_DEVICE_IN_FM_RADIO_RX |
             AUDIO_DEVICE_IN_ALL_SCO |
 //            AUDIO_DEVICE_IN_USB_HEADSET |
             AUDIO_DEVICE_IN_DEFAULT |
