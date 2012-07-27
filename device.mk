@@ -37,7 +37,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libaudioutils \
     libaudiohw_legacy \
-    audio.usb.default
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
