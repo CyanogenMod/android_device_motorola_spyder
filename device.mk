@@ -19,26 +19,29 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Audio
-#PRODUCT_COPY_FILES += \
-#    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-#    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
-#    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
-#    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-#    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
+    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
+    device/motorola/spyder/audio/libasound.so:/obj/lib/libasound.so \
+    device/motorola/spyder/audio/libaudio_ext.so:/obj/lib/libaudio_ext.so
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
 PRODUCT_PACKAGES += \
-    camera.omap4 \
-    libinvensense_mpl \
     parse_hdmi_edid \
     libedid \
     hwcomposer.spyder \
+    libinvensense_mpl \
+    camera.omap4
 
 PRODUCT_PACKAGES += \
     libaudioutils \
-    audio.primary.omap4 \
-    audio_policy.default \
-    audio.usb.default
+    libaudiohw_legacy \
+    audio_policy.spyder \
+    audio.primary.spyder \
+    audio_usb.default
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
@@ -63,6 +66,7 @@ PRODUCT_PACKAGES += \
     radiooptions \
     sh 
 
+# Wifi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
     hostapd.conf \
@@ -129,7 +133,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/init.usb.rc:system/etc/rootfs/init.usb.rc \
     device/motorola/spyder/root/init.mapphone_cdma.rc:system/etc/rootfs/init.mapphone_cdma.rc \
     device/motorola/spyder/root/init.mapphone_umts.rc:system/etc/rootfs/init.mapphone_umts.rc \
-    device/motorola/spyder/root/init.usb.rc:system/etc/rootfs/init.usb.rc \
     device/motorola/spyder/root/usbcheck.sh:system/etc/rootfs/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:system/etc/rootfs/ueventd.rc \
     device/motorola/spyder/root/ueventd.mapphone_cdma.rc:system/etc/rootfs/ueventd.mapphone_cdma.rc \
@@ -143,7 +146,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/init.usb.rc:root/init.usb.rc \
     device/motorola/spyder/root-hijack/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
     device/motorola/spyder/root-hijack/init.mapphone_umts.rc:root/init.mapphone_umts.rc \
-    device/motorola/spyder/root/init.usb.rc:root/init.usb.rc \
     device/motorola/spyder/root/usbcheck.sh:root/usbcheck.sh \
     device/motorola/spyder/root/ueventd.rc:root/ueventd.rc \
     device/motorola/spyder/root/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc \
@@ -182,8 +184,8 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
     device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
-    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 
+#    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 # omapzoom wifi firmware
 PRODUCT_COPY_FILES += \
