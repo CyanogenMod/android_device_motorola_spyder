@@ -25,8 +25,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
     device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
     device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
-    device/motorola/spyder/audio/libasound.so:/obj/lib/libasound.so \
-    device/motorola/spyder/audio/libaudio_ext.so:/obj/lib/libaudio_ext.so
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
 PRODUCT_PACKAGES += \
@@ -39,9 +37,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libaudioutils \
     libaudiohw_legacy \
-    audio_policy.spyder \
-    audio.primary.spyder \
-    audio_usb.default
+    audio.usb.default
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += \
@@ -184,8 +180,8 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
     device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
+    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 
-#    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 # omapzoom wifi firmware
 PRODUCT_COPY_FILES += \
