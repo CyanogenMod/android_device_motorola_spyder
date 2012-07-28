@@ -199,6 +199,10 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/backuptool.functions:system/bin/backuptool.functions \
     device/motorola/spyder/prebuilt/bin/50-backup.sh:system/addon.d/50-backup.sh
 
+# prebuilt hwc
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/hwc/hwcomposer.spyder.so:system/vendor/lib/hw/hwcomposer.spyder.so
+
 # Phone settings
 PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
