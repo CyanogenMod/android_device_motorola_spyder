@@ -5,8 +5,10 @@ on early-init
 
 
 
-    export EXTERNAL_STORAGE /storage/sdcard1
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mkdir /mnt/sdcard 0000 system system
     # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
 
 on init
     mkdir /mnt/external1 0000 system system
@@ -16,16 +18,10 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export SECONDARY_STORAGE /storage/sdcard1
+    export SECONDARY_STORAGE /mnt/sdcard-ext
 #    export EXTERNAL_ALT_STORAGE /mnt/sdcard-ext # Feature 34534
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    mkdir /storage/sdcard1 0000 system system
-# for backwards compatibility
-    symlink /storage/sdcard0 /mnt/sdcard
-    symlink /storage/sdcard0 /sdcard
-    symlink  /storage/sdcard1 /sdcard-ext
-    symlink  /storage/sdcard1 /mnt/sdcard-ext
+    mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
+    symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
 
     mkdir /pds 0775 system system
@@ -175,6 +171,8 @@ on post-fs-data
 # To remove apanic proc entry
     write /proc/apanic_console 1
     mkdir /data/tmp 01777 system system
+    chown system system /mnt/sdcard # Feature 34534
+    chmod 0777 /mnt/sdcard # Feature 34534
 #Set the default value for bluedroid_ref
     write /data/tmp/bluedroid_ref 0
     chown system system /data/tmp/bluedroid_ref
