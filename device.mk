@@ -204,6 +204,19 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/hwc/hwcomposer.spyder.so:system/vendor/lib/hw/hwcomposer.spyder.so
     device/motorola/spyder/hwc/libedid.so:system/lib/libedid.so
 
+# Temporarily use prebuilt DOMX
+# Prebuilts /system/lib
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/lib/libdomx.so:/system/lib/libdomx.so \
+    device/motorola/spyder/prebuilt/lib/libmm_osal.so:/system/lib/libmm_osal.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so:/system/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so \
+    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so \
+    device/motorola/spyder/prebuilt/lib/libOMX_Core.so:/system/lib/libOMX_Core.so \
+
 # Phone settings
 PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
