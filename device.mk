@@ -201,7 +201,7 @@ PRODUCT_COPY_FILES += \
 
 # prebuilt hwc
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/hwc/hwcomposer.spyder.so:system/vendor/lib/hw/hwcomposer.spyder.so
+    device/motorola/spyder/hwc/hwcomposer.spyder.so:system/vendor/lib/hw/hwcomposer.spyder.so \
     device/motorola/spyder/hwc/libedid.so:system/lib/libedid.so
 
 # Temporarily use prebuilt DOMX
