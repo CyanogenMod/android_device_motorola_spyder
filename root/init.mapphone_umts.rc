@@ -23,8 +23,12 @@ on init
     mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
     symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
+# Enable PVR modules
+    insmod /pvrsrvkm_sgx540_120.ko
+    insmod /omaplfb_sgx540_120.ko
 
     mkdir /pds 0775 system system
+    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
 
     mkdir /cdrom 0770 system system
@@ -70,6 +74,7 @@ on fs
     mount rootfs rootfs / rw remount
 
 on post-fs
+
     chown system system /pds
     chmod 0775 /pds
     chmod 0771 /preinstall
@@ -256,24 +261,24 @@ on boot
     setprop ro.sys.atvc_allow_netmon_ih 0
     setprop ro.sys.atvc_allow_res_core 0
     setprop ro.sys.atvc_allow_res_panic 0
-    setprop ro.sys.atvc_allow_all_adb 0
+    setprop ro.sys.atvc_allow_all_adb 1
     setprop ro.sys.atvc_allow_all_core 0
     setprop ro.sys.atvc_allow_efem 0
     setprop ro.sys.atvc_allow_bp_log 0
     setprop ro.sys.atvc_allow_ap_mot_log 0
     setprop ro.sys.atvc_allow_simswap 0
-        setprop ro.sys.atvc_allow_gki_log 0
+    setprop ro.sys.atvc_allow_gki_log 0
 # OSH properties
-    setprop sys.SystemMode RM_SM_MOBILE
-    setprop sys.FbOwner 3
-    setprop sys.DispOwnerLcd 3
-    setprop sys.DispOwnerHdmi 7
-    setprop sys.AiwFocus 3
-    setprop sys.AMActiveTask 2
+#    setprop sys.SystemMode RM_SM_MOBILE
+#    setprop sys.FbOwner 3
+#    setprop sys.DispOwnerLcd 3
+#    setprop sys.DispOwnerHdmi 7
+#    setprop sys.AiwFocus 3
+#    setprop sys.AMActiveTask 2
     # display fb2 on overlay 0 for trackpad
-    write /sys/class/graphics/fb2/overlays 3
-    write /sys/class/graphics/fb0/overlays 2
-    write /sys/class/graphics/fb2/overlays 0
+#    write /sys/class/graphics/fb2/overlays 3
+#    write /sys/class/graphics/fb0/overlays 2
+#    write /sys/class/graphics/fb2/overlays 0
 # Change the ownership of led files.
    chown system system /sys/class/leds/lcd-backlight/als
    chown system system /sys/class/leds/lcd-backlight/pwm_mode
@@ -641,11 +646,11 @@ on property:ro.hdcp.support=2
 # ro.sys.atvc_allow_netmon_usb
 # ro.sys.atvc_allow_netmon_ih
 # ro.sys.atvc_allow_all_adb
-service atvc /system/bin/dbvc_atvc_property_set
-    class core
-    user system
-    group system mot_tpapi
-    oneshot
+#service atvc /system/bin/dbvc_atvc_property_set
+#    class core
+#    user system
+#    group system mot_tpapi
+#    oneshot
 service nvm-daemon /system/usr/bin/nvm_daemon
     class core
     user radio
@@ -658,7 +663,7 @@ service start_commdrv /system/bin/sh /system/etc/motorola/comm_drv/commdrv_fs.sh
     group radio system cache
 service battd /system/bin/battd
     class core
-    socket battdsock stream 0660 mot_accy mot_accy
+    socket battdsock stream 0666 mot_accy mot_accy
     user root
     group mot_accy mot_pwric
     oneshot
@@ -679,11 +684,11 @@ service msp430 /system/bin/msp430 boot
     user compass
     group compass misc input
     oneshot
-service ispupgrade /system/bin/ispupgrade flash_all
-     class core
-     user media
-     group mot_pwric camera
-     oneshot
+#service ispupgrade /system/bin/ispupgrade flash_all
+#     class core
+#     user media
+#     group mot_pwric camera
+#     oneshot
 service bplogd_daemon /system/usr/bin/bplogd_daemon
     class core
     socket dlog_cmds stream 660 radio log
@@ -823,11 +828,11 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-service dhcpcd_wlan0 /system/bin/dhcpcd
+service dhcpcd_wlan0 /system/bin/dhcpcd -G
     class main
     disabled
     oneshot
-service iprenew_wlan0 /system/bin/dhcpcd -n
+service iprenew_wlan0 /system/bin/dhcpcd -nBK
     class main
     disabled
     oneshot
@@ -835,15 +840,15 @@ service dhcpcd_p2p /system/bin/dhcpcd -aABKL
     class main
     disabled
     oneshot
-service iprenew_p2p /system/bin/dhcpcd -n
+service iprenew_p2p /system/bin/dhcpcd -nBK
     class main
     disabled
     oneshot
-service dhcpcd_bnep0 /system/bin/dhcpcd
+service dhcpcd_bnep0 /system/bin/dhcpcd -G
     class main
     disabled
     oneshot
-service dhcpcd_usbeth0 /system/bin/dhcpcd
+service dhcpcd_usbeth0 /system/bin/dhcpcd -G
     class main
     disabled
     oneshot
@@ -923,18 +928,6 @@ service mot_backup /system/bin/logwrapper /system/xbin/run_backup /system/etc/ba
     disabled
     user root
     oneshot
-service mot_restore /system/bin/logwrapper /system/xbin/run_restore /system/etc/backup_targets.csv
-    disabled
-    user root
-    oneshot
-on property:mot.backup_restore.action="run_backup"
-    setprop mot.backup_restore.status "Running"
-    stop zygote
-    start mot_backup
-on property:mot.backup_restore.action="run_restore"
-    setprop mot.backup_restore.status "Running"
-    stop zygote
-    start mot_restore
 service secclkd /system/bin/secclkd
     class main
     socket secclk_socket stream 660 mot_secclkd mot_secclkd
@@ -956,15 +949,15 @@ on property:persist.factory.allow_adb=1
 on property:persist.factory.allow_adb=0
     write /sys/class/android_usb/android0/pc_command_adb " "
 #start Authentec VPN service
-service vpnclientpm /system/bin/vpnclientpm
-    class main
-    user root
-service loadpreinstalls /system/bin/logwrapper /system/bin/loadpreinstalls.sh
-    class main
-    user system
-    group system
-    disabled
-    oneshot
+#service vpnclientpm /system/bin/vpnclientpm
+#    class main
+#    user root
+#service loadpreinstalls /system/bin/logwrapper /system/bin/loadpreinstalls.sh
+#    class main
+#    user system
+#    group system
+#    disabled
+#    oneshot
 #IKCBS-229 start RescueStarter for MobileRescue
 service RescueStarter /system/bin/RescueStarter
     user graphics

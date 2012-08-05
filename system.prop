@@ -21,12 +21,12 @@ ro.modem_available=0
 
 # Default network type.
 # 7 => GLOBAL.
+ro.telephony.default_network=10
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
-ro.telephony.default_network=10
 ro.config.vc_call_vol_steps=7
 
 # wlan interface
@@ -89,7 +89,8 @@ persist.mot.usb.mediasync = 1
 # persist.usb.android_config = 1
 
 # System property for Security Middleware Component
-ro.service.start.smc=1
+#ro.service.start.smc=1
+ro.service.start.smc=0
 ro.HorizontalBUA=true
 #Proximity sensor debounce time
 mot.proximity.delay=450
@@ -279,7 +280,7 @@ ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.build.version.full=ICS_Version.4.0.4_r1.2.XT912.Verizon.en.US
+ro.build.version.full=JB_Version.4.1.1_r3.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 ro.setupwizard.enable_bypass=1
 persist.sys.usb.config=mass_storage,adb

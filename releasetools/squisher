@@ -81,10 +81,6 @@ rm -rf $REPACK/ota/recovery
 # Strip modules
 [ -d $REPACK/ota/system/lib/modules ] && \
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
-
-# move hwcomposer default to omap4 temporarialy
-#mv -f $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so.bak
-#cp -f $REPACK/ota/system/lib/hw/hwcomposer.default.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so
 if [ "$TARGET_PRODUCT" = "full_spyder" ]; then
 cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/bin/su $REPACK/ota/system/xbin/su
 fi
@@ -94,7 +90,7 @@ REALDATE=`date +%m-%d`
 if [ -f $ANDROID_BUILD_TOP/vendor/cm/LICENSE ];
 then
 MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
-OUTFILE=$OUT/cm-$MODVERSION.zip
+OUTFILE=$OUT/KEXEC-cm-$MODVERSION.zip
 echo MODVERSION: $MODVERSION
 else
 OUTFILE=$OUT/$TARGET_PRODUCT-JB-$REALDATE.zip

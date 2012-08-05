@@ -3,10 +3,6 @@ USE_CAMERA_STUB := false
 BOARD_USES_TI_CAMERA_HAL := true
 TI_CAMERAHAL_DEBUG_ENABLED := true
 
-# ICS Kernel Hacks
-BOARD_OVERRIDE_FB0_WIDTH := 540
-BOARD_OVERRIDE_FB0_HEIGHT := 960
-
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk
 
@@ -27,29 +23,30 @@ TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
 
 # Kernel
-BOARD_KERNEL_CMDLINE := omap_wdt.timer_margin=60 oops=panic console=/dev/null rw mem=1023M@0x80000000 vram=11140K omapfb.vram=0:8256K,1:4K,2:2880K init=/init ip=off mmcparts=mmcblk1:p7(pds),p8(utags),p14(boot),p15(recovery),p16(cdrom),p17(misc),p18(cid),p19(kpanic),p20(system),p21(cache),p22(preinstall),p23(webtop),p24(userdata),p25(emstorage) mot_sst=1 androidboot.bootloader=0x0A
+BOARD_KERNEL_CMDLINE := root=/dev/ram0 rw mem=1024M@0x80000000 console=ttyO2,115200n8 init=/init ip=off mmcparts=mmcblk1:p7(pds),p8(utags),p14(boot),p15(recovery),p16(cdrom),p17(misc),p18(cid),p19(kpanic),p20(system),p21(cache),p22(preinstall),p23(webtop),p24(userdata),p25(emstorage) mot_sst=1 androidboot.bootloader=0x0A72
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_PAGE_SIZE := 0x4096
 
 # Kernel Build
-TARGET_KERNEL_SOURCE := kernel/motorola/omap4_xt912
-TARGET_KERNEL_CONFIG := mapphone_defconfig
+TARGET_KERNEL_SOURCE := kernel/motorola/solana
+TARGET_KERNEL_CONFIG := hashcode_1024_defconfig
 TARGET_PREBUILT_KERNEL := device/motorola/spyder/kernel
 
 KERNEL_EXTERNAL_MODULES:
-	make -C kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
-	mv kernel/motorola/omap4_xt912/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
-#	make -C kernel/motorola/omap4_xt912/external/vpndriver KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
-#	mv kernel/motorola/omap4_xt912/external/vpndriver/vpnclient.ko $(KERNEL_MODULES_OUT)
-
-#$(KERNEL_OUT)
+	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
+	make -C hardware/ti/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+	make clean -C kernel/motorola/solana/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android
+	make -C kernel/motorola/solana/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELSRC=$(KERNEL_OUT)/../../../../../../kernel/motorola/solana KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
+
 
 # Storage / Sharing
 BOARD_VOLD_MAX_PARTITIONS := 100
@@ -87,7 +84,7 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 
 # Recovery
 BUILD_BOOTMENU_STANDALONE := true
-BOARD_HAS_LOCKED_BOOTLOADER := true
+#BOARD_HAS_LOCKED_BOOTLOADER := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/spyder/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
@@ -97,7 +94,6 @@ BOARD_MKE2FS := device/motorola/spyder/releaseutils/mke2fs
 BOARD_NONSAFE_SYSTEM_DEVICE := /dev/block/mmcblk1p20
 BOARD_HAS_SDCARD_INTERNAL := true
 #BOARD_HAS_SDEXT := false
-BOARD_HAS_WEBTOP := true
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"

@@ -27,12 +27,11 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
+# Hardware HALs
 PRODUCT_PACKAGES += \
-    parse_hdmi_edid \
-    libedid \
-    hwcomposer.spyder \
+    camera.omap4 \
     libinvensense_mpl \
-    camera.omap4
+    hwcomposer.omap4 \
 
 PRODUCT_PACKAGES += \
     libaudioutils \
@@ -73,6 +72,10 @@ PRODUCT_PACKAGES += \
     calibrator \
     busybox \
 
+# Wifi Direct
+PRODUCT_PACKAGES += \
+    ti_wfd_libs
+
 # Bluetooth
 PRODUCT_PACKAGES += \
     bt_sco_app \
@@ -92,8 +95,14 @@ PRODUCT_PACKAGES += \
     Superuser \
     su \
     DockAudio \
+    tinymix \
+    tinycap \
+    tinyplay \
+    parse_hdmi_edid \
 
-
+#    alsa_amixer \
+#    alsa_aplay \
+#    alsa_ctl \
 PRODUCT_PACKAGES += \
     librs_jni \
     com.android.future.usb.accessory \
@@ -120,32 +129,27 @@ PRODUCT_COPY_FILES += \
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
-    out/target/product/spyder/root/init:system/etc/rootfs/init \
-    out/target/product/spyder/root/sbin/adbd:system/etc/rootfs/sbin/adbd \
-    device/motorola/spyder/root/default.prop:system/etc/rootfs/default.prop \
-    device/motorola/spyder/root/init.rc:system/etc/rootfs/init.rc \
-    device/motorola/spyder/root/init.trace.rc:system/etc/rootfs/init.trace.rc \
-    device/motorola/spyder/root/init.usb.rc:system/etc/rootfs/init.usb.rc \
-    device/motorola/spyder/root/init.mapphone_cdma.rc:system/etc/rootfs/init.mapphone_cdma.rc \
-    device/motorola/spyder/root/init.mapphone_umts.rc:system/etc/rootfs/init.mapphone_umts.rc \
-    device/motorola/spyder/root/usbcheck.sh:system/etc/rootfs/usbcheck.sh \
-    device/motorola/spyder/root/ueventd.rc:system/etc/rootfs/ueventd.rc \
-    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:system/etc/rootfs/ueventd.mapphone_cdma.rc \
-    device/motorola/spyder/root/ueventd.mapphone_umts.rc:system/etc/rootfs/ueventd.mapphone_umts.rc \
+    device/motorola/spyder/root/default.prop:/root/default.prop \
+    device/motorola/spyder/root/init.rc:/root/init.rc \
+    device/motorola/spyder/root/init.trace.rc:/root/init.trace.rc \
+    device/motorola/spyder/root/init.usb.rc:/root/init.usb.rc \
+    device/motorola/spyder/root/init.mapphone_cdma.rc:/root/init.mapphone_cdma.rc \
+    device/motorola/spyder/root/init.mapphone_umts.rc:/root/init.mapphone_umts.rc \
+    device/motorola/spyder/root/ueventd.rc:/root/ueventd.rc \
+    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:/root/ueventd.mapphone_cdma.rc \
+    device/motorola/spyder/root/ueventd.mapphone_umts.rc:/root/ueventd.mapphone_umts.rc \
 
-# Hijack files
+#    out/target/product/solana/kernel:system/etc/kexec/zImage \
+# Kexec files
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/root/default.prop:root/default.prop \
-    device/motorola/spyder/root/init.rc:root/init.rc \
-    device/motorola/spyder/root/init.trace.rc:root/init.trace.rc \
-    device/motorola/spyder/root/init.usb.rc:root/init.usb.rc \
-    device/motorola/spyder/root-hijack/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
-    device/motorola/spyder/root-hijack/init.mapphone_umts.rc:root/init.mapphone_umts.rc \
-    device/motorola/spyder/root/usbcheck.sh:root/usbcheck.sh \
-    device/motorola/spyder/root/ueventd.rc:root/ueventd.rc \
-    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc \
-    device/motorola/spyder/root/ueventd.mapphone_umts.rc:root/ueventd.mapphone_umts.rc \
-
+    device/motorola/spyder/kexec/arm_kexec.ko:system/etc/kexec/arm_kexec.ko \
+    device/motorola/spyder/kexec/atags:system/etc/kexec/atags \
+    device/motorola/spyder/kexec/devtree:system/etc/kexec/devtree \
+    device/motorola/spyder/kexec/kexec:system/etc/kexec/kexec \
+    device/motorola/spyder/kexec/kexec.ko:system/etc/kexec/kexec.ko \
+    device/motorola/spyder/kexec/uart.ko:system/etc/kexec/uart.ko \
+    out/target/product/spyder/ramdisk.img:system/etc/kexec/ramdisk.img \
+    out/target/product/spyder/kernel:system/etc/kexec/kernel \
 
 # Permissions files
 PRODUCT_COPY_FILES += \
@@ -170,19 +174,36 @@ PRODUCT_COPY_FILES += \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
-    device/motorola/spyder/prebuilt/bin/hijack:system/bin/hijack \
-    device/motorola/spyder/prebuilt/bin/hijack.log_dump:system/bin/hijack.log_dump \
     device/motorola/spyder/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
     device/motorola/spyder/prebuilt/bin/strace:system/bin/strace \
     device/motorola/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/motorola/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    device/motorola/spyder/prebuilt/etc/hijack-boot.zip:system/etc/hijack-boot.zip \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
     device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
     device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-# omapzoom wifi firmware
+
+
+# Graphics
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/imgtec/lib/hw/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
+    device/motorola/spyder/prebuilt/imgtec/etc/powervr.ini:/system/etc/powervr.ini \
+
+# wifi firmware
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:/system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin.bin \
     device/motorola/spyder/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:/system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
@@ -199,23 +220,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/backuptool.functions:system/bin/backuptool.functions \
     device/motorola/spyder/prebuilt/bin/50-backup.sh:system/addon.d/50-backup.sh
 
-# prebuilt hwc
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/hwc/hwcomposer.spyder.so:system/vendor/lib/hw/hwcomposer.spyder.so \
-    device/motorola/spyder/hwc/libedid.so:system/lib/libedid.so
-
-# Temporarily use prebuilt DOMX
-# Prebuilts /system/lib
-PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/lib/libdomx.so:/system/lib/libdomx.so \
-    device/motorola/spyder/prebuilt/lib/libmm_osal.so:/system/lib/libmm_osal.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so:/system/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so \
-    device/motorola/spyder/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so \
-    device/motorola/spyder/prebuilt/lib/libOMX_Core.so:/system/lib/libOMX_Core.so \
 
 # Phone settings
 PRODUCT_COPY_FILES += \
@@ -228,11 +232,13 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 # still need to set english for audio init
 PRODUCT_LOCALES += en_US
 
+ifeq ($(TARGET_PRODUCT),full_spyder)
 # copy all kernel modules under the "modules" directory to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
+#PRODUCT_COPY_FILES += $(shell \
     find device/motorola/spyder/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
+endif
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/motorola/spyder/kernel
@@ -250,6 +256,3 @@ $(call inherit-product-if-exists, vendor/verizon/verizon.mk)
 
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 
-
-# stuff common to all Motorola phones -- disabled for Sandbox
-#$(call inherit-product, device/motorola/common/common_hijack.mk)
