@@ -117,7 +117,15 @@ ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 endif
 
+# Makefile variable and C/C++ macro to recognise DOMX version
 ENHANCED_DOMX := true
+ifdef ENHANCED_DOMX
+    COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
+    DOMX_PATH := hardware/ti/domx
+else
+    DOMX_PATH := hardware/ti/omap4xxx/domx
+endif
+
 USE_ITTIAM_AAC := true
 ifdef USE_ITTIAM_AAC
 COMMON_GLOBAL_CFLAGS += -DUSE_ITTIAM_AAC
