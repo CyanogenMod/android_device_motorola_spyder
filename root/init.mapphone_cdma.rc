@@ -23,9 +23,6 @@ on init
     mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
     symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
-# Enable PVR modules
-    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
-    insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
@@ -76,6 +73,10 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs
+# Enable PVR modules
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
+    insmod /system/lib/modules/omaplfb_sgx540_120.ko
+
     chown system system /pds
     chmod 0775 /pds
 #    chmod 0771 /preinstall
