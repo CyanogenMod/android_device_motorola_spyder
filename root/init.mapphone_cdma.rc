@@ -24,8 +24,8 @@ on init
     symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
 # Enable PVR modules
-    insmod /pvrsrvkm_sgx540_120.ko
-    insmod /omaplfb_sgx540_120.ko
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
+    insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
