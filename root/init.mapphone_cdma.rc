@@ -75,7 +75,6 @@ on fs
 on post-fs
 # Enable PVR modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
-    insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
     chown system system /pds
     chmod 0775 /pds
@@ -913,7 +912,7 @@ service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
     group media graphics
     oneshot
 service pvrsrv /system/vendor/bin/pvrsrvinit
-    class main
+    class core
     user root
     oneshot
 service bugtogo /system/bin/bugtogo.sh
