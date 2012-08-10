@@ -85,6 +85,9 @@ if [ "$TARGET_PRODUCT" = "full_spyder" ]; then
 cp -f $ANDROID_BUILD_TOP/device/motorola/spyder/prebuilt/bin/su $REPACK/ota/system/xbin/su
 fi
 
+# move gralloc to where it will be recognized
+cp -f $REPACK/ota/system/vendor/lib/hw/gralloc.omap4430.so $REPACK/ota/system/vendor/lib/hw/gralloc.omap4.so
+
 # Determine what to name the new signed package
 REALDATE=`date +%m-%d`
 if [ -f $ANDROID_BUILD_TOP/vendor/cm/LICENSE ];
