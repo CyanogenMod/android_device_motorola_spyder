@@ -27,11 +27,11 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
 
 #    device/motorola/spyder/audio/audio.a2dp.default.so:/system/lib/hw/audio.a2dp.default.so \
+
 # Hardware HALs
 PRODUCT_PACKAGES += \
     camera.omap4 \
     libinvensense_mpl \
-    hwcomposer.omap4 \
 
 PRODUCT_PACKAGES += \
     libaudioutils \
@@ -46,26 +46,6 @@ PRODUCT_PACKAGES += \
     hciconfig \
     hcitool
 
-#    ti_omap4_ducati_bins \
-
- PRODUCT_PACKAGES := \
-    libOMX_Core \
-    libOMX.TI.DUCATI1.VIDEO.DECODER
-
-# Add Ducati - Define the tgz to be unpacked, and enable the
-# ducati-m3.bin package, which is defined in the top-level Android.mk
-# of the proprietary-open tree
-DUCATI_TGZ := device/ti/proprietary-open/omap4/ducati_full_blaze.tgz
-PRODUCT_PACKAGES += ducati-m3.bin
-
-# TI proprietary firmware / binaries
-PRODUCT_PACKAGES += \
-    ti_omap4_sgx_libs \
-
-# Tiler
-PRODUCT_PACKAGES += \
-    libtimemmgr
-
 # Modem
 PRODUCT_PACKAGES += \
     nc \
@@ -73,14 +53,15 @@ PRODUCT_PACKAGES += \
     libaudiomodemgeneric \
     libreference-cdma-sms \
     rild \
-    radiooptions \
-    sh 
+    radiooptions
 
 # Wifi
 PRODUCT_PACKAGES += \
+    lib_driver_cmd_wl12xx \
     dhcpcd.conf \
     hostapd.conf \
     wifical.sh \
+    wpa_supplicant.conf \
     TQS_D_1.7.ini \
     TQS_D_1.7_127x.ini \
     crda \
@@ -105,21 +86,15 @@ PRODUCT_PACKAGES += \
     spyder_releaseutils-tune2fs
 
 PRODUCT_PACKAGES += \
+    evtest \
     camera_test \
     Camera \
     CameraOMAP4 \
     Superuser \
     su \
     DockAudio \
-    tinymix \
-    tinycap \
-    tinyplay \
     parse_hdmi_edid \
     strace \
-
-#    alsa_amixer \
-#    alsa_aplay \
-#    alsa_ctl \
 
 PRODUCT_PACKAGES += \
     librs_jni \
@@ -149,15 +124,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/root/default.prop:/root/default.prop \
     device/motorola/spyder/root/init.rc:/root/init.rc \
-    device/motorola/spyder/root/init.trace.rc:/root/init.trace.rc \
-    device/motorola/spyder/root/init.usb.rc:/root/init.usb.rc \
     device/motorola/spyder/root/init.mapphone_cdma.rc:/root/init.mapphone_cdma.rc \
     device/motorola/spyder/root/init.mapphone_umts.rc:/root/init.mapphone_umts.rc \
     device/motorola/spyder/root/ueventd.rc:/root/ueventd.rc \
     device/motorola/spyder/root/ueventd.mapphone_cdma.rc:/root/ueventd.mapphone_cdma.rc \
     device/motorola/spyder/root/ueventd.mapphone_umts.rc:/root/ueventd.mapphone_umts.rc \
 
-#    out/target/product/solana/kernel:system/etc/kexec/zImage \
 # Kexec files
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/kexec/arm_kexec.ko:system/etc/kexec/arm_kexec.ko \
@@ -171,24 +143,24 @@ PRODUCT_COPY_FILES += \
 
 # Permissions files
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:/system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:/system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.camera.xml:/system/etc/permissions/android.hardware.camera.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:/system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:/system/etc/permissions/android.hardware.sensor.accelerometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.compass.xml:/system/etc/permissions/android.hardware.sensor.compass.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:/system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:/system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:/system/etc/permissions/android.hardware.telephony.cdma.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:/system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/handheld_core_hardware.xml:/system/etc/permissions/handheld_core_hardware.xml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 
-#    frameworks/native/data/etc/android.hardware.wifi.direct.xml:/system/etc/permissions/android.hardware.wifi.direct.xml \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
@@ -201,6 +173,24 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/firmware/ducati-m3.bin:system/etc/firmware/ducati-m3.bin \
 
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+
+# Graphics
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/imgtec/lib/hw/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvinit_SGX540_120:/system/vendor/bin/pvrsrvinit \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvctl:/system/vendor/bin/pvrsrvctl \
+    device/motorola/spyder/prebuilt/imgtec/etc/powervr.ini:/system/etc/powervr.ini \
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
@@ -219,14 +209,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 # still need to set english for audio init
 PRODUCT_LOCALES += en_US
-
-ifeq ($(TARGET_PRODUCT),full_spyder)
-# copy all kernel modules under the "modules" directory to system/lib/modules
-#PRODUCT_COPY_FILES += $(shell \
-    find device/motorola/spyder/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
-endif
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/motorola/spyder/kernel

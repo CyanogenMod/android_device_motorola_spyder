@@ -1,7 +1,14 @@
+# define OMAP_ENHANCEMENT variables
+include device/motorola/spyder/Config.mk
+
 # Camera
 USE_CAMERA_STUB := false
 BOARD_USES_TI_CAMERA_HAL := true
 TI_CAMERAHAL_DEBUG_ENABLED := true
+
+ENHANCED_DOMX := true
+#USE_ITTIAM_AAC := true
+#BLTSVILLE_ENHANCEMENT :=true
 
 # inherit from the proprietary version
 -include vendor/motorola/spyder/BoardConfigVendor.mk
@@ -18,8 +25,6 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_ARCH_VARIANT_FPU := neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-NEEDS_ARM_ERRATA_754319_754320 := true
-TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
 
 # Kernel
@@ -30,7 +35,7 @@ BOARD_PAGE_SIZE := 0x4096
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/motorola/solana
 TARGET_KERNEL_CONFIG := hashcode_1024_defconfig
-TARGET_PREBUILT_KERNEL := device/motorola/spyder/kernel
+#TARGET_PREBUILT_KERNEL := device/motorola/spyder/kernel
 
 KERNEL_EXTERNAL_MODULES:
 	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
@@ -41,9 +46,8 @@ KERNEL_EXTERNAL_MODULES:
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
-	tar -xvf $(ANDROID_BUILD_TOP)/device/ti/proprietary-open/omap4/sgx_src/eurasia_km.tgz -C $(KERNEL_OUT)
-	make clean -C $(KERNEL_OUT)/eurasia_km/eurasiacon/build/linux2/omap4430_android
-	make -j8 -C $(KERNEL_OUT)/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELSRC=$(KERNEL_OUT)/../../../../../../kernel/motorola/solana KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	make clean -C device/motorola/spyder/modules/eurasia_km/eurasiacon/build/linux2/omap4430_android
+	make -j8 -C device/motorola/spyder/modules/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELSRC=$(KERNEL_OUT)/../../../../../../kernel/motorola/spyder KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
 	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
@@ -112,27 +116,23 @@ BOARD_SYSTEM_FILESYSTEM := ext3
 # Graphics
 BOARD_EGL_CFG := device/motorola/spyder/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
-COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
+#COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
 
 
-# OMAP
-OMAP_ENHANCEMENT := true
 ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
-endif
-
-# Makefile variable and C/C++ macro to recognise DOMX version
-ENHANCED_DOMX := true
-ifdef ENHANCED_DOMX
-    COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := hardware/ti/domx
-else
-    DOMX_PATH := hardware/ti/omap4xxx/domx
-endif
-
-USE_ITTIAM_AAC := true
 ifdef USE_ITTIAM_AAC
 COMMON_GLOBAL_CFLAGS += -DUSE_ITTIAM_AAC
+endif
+ifdef OMAP_ENHANCEMENT_S3D
+COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_S3D
+endif
+ifdef OMAP_ENHANCEMENT_CPCAM
+COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_CPCAM
+endif
+ifdef OMAP_ENHANCEMENT_VTC
+COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_VTC
+endif
 endif
 
 # MOTOROLA
@@ -154,19 +154,6 @@ TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_img_from_target_files
 TARGET_CUSTOM_RELEASETOOL := ./device/motorola/spyder/releasetools/squisher
-
-# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
-# added by twa_priv
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
-
-# Bootanimation
-TARGET_BOOTANIMATION_PRELOAD := true
-TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
 
 # Misc.
