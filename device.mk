@@ -46,8 +46,9 @@ PRODUCT_PACKAGES += \
     hciconfig \
     hcitool
 
+#    ti_omap4_ducati_bins \
+
  PRODUCT_PACKAGES := \
-    ti_omap4_ducati_bins \
     libOMX_Core \
     libOMX.TI.DUCATI1.VIDEO.DECODER
 
@@ -197,6 +198,7 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
     device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
     device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
+    device/motorola/spyder/prebuilt/etc/firmware/ducati-m3.bin:system/etc/firmware/ducati-m3.bin \
 
 #    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 
