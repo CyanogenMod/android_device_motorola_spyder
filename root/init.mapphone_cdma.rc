@@ -914,6 +914,7 @@ service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
 service pvrsrv /system/vendor/bin/pvrsrvinit
     class core
     user root
+    group root
     oneshot
 service bugtogo /system/bin/bugtogo.sh
     class main
