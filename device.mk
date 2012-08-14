@@ -176,7 +176,7 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/imgtec/lib/hw/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/hw/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
     device/motorola/spyder/prebuilt/imgtec/lib/egl/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
     device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
     device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
@@ -189,8 +189,7 @@ PRODUCT_COPY_FILES += \
     device/motorola/spyder/prebuilt/imgtec/lib/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/motorola/spyder/prebuilt/imgtec/lib/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
     device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
-    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvinit_SGX540_120:/system/vendor/bin/pvrsrvinit_SGX540_120 \
-    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvctl:/system/vendor/bin/pvrsrvctl \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
     device/motorola/spyder/prebuilt/imgtec/etc/powervr.ini:/system/etc/powervr.ini \
 
 # Backup Tool
