@@ -290,3 +290,5 @@ hwui.render_dirty_regions=false
 ril.subscription.types=NV,RUIM
 ro.ril.moto.newarch=true
 persist.sys.root_access=3
+ro.hwc.legacy_api=true
+

@@ -23,10 +23,6 @@ on init
     mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
     symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
-# Enable PVR modules
-    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
-    insmod /system/lib/modules/omaplfb_sgx540_120.ko
-
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
@@ -61,19 +57,18 @@ on init
     chown system radio /sys/bus/usb/devices/usb1/power/control
     chown system radio /sys/bus/usb/devices/usb2/power/control
 on fs
-#    mount ext3 mmc@system /system wait ro noatime nodiratime barrier=1
-#    exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
-#    exec /system/bin/logwrapper /system/bin/mount_ext3.sh userdata /data
-#    exec /system/bin/logwrapper /system/bin/mount_ext3.sh cache /cache
-#    exec /system/bin/logwrapper /system/bin/mount_ext3.sh preinstall /preinstall
     mount ext3 /dev/block/mmcblk1p22 /system wait noatime nodiratime barrier=1
+
+# pvr module
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
+
+    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
+on post-fs
     mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
-
-on post-fs
 
     chown system system /pds
     chmod 0775 /pds
