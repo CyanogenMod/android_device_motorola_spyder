@@ -68,19 +68,17 @@ on init
 
 on fs
     mount ext3 /dev/block/mmcblk1p22 /system wait noatime nodiratime barrier=1
-
-# pvr module
-    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
-
     mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev noatime nodiratime
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs
+# pvr module
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
+    insmod /system/lib/modules/omaplfb_sgx540_120.ko
+
     chown system system /pds
     chmod 0775 /pds
-#    chmod 0771 /preinstall
-#    chown system system /preinstall
 
     mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
@@ -1011,12 +1009,6 @@ on property:persist.factory.allow_adb=1
     write /sys/class/android_usb/android0/pc_command_adb "adb"
 on property:persist.factory.allow_adb=0
     write /sys/class/android_usb/android0/pc_command_adb " "
-#start Authentec VPN service
-service vpnclientpm /system/bin/vpnclientpm
-    class main
-    user root
-    oneshot
-    user root
 service gadget-lte-modem /system/bin/tty2ttyd ril.wrigley.modem.tty /dev/ttyGS1 0 512
     user radio
     group radio

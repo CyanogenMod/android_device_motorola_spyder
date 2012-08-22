@@ -90,6 +90,7 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 # Recovery
 BUILD_BOOTMENU_STANDALONE := true
 #BOARD_HAS_LOCKED_BOOTLOADER := true
+BOARD_HAS_WEBTOP := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/spyder/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
@@ -104,14 +105,7 @@ TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
 
-# Sandbox Filesystem Settings
-BOARD_SYSTEM_DEVICE := /dev/block/system
-BOARD_SYSTEM_FILESYSTEM_OPTIONS := noatime,nodiratime
-BOARD_SYSTEM_FILESYSTEM := ext3
-
-
 # Graphics
-BOARD_EGL_CFG := device/motorola/spyder/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
 #COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
 
