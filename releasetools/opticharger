@@ -9,14 +9,6 @@
 # cyanogen - shade@chemlab.org
 # ChrisSoyars - me@ctso.me
 
-OUT_TARGET_HOST=$(uname -a | grep Darwin)
-if [ -z "$OUT_TARGET_HOST" ]
-then
-    OUT_TARGET_HOST=linux-x86
-else
-    OUT_TARGET_HOST=darwin-x86
-fi
-
 set -e
 QUIET=1
 BASE=`pwd`
@@ -31,6 +23,8 @@ fi
 if [ "$APKCERTS" = "" ];
 then
     if [ "$TARGET_BUILD_VARIANT" = "userdebug" ]; then
+       TARGET_BUILD_VARIANT="eng"
+    elif [ "$TARGET_BUILD_VARIANT" = "user" ]; then
        TARGET_BUILD_VARIANT="eng"
     fi
 
@@ -114,6 +108,11 @@ then
             echo "Unable to find certificate for $NAME"
             exit 1;
         fi
+        if [ "$CERT" = "PRESIGNED" ];
+        then
+            echo "$NAME is presigned, skipping"
+            exit 1;
+        fi
     fi
 
     [ $QUIET ] || echo "Certificate: $CERT";
@@ -131,12 +130,12 @@ then
     cp $BASE/$1 $BASE/$1.old
 
     [ $QUIET ] || echo "Repacking apk.."
-    aapt p -0 .dat -0 .dict -F $NAME .
+    aapt p -0 .dat -0 .dict -0 .arsc -F $NAME .
     
     [ $QUIET ] || echo "Resigning with cert: `echo $CERT`"
 
-    [ $QUIET ] || echo java -jar $ANDROID_BUILD_TOP/out/host/$OUT_TARGET_HOST/framework/signapk.jar $ANDROID_BUILD_TOP/$CERT $ANDROID_BUILD_TOP/$KEY $NAME signed_$NAME
-    java -jar $ANDROID_BUILD_TOP/out/host/$OUT_TARGET_HOST/framework/signapk.jar $ANDROID_BUILD_TOP/$CERT $ANDROID_BUILD_TOP/$KEY $NAME signed_$NAME
+    [ $QUIET ] || echo java -jar $ANDROID_HOST_OUT/framework/signapk.jar $ANDROID_BUILD_TOP/$CERT $ANDROID_BUILD_TOP/$KEY $NAME signed_$NAME
+    java -jar $ANDROID_HOST_OUT/framework/signapk.jar $ANDROID_BUILD_TOP/$CERT $ANDROID_BUILD_TOP/$KEY $NAME signed_$NAME
     [ $QUIET ] || echo "Zipalign.."
     zipalign -f 4 signed_$NAME $BASE/$1
     if [ ! $QUIET ]; then
