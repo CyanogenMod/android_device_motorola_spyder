@@ -2,13 +2,15 @@
 # This is the product configuration for a full spyder
 #
 
+DEVICE_FOLDER := device/motorola/spyder
+
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 ## (3)  Finally, the least specific parts, i.e. the non-GSM-specific aspects
 
 # Device overlay
-    DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/aosp
+    DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay/aosp
 
 # high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal hdpi
@@ -20,11 +22,11 @@ PRODUCT_PACKAGES := \
 
 # Audio
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-    device/motorola/spyder/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.spyder.so \
-    device/motorola/spyder/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.spyder.so \
-    device/motorola/spyder/audio/libasound.so:/system/lib/libasound.so \
-    device/motorola/spyder/audio/libaudio_ext.so:/system/lib/libaudio_ext.so \
+    $(DEVICE_FOLDER)/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+    $(DEVICE_FOLDER)/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.omap4.so \
+    $(DEVICE_FOLDER)/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
+    $(DEVICE_FOLDER)/audio/libasound.so:/system/lib/libasound.so \
+    $(DEVICE_FOLDER)/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
 # Hardware HALs
 PRODUCT_PACKAGES += \
@@ -115,27 +117,26 @@ PRODUCT_PACKAGES += \
 # WirelessTether
 PRODUCT_PACKAGES += wifi_tether_v3_2-beta1
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
-
+    $(DEVICE_FOLDER)/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/root/default.prop:/root/default.prop \
-    device/motorola/spyder/root/init.rc:/root/init.rc \
-    device/motorola/spyder/root/init.mapphone_cdma.rc:/root/init.mapphone_cdma.rc \
-    device/motorola/spyder/root/init.mapphone_umts.rc:/root/init.mapphone_umts.rc \
-    device/motorola/spyder/root/ueventd.rc:/root/ueventd.rc \
-    device/motorola/spyder/root/ueventd.mapphone_cdma.rc:/root/ueventd.mapphone_cdma.rc \
-    device/motorola/spyder/root/ueventd.mapphone_umts.rc:/root/ueventd.mapphone_umts.rc \
+    $(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
+    $(DEVICE_FOLDER)/root/init.rc:/root/init.rc \
+    $(DEVICE_FOLDER)/root/init.mapphone_cdma.rc:/root/init.mapphone_cdma.rc \
+    $(DEVICE_FOLDER)/root/init.mapphone_umts.rc:/root/init.mapphone_umts.rc \
+    $(DEVICE_FOLDER)/root/ueventd.rc:/root/ueventd.rc \
+    $(DEVICE_FOLDER)/root/ueventd.mapphone_cdma.rc:/root/ueventd.mapphone_cdma.rc \
+    $(DEVICE_FOLDER)/root/ueventd.mapphone_umts.rc:/root/ueventd.mapphone_umts.rc \
 
 # Kexec files
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/kexec/arm_kexec.ko:system/etc/kexec/arm_kexec.ko \
-    device/motorola/spyder/kexec/atags:system/etc/kexec/atags \
-    device/motorola/spyder/kexec/devtree:system/etc/kexec/devtree \
-    device/motorola/spyder/kexec/kexec:system/etc/kexec/kexec \
-    device/motorola/spyder/kexec/kexec.ko:system/etc/kexec/kexec.ko \
-    device/motorola/spyder/kexec/uart.ko:system/etc/kexec/uart.ko \
+    $(DEVICE_FOLDER)/kexec/arm_kexec.ko:system/etc/kexec/arm_kexec.ko \
+    $(DEVICE_FOLDER)/kexec/atags:system/etc/kexec/atags \
+    $(DEVICE_FOLDER)/kexec/devtree:system/etc/kexec/devtree \
+    $(DEVICE_FOLDER)/kexec/kexec:system/etc/kexec/kexec \
+    $(DEVICE_FOLDER)/kexec/kexec.ko:system/etc/kexec/kexec.ko \
+    $(DEVICE_FOLDER)/kexec/uart.ko:system/etc/kexec/uart.ko \
     out/target/product/spyder/ramdisk.img:system/etc/kexec/ramdisk.img \
     out/target/product/spyder/kernel:system/etc/kexec/kernel \
 
@@ -158,32 +159,32 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    $(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
 
 # Prebuilts
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/bin/battd:system/bin/battd \
-    device/motorola/spyder/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
-    device/motorola/spyder/prebuilt/bin/strace:system/bin/strace \
-    device/motorola/spyder/prebuilt/etc/gps.conf:system/etc/gps.conf \
-    device/motorola/spyder/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    device/motorola/spyder/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
-    device/motorola/spyder/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
-    device/motorola/spyder/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
-    device/motorola/spyder/prebuilt/etc/firmware/ducati-m3.bin:system/etc/firmware/ducati-m3.bin \
+    $(DEVICE_FOLDER)/prebuilt/bin/battd:system/bin/battd \
+    $(DEVICE_FOLDER)/prebuilt/bin/mount_ext3.sh:system/bin/mount_ext3.sh \
+    $(DEVICE_FOLDER)/prebuilt/bin/strace:system/bin/strace \
+    $(DEVICE_FOLDER)/prebuilt/etc/firmware/ducati-m3.bin:system/etc/firmware/ducati-m3.bin \
+    $(DEVICE_FOLDER)/prebuilt/etc/gps.conf:system/etc/gps.conf \
+    $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
+    $(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
+    $(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
 
-#    device/motorola/spyder/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+#    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
-    device/motorola/spyder/prebuilt/bin/backuptool.sh:system/bin/backuptool.sh \
-    device/motorola/spyder/prebuilt/bin/backuptool.functions:system/bin/backuptool.functions \
-    device/motorola/spyder/prebuilt/bin/50-backup.sh:system/addon.d/50-backup.sh
+    $(DEVICE_FOLDER)/prebuilt/bin/backuptool.sh:system/bin/backuptool.sh \
+    $(DEVICE_FOLDER)/prebuilt/bin/backuptool.functions:system/bin/backuptool.functions \
+    $(DEVICE_FOLDER)/prebuilt/bin/50-backup.sh:system/addon.d/50-backup.sh
 
 
 # Phone settings
 PRODUCT_COPY_FILES += \
     device/sample/etc/apns-conf_verizon.xml:system/etc/apns-conf.xml \
-    device/motorola/spyder/prebuilt/etc/spn-conf.xml:system/etc/spn-conf.xml \
+    $(DEVICE_FOLDER)/prebuilt/etc/spn-conf.xml:system/etc/spn-conf.xml \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -191,14 +192,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 # still need to set english for audio init
 PRODUCT_LOCALES += en_US
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/motorola/spyder/kernel
-else
-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel
 
 # stuff specific to ti OMAP4 hardware
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
