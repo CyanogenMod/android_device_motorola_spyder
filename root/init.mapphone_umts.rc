@@ -1,22 +1,23 @@
+on early-init
 
+    export EXTERNAL_STORAGE /storage/sdcard0
+    mkdir /storage 0050 system sdcard_r
+    mkdir /storage/sdcard0 0000 system system
+    mkdir /mnt 0775 root system
+    # for backwards compatibility
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
 
 on init
-    exec /sbin/fixboot.sh
-
     loglevel 8
+
+    exec /sbin/fixboot.sh
 
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
 
-    export EXTERNAL_STORAGE /storage/sdcard0
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-
-    export SECONDARY_STORAGE /mnt/sdcard-ext
+    export SECONDARY_STORAGE /storage/sdcard1
     mkdir /storage/sdcard1 0000 system system
     # for backwards compatibility
     symlink /storage/sdcard1 /sdcard-ext
@@ -25,6 +26,8 @@ on init
     # create removable USB Mass Storage mountpoints
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
+
+    mkdir /mnt/external1 0000 system system
 
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
@@ -69,6 +72,40 @@ on post-fs
 # Backward compatibility
     symlink /dev /dev/netmux
     symlink /dev/ttyGS0 /dev/acm0
+
+    # Create mountpoints and mount tmpfs
+    mkdir /osh 0755 root root
+    mkdir /preinstall 0771 system system
+    chmod 0771 /preinstall
+    chown system system /preinstall
+    mkdir /misc 0770 system misc
+    mkdir /sd-ext 0771 system system
+    mount tmpfs tmpfs /tmp
+
+    # Same reason as /data above
+    chown system cache /cache
+    chmod 0771 /cache
+    chown system misc /misc
+    chmod 0770 /misc
+
+    # This may have been created by the recovery system with odd permissions
+    chown system cache /cache/recovery
+    chmod 0770 /cache/recovery
+
+    #change permissions on vmallocinfo so we can grab it from bugreports
+    chown root log /proc/vmallocinfo
+    chmod 0440 /proc/vmallocinfo
+
+    #change permissions on kmsg & sysrq-trigger so bugreports can grab kthread stacks
+    chown root system /proc/kmsg
+    chmod 0440 /proc/kmsg
+    chown root system /proc/sysrq-trigger
+    chmod 0220 /proc/sysrq-trigger
+
+    # Configure kernel options
+    # Disable automatic power control for OHCI USB IPC Temporarily
+    #    write /sys/devices/platform/ohci-omap3/usb1/1-1/power/control auto
+
 # NFC configuration
     # Reset system time
     write /sys/class/rtc/rtc0/unsecured_rtc on
@@ -113,7 +150,12 @@ on post-fs
     mkdir /pds/wifi 0771 wifi wifi
     chmod 0664 /pds/wifi/nvs_map.bin
     mkdir /pds/whisper 0770 mot_whisper mot_whisper
+    chown mot_whisper mot_whisper /pds/whisper
+    chmod 0770 /pds/whisper
     mkdir /pds/whisper/whisper_only 0700 mot_whisper mot_whisper
+    chown mot_whisper mot_whisper /pds/whisper/whisper_only
+    chmod 0700 /pds/whisper/whisper_only
+    chown mot_whisper /pds/whisper/whisper_only/vector0.bin
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -151,6 +193,9 @@ on post-fs
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
+    write /sys/block/zram0/disksize 178257920
+    exec /system/bin/motobox mkswap /dev/block/zram0
+    exec /system/bin/motobox swapon /dev/block/zram0
 on post-fs-data
     copy /proc/apanic_app_threads /data/dontpanic/apanic_app_threads
     chown root log /data/dontpanic/apanic_app_threads
@@ -167,6 +212,9 @@ on post-fs-data
     # create moto specific dirs for mystuff
     mkdir /data/download 0775 system system
     mkdir /data/download/mystuff 0775 system system
+    # fix cache for market access
+    chmod 775 /cache
+    mkdir /cache/download 0775 system system
     # create moto specific dirs for wifi
     mkdir /data/system 0771 system system
     # wifi dirs
@@ -176,11 +224,23 @@ on post-fs-data
     mkdir /data/misc/wifi/firmware 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     # create moto specific dirs for factory
+    mkdir /data/local/dbvc 0770 mot_tcmd shell
+    mkdir /data/dalvik-cache 0771 system system
+    mkdir /cache/dalvik-cache 0771 system system
     mkdir /data/local/12m 0771 mot_tcmd shell
     mkdir /data/local/12m/batch 0771 mot_tcmd shell
     mkdir /data/comm_drv 0770 radio radio
     # following dir is for storing BP Flex and PDS files. NVM Daemon is using this
     mkdir /data/bp_nvm 0770 radio radio
+
+    # bluetooth power up/down interface
+    write sys/class/rfkill/rfkill0/state 0
+    write sys/class/rfkill/rfkill0/type bluetooth
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chmod 0664 /sys/class/rfkill/rfkill0/type
+    chmod 0664 /sys/class/rfkill/rfkill0/state
+
     # create logger folder
     mkdir /data/logger 0750 log log
     mkdir /data/panicreports 0775 root radio
@@ -241,6 +301,8 @@ on early-boot
     start upgrade_certs
     class_start media_early_init
 on boot
+# Set CPU interactive governor high speed load percentage to 95%
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 95
 # Define Motorola DBVC ATVC Property defaults (failsafe properties)
     setprop ro.sys.atvc_allow_netmon_usb 0
     setprop ro.sys.atvc_allow_netmon_ih 0
@@ -480,10 +542,29 @@ on boot
     setprop net.tcp.buffersize.4ghotspot 262144,524288,1048576,524288,1048576,2097152
 # Network Bandwidth control for netd
     setprop persist.bandwidth.enable 1
+
+# Setup trace files
+    mkdir /data/trace 0777 root root
+    chown root root /data/trace
+    chmod 0777 /data/trace
+
 # Start services
     exec /system/bin/mot_boot_mode
 # Set core max size (2G)
     setrlimit 4 2147483648 2147483648
+
+# Define the oom_adj values for the classes of processes that can be
+# killed by the kernel.  These are used in ActivityManagerService.
+    setprop ro.FOREGROUND_APP_ADJ 0
+    setprop ro.VISIBLE_APP_ADJ 1
+    setprop ro.PERCEPTIBLE_APP_ADJ 2
+    setprop ro.HEAVY_WEIGHT_APP_ADJ 3
+    setprop ro.SECONDARY_SERVER_ADJ 4
+    setprop ro.BACKUP_APP_ADJ 5
+    setprop ro.HOME_APP_ADJ 6
+    setprop ro.HIDDEN_APP_MIN_ADJ 7
+    setprop ro.EMPTY_APP_ADJ 15
+
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 #IKHSS6-3716 allow mediaserver to enable performance mode for OMAP4 USB Audio
     chown root audio /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
@@ -897,10 +978,6 @@ on property:ro.bootmode=bp-tools
     write /proc/sys/net/ipv4/ip_forward 1
     start wrigley-diag
     start logcatd-blan
-service JuniperVPNTools /system/bin/JuniperVPNTools
-    class main
-    user vpn
-    group vpn net_admin net_raw
 service thermal_manager /system/bin/thermaldaemon
     class main
     user system
