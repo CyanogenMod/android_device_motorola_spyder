@@ -74,6 +74,13 @@ on post-fs
     mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
     symlink /dev/ttyGS0 /dev/acm0
+
+    # Create mountpoints and mount tmpfs
+    mkdir /misc 0770 system misc
+    chown system misc /misc
+    chmod 0770 /misc
+    mount tmpfs tmpfs /tmp
+
 # NFC configuration
     # Reset system time
     write /sys/class/rtc/rtc0/unsecured_rtc on
