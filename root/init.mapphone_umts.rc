@@ -1,27 +1,30 @@
-on early-init
 
-
-
-
-
-
-    export EXTERNAL_STORAGE /mnt/sdcard
-    mkdir /mnt/sdcard 0000 system system
-    # for backwards compatibility
-    symlink /mnt/sdcard /sdcard
 
 on init
-    mkdir /mnt/external1 0000 system system
-
     exec /sbin/fixboot.sh
+
+    loglevel 8
 
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
+
+    export EXTERNAL_STORAGE /storage/sdcard0
+    mkdir /storage 0050 system sdcard_r
+    mkdir /storage/sdcard0 0000 system system
+    # for backwards compatibility
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
+
     export SECONDARY_STORAGE /mnt/sdcard-ext
-#    export EXTERNAL_ALT_STORAGE /mnt/sdcard-ext # Feature 34534
-    mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
-    symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
+    mkdir /storage/sdcard1 0000 system system
+    # for backwards compatibility
+    symlink /storage/sdcard1 /sdcard-ext
+    symlink /storage/sdcard1 /mnt/sdcard-ext
+
+    # create removable USB Mass Storage mountpoints
+    mkdir /storage/usb0 0000 system system
+    mkdir /storage/usb1 0000 system system
 
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
@@ -30,17 +33,6 @@ on init
     mkdir /cdrom 0770 system system
 
     symlink /data/tmp /tmp
-
-# Mount Points for External Storage Devices
-    mkdir /mnt/usbdisk_1.1.1 0755 system system
-    mkdir /mnt/usbdisk_1.0 0755 system system
-    mkdir /mnt/usbdisk_1.1 0755 system system
-    mkdir /mnt/usbdisk_1.2 0755 system system
-    mkdir /mnt/usbdisk_1.3 0755 system system
-    mkdir /mnt/usbdisk_1.4 0755 system system
-    mkdir /mnt/usbdisk_1.5 0755 system system
-    mkdir /mnt/usbdisk_1.6 0755 system system
-    mkdir /mnt/usbdisk_1.7 0755 system system
 
 # For Authentec VPN: route packets over bridge interface before processing
     write /proc/sys/net/bridge/bridge-nf-call-arptables 0
@@ -149,8 +141,6 @@ on post-fs
     insmod /system/lib/modules/modem_pm_driver.ko
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
-# Install webtop kernel modules
-    insmod /system/lib/modules/evfwd.ko
 # chown/chmod for FOTA
     chown system system /cache/fota
     chmod 0770 /cache/fota
@@ -263,17 +253,6 @@ on boot
     setprop ro.sys.atvc_allow_ap_mot_log 0
     setprop ro.sys.atvc_allow_simswap 0
     setprop ro.sys.atvc_allow_gki_log 0
-# OSH properties
-#    setprop sys.SystemMode RM_SM_MOBILE
-#    setprop sys.FbOwner 3
-#    setprop sys.DispOwnerLcd 3
-#    setprop sys.DispOwnerHdmi 7
-#    setprop sys.AiwFocus 3
-#    setprop sys.AMActiveTask 2
-    # display fb2 on overlay 0 for trackpad
-#    write /sys/class/graphics/fb2/overlays 3
-#    write /sys/class/graphics/fb0/overlays 2
-#    write /sys/class/graphics/fb2/overlays 0
 # Change the ownership of led files.
    chown system system /sys/class/leds/lcd-backlight/als
    chown system system /sys/class/leds/lcd-backlight/pwm_mode
@@ -466,10 +445,6 @@ on boot
    # Change permission of secret_off to allow system access
    chmod 0660 /sys/devices/omapdss/display0/secret_off
    chown system system /sys/devices/omapdss/display0/secret_off
-   # Change permission of evfwd.ko sysfs to allow system access
-   chown system system /sys/devices/platform/evfwdrel/rel
-   chown system system /sys/devices/platform/evfwdkbd/kbd
-   chown system system /sys/devices/platform/evfwdabs/abs
    # Change file permissions for Thermal Manager
    # For OMAP CPU Temp
    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -625,27 +600,6 @@ on property:ro.hdcp.support=1
 on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
-# The following services are added by moto
-#service qe /xbin/qe /system
-#    class core
-#    oneshot
-# Set property strings for ATVC logging
-# This conditionally sets :
-# ro.sys.atvc_allow_bp_log
-# ro.sys.atvc_allow_gki_log
-# ro.sys.atvc_allow_ap_mot_log
-# ro.sys.atvc_allow_all_core
-# ro.sys.atvc_allow_res_core
-# ro.sys.atvc_allow_res_panic
-# ro.sys.atvc_allow_efem
-# ro.sys.atvc_allow_netmon_usb
-# ro.sys.atvc_allow_netmon_ih
-# ro.sys.atvc_allow_all_adb
-#service atvc /system/bin/dbvc_atvc_property_set
-#    class core
-#    user system
-#    group system mot_tpapi
-#    oneshot
 service nvm-daemon /system/usr/bin/nvm_daemon
     class core
     user radio
@@ -695,27 +649,15 @@ service uim /system/bin/uim-sysfs
     class core
     user root
     group bluetooth net_bt_admin
-service hostapd /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
-    socket wpa_wlan0 dgram 660 wifi wifi
-    class main
-    disabled
-    oneshot
-service initial_regdom /system/bin/initial_regdom.sh
-    class main
-    disabled
-    oneshot
-on property:wlan.driver.status=ok
-    chown wifi wifi /sys/devices/platform/wl1271/bt_coex_state
-    start initial_regdom
-on property:init.svc.hostapd=running
-    start initial_regdom
-service p2p_supplicant /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
-    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -puse_p2p_group_interface=1
-    class main
-    socket wpa_wlan0 dgram 660 wifi wifi
-    disabled
-    oneshot
+#service initial_regdom /system/bin/initial_regdom.sh
+#    class main
+#    disabled
+#    oneshot
+#on property:wlan.driver.status=ok
+#    chown wifi wifi /sys/devices/platform/wl1271/bt_coex_state
+#    start initial_regdom
+#on property:init.svc.hostapd=running
+#    start initial_regdom
 service hciattach /system/bin/hciattach -l
     class main
     user bluetooth
@@ -811,17 +753,24 @@ service akmd8975 /system/bin/akmd8975
     class main
     user compass
     group compass misc input
+service p2p_supplicant /system/bin/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -puse_p2p_group_interface=1
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-service dhcpcd_wlan0 /system/bin/dhcpcd -G
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
-service iprenew_wlan0 /system/bin/dhcpcd -nBK
+service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
@@ -829,26 +778,27 @@ service dhcpcd_p2p /system/bin/dhcpcd -aABKL
     class main
     disabled
     oneshot
-service iprenew_p2p /system/bin/dhcpcd -nBK
+service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-service dhcpcd_bnep0 /system/bin/dhcpcd -G
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
-service dhcpcd_usbeth0 /system/bin/dhcpcd -G
+service dhcpcd_usbeth0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
-service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
-    class media_early_init
-    user media
-    group media graphics
+service hostapd /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
+    socket wpa_wlan0 dgram 660 wifi wifi
+    class main
+    disabled
     oneshot
 service pvrsrv /system/vendor/bin/pvrsrvinit
-    class main
+    class core
     user root
+    group root
     oneshot
 service bugtogo /system/bin/bugtogo.sh
     class main
@@ -894,29 +844,13 @@ service fmradio /system/bin/fmradioserver
     user system
     group bluetooth net_bt_admin net_raw net_admin misc
     disabled
-service dlnasrv /system/bin/dlnasrv
-    class main
-    user mot_dlna
-    group system net_admin sdcard_rw new_raw inet mount misc
-    oneshot
-    disabled
 service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
     class main
     group net_bt net_bt_admin
     disabled
     oneshot
 on property:dev.bootcomplete=1
-    start loadpreinstalls
-service cdromversion /system/bin/logwrapper /system/bin/mount_cdrom.sh /dev/block/cdrom
-    class core
-    oneshot
-# Backup/Restore Feature
-on property:mot.backup_restore.status="Finished"
-    start zygote
-service mot_backup /system/bin/logwrapper /system/xbin/run_backup /system/etc/backup_targets.csv
-    disabled
-    user root
-    oneshot
+#    start loadpreinstalls
 service secclkd /system/bin/secclkd
     class main
     socket secclk_socket stream 660 mot_secclkd mot_secclkd
@@ -937,12 +871,6 @@ on property:persist.factory.allow_adb=1
     write /sys/class/android_usb/android0/pc_command_adb "adb"
 on property:persist.factory.allow_adb=0
     write /sys/class/android_usb/android0/pc_command_adb " "
-#start Authentec VPN service
-#IKCBS-229 start RescueStarter for MobileRescue
-service RescueStarter /system/bin/RescueStarter
-    user graphics
-    group input graphics
-    class main
 service gadget-lte-modem /system/bin/tty2ttyd ril.wrigley.modem.tty /dev/ttyGS1 0 512
     user radio
     group radio

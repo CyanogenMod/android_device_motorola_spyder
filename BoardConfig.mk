@@ -37,7 +37,6 @@ BOARD_PAGE_SIZE := 0x4096
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/motorola/mapphone
 TARGET_KERNEL_CONFIG := hashcode_1024_defconfig
-#TARGET_PREBUILT_KERNEL := device/motorola/spyder/kernel
 
 WLAN_MODULES:
 	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
@@ -55,7 +54,7 @@ TARGET_KERNEL_MODULES += WLAN_MODULES
 # Storage / Sharing
 BOARD_VOLD_MAX_PARTITIONS := 100
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Connectivity - Wi-Fi
@@ -97,7 +96,7 @@ BUILD_BOOTMENU_STANDALONE := true
 BOARD_HAS_WEBTOP := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/spyder/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_MKE2FS := device/motorola/spyder/releaseutils/mke2fs

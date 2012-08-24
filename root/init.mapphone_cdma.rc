@@ -1,28 +1,30 @@
-on early-init
 
-
-
-
-
-
-    export EXTERNAL_STORAGE /mnt/sdcard
-    mkdir /mnt/sdcard 0000 system system
-    # for backwards compatibility
-    symlink /mnt/sdcard /sdcard
 
 on init
-    mkdir /mnt/external1 0000 system system
-
     exec /sbin/fixboot.sh
+
+    loglevel 8
 
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
-    export SECONDARY_STORAGE /mnt/sdcard-ext
-#    export EXTERNAL_ALT_STORAGE /mnt/sdcard-ext # Feature 34534
-    mkdir /mnt/sdcard-ext 0000 system system # Feature 34534
-    symlink /mnt/sdcard-ext /sdcard-ext # Feature 34534
 
+    export EXTERNAL_STORAGE /storage/sdcard0
+    mkdir /storage 0050 system sdcard_r
+    mkdir /storage/sdcard0 0000 system system
+    # for backwards compatibility
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
+
+    export SECONDARY_STORAGE /mnt/sdcard-ext
+    mkdir /storage/sdcard1 0000 system system
+    # for backwards compatibility
+    symlink /storage/sdcard1 /sdcard-ext
+    symlink /storage/sdcard1 /mnt/sdcard-ext
+
+    # create removable USB Mass Storage mountpoints
+    mkdir /storage/usb0 0000 system system
+    mkdir /storage/usb1 0000 system system
 
     mkdir /pds 0775 system system
     mkdir /data/tmp 0777 system system
@@ -31,17 +33,6 @@ on init
     mkdir /cdrom 0770 system system
 
     symlink /data/tmp /tmp
-
-# Mount Points for External Storage Devices
-    mkdir /mnt/usbdisk_1.1.1 0755 system system
-    mkdir /mnt/usbdisk_1.0 0755 system system
-    mkdir /mnt/usbdisk_1.1 0755 system system
-    mkdir /mnt/usbdisk_1.2 0755 system system
-    mkdir /mnt/usbdisk_1.3 0755 system system
-    mkdir /mnt/usbdisk_1.4 0755 system system
-    mkdir /mnt/usbdisk_1.5 0755 system system
-    mkdir /mnt/usbdisk_1.6 0755 system system
-    mkdir /mnt/usbdisk_1.7 0755 system system
 
 # For Authentec VPN: route packets over bridge interface before processing
     write /proc/sys/net/bridge/bridge-nf-call-arptables 0
@@ -83,55 +74,6 @@ on post-fs
     mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
     symlink /dev/ttyGS0 /dev/acm0
-
-    # Create mountpoints and mount tmpfs
-    mkdir /mnt 0775 root system
-    mkdir /osh 0755 root root
-    mkdir /preinstall 0755 system system
-    mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
-    mkdir /misc 0770 system misc
-    mkdir /sd-ext 0771 system system
-
-    mkdir /mnt/sdcard 0000 system system
-    mkdir /mnt/sdcard-ext 0000 system system
-
-    symlink /data/tmp /tmp
-    symlink /mnt/sdcard /sdcard
-    symlink /mnt/sdcard-ext /sdcard-ext
-
-    mount tmpfs tmpfs /tmp
-
-    # Same reason as /data above
-    chown system cache /cache
-    chmod 0771 /cache
-
-    chown system misc /misc
-    chmod 0770 /misc
-
-    # This may have been created by the recovery system with odd permissions
-    chown system cache /cache/recovery
-    chmod 0770 /cache/recovery
-
-    #change permissions on vmallocinfo so we can grab it from bugreports
-    chown root log /proc/vmallocinfo
-    chmod 0440 /proc/vmallocinfo
-
-    #change permissions on kmsg & sysrq-trigger so bugreports can grab kthread stacks
-    chown root system /proc/kmsg
-    chmod 0440 /proc/kmsg
-    chown root system /proc/sysrq-trigger
-    chmod 0220 /proc/sysrq-trigger
-
-#Set the default value for bluedroid_ref
-    #    write /data/tmp/bluedroid_ref 0
-    #    chown system system /data/tmp/bluedroid_ref
-
-# Configure kernel options
-
-# Disable automatic power control for OHCI USB IPC Temporarily
-    write /sys/devices/platform/ohci-omap3/usb1/1-1/power/control auto
-
 # NFC configuration
     # Reset system time
     write /sys/class/rtc/rtc0/unsecured_rtc on
@@ -207,8 +149,6 @@ on post-fs
     setprop wifi.interface "wlan0"
     setprop softap.interface "wlan0"
 # Load wifi drivers (all except wl12xx_sdio)
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
     insmod /system/lib/modules/compat.ko
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
@@ -241,9 +181,9 @@ on post-fs-data
     mkdir /data/misc/wifi/firmware 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     # create moto specific dirs for factory
-    mkdir /data/local/dbvc 0770 mot_tcmd shell
     mkdir /data/dalvik-cache 0771 system system
     mkdir /cache/dalvik-cache 0771 system system
+    mkdir /data/local/dbvc 0770 mot_tcmd shell
     mkdir /data/local/12m 0771 mot_tcmd shell
     mkdir /data/local/12m/batch 0771 mot_tcmd shell
 
@@ -326,17 +266,6 @@ on boot
     setprop ro.sys.atvc_allow_bp_log 0
     setprop ro.sys.atvc_allow_ap_mot_log 0
     setprop ro.sys.atvc_allow_simswap 0
-# OSH properties
-#    setprop sys.SystemMode RM_SM_MOBILE
-#    setprop sys.FbOwner 3
-#    setprop sys.DispOwnerLcd 3
-#    setprop sys.DispOwnerHdmi 7
-#    setprop sys.AiwFocus 3
-#    setprop sys.AMActiveTask 2
-    # display fb2 on overlay 0 for trackpad
-#    write /sys/class/graphics/fb2/overlays 3
-#    write /sys/class/graphics/fb0/overlays 2
-#    write /sys/class/graphics/fb2/overlays 0
 # Change the ownership of led files.
    chown system system /sys/class/leds/lcd-backlight/als
    chown system system /sys/class/leds/lcd-backlight/pwm_mode
@@ -529,10 +458,6 @@ on boot
    # Change permission of secret_off to allow system access
    chmod 0660 /sys/devices/omapdss/display0/secret_off
    chown system system /sys/devices/omapdss/display0/secret_off
-   # Change permission of evfwd.ko sysfs to allow system access
-   chown system system /sys/devices/platform/evfwdrel/rel
-   chown system system /sys/devices/platform/evfwdkbd/kbd
-   chown system system /sys/devices/platform/evfwdabs/abs
    # Change file permissions for Thermal Manager
    # For OMAP CPU Temp
    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -578,19 +503,6 @@ on boot
     exec /system/bin/mot_boot_mode
 # Set core max size (2G)
     setrlimit 4 2147483648 2147483648
-
-# Define the oom_adj values for the classes of processes that can be
-# killed by the kernel.  These are used in ActivityManagerService.
-    setprop ro.FOREGROUND_APP_ADJ 0
-    setprop ro.VISIBLE_APP_ADJ 1
-    setprop ro.PERCEPTIBLE_APP_ADJ 2
-    setprop ro.HEAVY_WEIGHT_APP_ADJ 3
-    setprop ro.SECONDARY_SERVER_ADJ 4
-    setprop ro.BACKUP_APP_ADJ 5
-    setprop ro.HOME_APP_ADJ 6
-    setprop ro.HIDDEN_APP_MIN_ADJ 7
-    setprop ro.EMPTY_APP_ADJ 15
-
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 #IKHSS6-3716 allow mediaserver to enable performance mode for OMAP4 USB Audio
     chown root audio /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
@@ -630,10 +542,6 @@ on property:sys.chargeonly.mode=1
     start battd
     start whisperd
     start charge_only_mode
-
-on property:persist.service.adb.enable=1
-    start adbd
-
 # Power up to suspend
 on property:tcmd.suspend=1
     stop surfaceflinger
@@ -705,27 +613,6 @@ on property:ro.hdcp.support=1
 on property:ro.hdcp.support=2
     chown system media /dev/omap-hdcp
     chmod 0660 /dev/omap-hdcp
-# The following services are added by moto
-#service qe /xbin/qe /system
-#    class core
-#    oneshot
-# Set property strings for ATVC logging
-# This conditionally sets :
-# ro.sys.atvc_allow_bp_log
-# ro.sys.atvc_allow_gki_log
-# ro.sys.atvc_allow_ap_mot_log
-# ro.sys.atvc_allow_all_core
-# ro.sys.atvc_allow_res_core
-# ro.sys.atvc_allow_res_panic
-# ro.sys.atvc_allow_efem
-# ro.sys.atvc_allow_netmon_usb
-# ro.sys.atvc_allow_netmon_ih
-# ro.sys.atvc_allow_all_adb
-#service atvc /system/bin/dbvc_atvc_property_set
-#    class core
-#    user system
-#    group system mot_tpapi
-#    oneshot
 service battd /system/bin/battd
     class core
     socket battdsock stream 0666 mot_accy mot_accy
@@ -749,24 +636,19 @@ service msp430 /system/bin/msp430 boot
     user compass
     group compass misc input
     oneshot
-#service ispupgrade /system/bin/ispupgrade flash_all
-#     class core
-#     user media
-#     group mot_pwric camera
-#     oneshot
 service uim /system/bin/uim-sysfs
     class core
     user root
     group bluetooth net_bt_admin
-service initial_regdom /system/bin/initial_regdom.sh
-    class main
-    disabled
-    oneshot
-on property:wlan.driver.status=ok
-    chown wifi wifi /sys/devices/platform/wl1271/bt_coex_state
-    start initial_regdom
-on property:init.svc.hostapd=running
-    start initial_regdom
+#service initial_regdom /system/bin/initial_regdom.sh
+#    class main
+#    disabled
+#    oneshot
+#on property:wlan.driver.status=ok
+#    chown wifi wifi /sys/devices/platform/wl1271/bt_coex_state
+#    start initial_regdom
+#on property:init.svc.hostapd=running
+#    start initial_regdom
 service hciattach /system/bin/hciattach -l
     class main
     user bluetooth
@@ -898,11 +780,6 @@ service hostapd /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
     class main
     disabled
     oneshot
-service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
-    class media_early_init
-    user media
-    group media graphics
-    oneshot
 service pvrsrv /system/vendor/bin/pvrsrvinit
     class core
     user root
@@ -962,12 +839,6 @@ service qbplogd /system/bin/qbplogd
     group sdcard_rw radio inet
     oneshot
     disabled
-service dlnasrv /system/bin/dlnasrv
-    class main
-    user mot_dlna
-    group system net_admin sdcard_rw new_raw inet mount misc
-    oneshot
-    disabled
 service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
     class main
     group net_bt net_bt_admin
@@ -975,16 +846,6 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
     oneshot
 on property:dev.bootcomplete=1
 #    start loadpreinstalls
-#service cdromversion /system/bin/logwrapper /system/bin/mount_cdrom.sh /dev/block/cdrom
-#    class core
-#    oneshot
-# Backup/Restore Feature
-on property:mot.backup_restore.status="Finished"
-    start zygote
-service mot_backup /system/bin/logwrapper /system/xbin/run_backup /system/etc/backup_targets.csv
-    disabled
-    user root
-    oneshot
 service secclkd /system/bin/secclkd
     class main
     socket secclk_socket stream 660 mot_secclkd mot_secclkd
@@ -1127,10 +988,6 @@ on property:sys.usb.config=rndis,adb
     write /sys/class/android_usb/android0/enable 1
     start adbd
     setprop sys.usb.state $sys.usb.config
-# Enable Hotplug governor only for OMAP ES2.2 Silicon
-on property:ro.revision=34
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor hotplug
-# Add any hotplug tuning parameters here.
 # service for transfer the certificates installed by CertificateManager to ICS
 service upgrade_certs /system/bin/upgrade_certs
     disabled

@@ -414,12 +414,10 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("*                                              *")
   script.Print("*            STS-Dev-Team presents             *")
   script.Print("*                                              *")
-  script.Print("*      JELLY BEAN  for DROID RAZR ICS OTA      *")
+  script.Print("*        JELLY BEAN KEXEC for DROID RAZR       *")
   script.Print("*                                              *")
   script.Print("*     Follow us  @dhacker29 and @hashcode0f    *")
   script.Print("*        Get the GApps at goo.im/gapps         *")
-  script.Print("*                                              *")
-  script.Print("*     And visit droidhive.com for support      *")
   script.Print("*                                              *")
   script.Print("************************************************")
   script.Print(" ")
@@ -474,7 +472,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #  script.WriteRawImage("/boot", "boot.img")
 
   script.ShowProgress(0.1, 0)
-  script.Print("Finished installing Jelly Bean for Droid Razr, Enjoy!")
+  script.Print("Finished installing Jelly Bean KEXEC for Droid Razr, Enjoy!")
   device_specific.FullOTA_InstallEnd()
 
   if OPTIONS.extra_script is not None:
