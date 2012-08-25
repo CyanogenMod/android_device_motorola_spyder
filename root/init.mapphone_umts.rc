@@ -58,12 +58,12 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /cache nosuid nodev noatime nodiratime
 
 on post-fs
-    mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
-    mount rootfs rootfs / rw remount
-
 # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
+
+    mount ext3 /dev/block/mmcblk1p23 /system ro noatime nodiratime remount
+    mount rootfs rootfs / rw remount
 
     chown system system /pds
     chmod 0775 /pds
@@ -150,12 +150,7 @@ on post-fs
     mkdir /pds/wifi 0771 wifi wifi
     chmod 0664 /pds/wifi/nvs_map.bin
     mkdir /pds/whisper 0770 mot_whisper mot_whisper
-    chown mot_whisper mot_whisper /pds/whisper
-    chmod 0770 /pds/whisper
     mkdir /pds/whisper/whisper_only 0700 mot_whisper mot_whisper
-    chown mot_whisper mot_whisper /pds/whisper/whisper_only
-    chmod 0700 /pds/whisper/whisper_only
-    chown mot_whisper /pds/whisper/whisper_only/vector0.bin
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -301,8 +296,6 @@ on early-boot
     start upgrade_certs
     class_start media_early_init
 on boot
-# Set CPU interactive governor high speed load percentage to 95%
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 95
 # Define Motorola DBVC ATVC Property defaults (failsafe properties)
     setprop ro.sys.atvc_allow_netmon_usb 0
     setprop ro.sys.atvc_allow_netmon_ih 0

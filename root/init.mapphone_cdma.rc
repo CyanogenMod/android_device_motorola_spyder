@@ -693,15 +693,6 @@ service uim /system/bin/uim-sysfs
     class core
     user root
     group bluetooth net_bt_admin
-#service initial_regdom /system/bin/initial_regdom.sh
-#    class main
-#    disabled
-#    oneshot
-#on property:wlan.driver.status=ok
-#    chown wifi wifi /sys/devices/platform/wl1271/bt_coex_state
-#    start initial_regdom
-#on property:init.svc.hostapd=running
-#    start initial_regdom
 service hciattach /system/bin/hciattach -l
     class main
     user bluetooth

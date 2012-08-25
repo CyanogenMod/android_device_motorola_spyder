@@ -173,3 +173,6 @@
 /dev/rpmsg-omx1           0660   drmrpc    drmrpc
 /dev/rproc_user           0660   drmrpc    drmrpc
 /dev/tf_driver            0660   mot_tpapi  mot_tpapi
+
+/dev/alarm                0666   system     radio
+

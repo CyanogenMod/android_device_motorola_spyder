@@ -255,5 +255,29 @@
 
     <!-- IP address of the dns server to use if nobody else suggests one -->
     <string name="config_default_dns_server">8.8.8.8</string>
+
+    <!-- List of file paths for USB host busses to exclude from USB host support.
+         For example, if the first USB bus on the device is used to communicate
+         with the modem or some other restricted hardware, add "/dev/bus/usb/001/"
+         to this list.  If this is empty, no parts of the host USB bus will be excluded.
+    -->
+    <string-array name="config_usbHostBlacklist" translatable="false">
+        <item>"/dev/bus/usb/001/"</item>
+        <item>"/dev/bus/usb/002/"</item>
+        <item>"/dev/bus/usb/003/"</item>
+        <item>"/dev/bus/usb/004/"</item>
+        <item>"/dev/bus/usb/005/"</item>
+        <item>"/dev/usb/tty1-2:1.10"</item>
+        <item>"/dev/usb/tty2-1:1.0"</item>
+        <item>"/dev/usb/tty2-1:1.3"</item>
+    </string-array>
+
+    <!-- List of paths to serial ports that are available to the serial manager.
+         for example, /dev/ttyUSB0
+    -->
+    <string-array translatable="false" name="config_serialPorts">
+        <item>"/dev/ttyUSB4"</item>
+    </string-array>
+
 </resources>
 

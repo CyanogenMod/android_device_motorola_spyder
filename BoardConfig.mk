@@ -150,6 +150,18 @@ TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_img_from_target_files
 TARGET_CUSTOM_RELEASETOOL := ./device/motorola/spyder/releasetools/squisher
 
+# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
+# added by twa_priv
+TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
+TARGET_USE_KRAIT_PLD_SET := true
+TARGET_KRAIT_BIONIC_PLDOFFS := 10
+TARGET_KRAIT_BIONIC_PLDTHRESH := 10
+TARGET_KRAIT_BIONIC_BBTHRESH := 64
+TARGET_KRAIT_BIONIC_PLDSIZE := 64
+
+# Bootanimation
+TARGET_BOOTANIMATION_PRELOAD := true
+
 
 # Misc.
 BOARD_USE_BATTERY_CHARGE_COUNTER := true
@@ -158,6 +170,7 @@ BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 BOARD_HAS_MAPPHONE_SWITCH := true
 USE_IPV6_ROUTE := true
+LEGACY_RIL := true
 
 # Common device independent definitions
 include device/ti/common-open/BoardConfig.mk
