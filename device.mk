@@ -71,9 +71,10 @@ PRODUCT_PACKAGES += \
     calibrator \
     busybox \
 
-# Wifi Direct
+# Wifi Direct and WPAN
 PRODUCT_PACKAGES += \
-    ti_wfd_libs
+    ti_wfd_libs \
+    ti-wpan-fw
 
 # Bluetooth
 PRODUCT_PACKAGES += \
