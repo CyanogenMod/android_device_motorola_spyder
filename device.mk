@@ -201,6 +201,6 @@ $(call inherit-product, hardware/ti/wpan/ti-wpan-products.mk)
 $(call inherit-product, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 $(call inherit-product-if-exists, vendor/motorola/common/proprietary/imgtec/sgx-imgtec-bins.mk)
 $(call inherit-product-if-exists, vendor/motorola/common/proprietary/custom-omap4xxx/custom-omap4.mk)
-$(call inherit-product-if-exists, vendor/verizon/verizon.mk)
+$(call inherit-product-if-exists, vendor/motorola/common/proprietary/apps/verizon.mk)
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 
