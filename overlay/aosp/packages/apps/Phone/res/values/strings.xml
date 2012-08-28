@@ -17,8 +17,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string-array name="preferred_network_mode_choices">
-		<item>LTE ONLY</item>
-		<item>LTE / CMDA / EvDo / GSM/WCDMA</item>
+        <item>LTE ONLY</item>
+        <item>LTE / CMDA / EvDo / GSM/WCDMA</item>
         <item>LTE / WCDMA / GSM</item>
         <item>LTE / CDMA / EvDo</item>
         <item>LTE / CDMA</item>
