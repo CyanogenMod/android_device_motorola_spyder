@@ -99,27 +99,10 @@ PRODUCT_PACKAGES += \
     parse_hdmi_edid \
 
 PRODUCT_PACKAGES += \
-    librs_jni \
     com.android.future.usb.accessory \
     FileManager \
     MusicFX \
     Apollo \
-    VideoEditor \
-    VoiceDialer \
-    Basic \
-    HoloSpiralWallpaper \
-    MagicSmokeWallpapers \
-    NoiseField \
-    Galaxy4 \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    VisualizationWallpapers \
-    PhaseBeam \
-
-# WirelessTether
-PRODUCT_PACKAGES += wifi_tether_v3_2-beta1
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/lib/libwtnativetask.so:system/lib/libwtnativetask.so \
 
 # Rootfs files
 PRODUCT_COPY_FILES += \
@@ -175,13 +158,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml \
 
 #    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-
-# Backup Tool
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/bin/backuptool.sh:system/bin/backuptool.sh \
-    $(DEVICE_FOLDER)/prebuilt/bin/backuptool.functions:system/bin/backuptool.functions \
-    $(DEVICE_FOLDER)/prebuilt/bin/50-backup.sh:system/addon.d/50-backup.sh
-
 
 # Phone settings
 PRODUCT_COPY_FILES += \

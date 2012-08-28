@@ -148,7 +148,7 @@ endif
 TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/spyder/releasetools/spyder_img_from_target_files
-TARGET_CUSTOM_RELEASETOOL := ./device/motorola/spyder/releasetools/squisher
+TARGET_CUSTOM_RELEASETOOL := ./vendor/motorola/common/tools/squisher
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
