@@ -38,8 +38,8 @@ PRODUCT_COPY_FILES += \
 # Kexec files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/kexec/devtree:system/etc/kexec/devtree \
-    out/target/product/umts_spyder/ramdisk.img:system/etc/kexec/ramdisk.img \
-    out/target/product/umts_spyder/kernel:system/etc/kexec/kernel
+    out/target/product/spyder/ramdisk.img:system/etc/kexec/ramdisk.img \
+    out/target/product/spyder/kernel:system/etc/kexec/kernel
 
 # Prebuilts
 PRODUCT_COPY_FILES += \
@@ -52,7 +52,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
     $(DEVICE_FOLDER)/prebuilt/etc/TICameraCameraProperties.xml:system/etc/TICameraCameraProperties.xml
 
-#    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+#    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
 # Phone settings
 PRODUCT_COPY_FILES += \
