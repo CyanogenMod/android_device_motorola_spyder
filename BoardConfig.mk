@@ -14,7 +14,7 @@ BOARD_PAGE_SIZE := 0x4096
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/motorola/mapphone
-TARGET_KERNEL_CONFIG := hashcode_1024_defconfig
+TARGET_KERNEL_CONFIG := mapphone_spyder_defconfig
 
 # Recovery
 BOARD_NONSAFE_SYSTEM_DEVICE := /dev/block/mmcblk1p20
