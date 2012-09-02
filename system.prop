@@ -291,3 +291,4 @@ persist.sys.root_access=3
 ro.hwc.legacy_api=true
 ro.product.use_charge_counter=1
 ril.subscription.types=NV,RUIM
+ro.cdma.subscribe_on_ruim_ready=true
