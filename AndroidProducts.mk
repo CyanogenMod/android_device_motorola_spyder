@@ -1,3 +1,4 @@
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_spyder.mk \
-    $(LOCAL_DIR)/aokp.mk
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_spyder.mk
+ifeq ($(TARGET_PRODUCT),aokp_spyder)
+    PRODUCT_MAKEFILES += $(LOCAL_DIR)/aokp.mk
+endif

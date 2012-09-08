@@ -490,18 +490,6 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
-service sshd /system/bin/start-ssh
-    class main
-    disabled
-
-service mdnsd /system/bin/mdnsd
-    class main
-    user mdnsr
-    group inet net_raw
-    socket mdnsd stream 0660 mdnsr inet
-    disabled
-    oneshot
-
 # adb over network
 on property:service.adb.tcp.port=5555
     stop adbd
