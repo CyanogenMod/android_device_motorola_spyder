@@ -22,3 +22,4 @@
 
 add_lunch_combo full_spyder-userdebug
 add_lunch_combo cm_spyder-userdebug
+add_lunch_combo aokp_spyder-userdebug
