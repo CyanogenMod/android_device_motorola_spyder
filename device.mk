@@ -50,7 +50,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/ueventd.rc:/system/etc/rootfs/ueventd.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_cdma.rc:/system/etc/rootfs/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_umts.rc:/system/etc/rootfs/ueventd.mapphone_umts.rc \
-    out/target/product/spyder/root/init:system/etc/rootfs/init \
     out/target/product/spyder/root/sbin/adbd:system/etc/rootfs/sbin/adbd
 endif
 
