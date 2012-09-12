@@ -30,12 +30,8 @@ on init
     mkdir /mnt/external1 0000 system system
 
     mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
-
     mkdir /cdrom 0770 system system
-
-    symlink /data/tmp /tmp
 
 # Permissions for RIL. Need to be set before boot.
 
@@ -73,6 +69,8 @@ on post-fs
 # Create mountpoints and mount tmpfs
     mkdir /misc 0770 system misc
     mkdir /sd-ext 0771 system system
+    mkdir /data/tmp 0777 system system
+    symlink /data/tmp /tmp
     mount tmpfs tmpfs /tmp
 
     # Same reason as /data above

@@ -30,12 +30,8 @@ on init
     mkdir /mnt/external1 0000 system system
 
     mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
-
     mkdir /cdrom 0770 system system
-
-    symlink /data/tmp /tmp
 
 # Permissions for RIL. Need to be set before boot.
 
@@ -72,6 +68,8 @@ on post-fs
     # Create mountpoints and mount tmpfs
     mkdir /misc 0770 system misc
     mkdir /sd-ext 0771 system system
+    mkdir /data/tmp 0777 system system
+    symlink /data/tmp /tmp
     mount tmpfs tmpfs /tmp
 
     # Same reason as /data above
@@ -141,12 +139,7 @@ on post-fs
     mkdir /pds/wifi 0771 wifi wifi
     chmod 0664 /pds/wifi/nvs_map.bin
     mkdir /pds/whisper 0770 mot_whisper mot_whisper
-    chown mot_whisper mot_whisper /pds/whisper
-    chmod 0770 /pds/whisper
     mkdir /pds/whisper/whisper_only 0700 mot_whisper mot_whisper
-    chown mot_whisper mot_whisper /pds/whisper/whisper_only
-    chmod 0700 /pds/whisper/whisper_only
-    chown mot_whisper /pds/whisper/whisper_only/vector0.bin
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
