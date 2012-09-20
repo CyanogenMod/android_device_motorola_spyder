@@ -686,7 +686,7 @@ service dhcpcd_usbeth0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
-service hostapd /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
+service hostapd_bin /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
     socket wpa_wlan0 dgram 660 wifi wifi
     class main
     disabled
