@@ -5,10 +5,12 @@
 rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyO0
 telephony.lteOnCdmaDevice=1
-ro.config.svlte1x=true
 ro.sf.lcd_density=240
 ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
+
+# Enable ALWAYS_READ_IMSI_FROM_SIM
+persist.ril.features=800
 persist.ril.modem.mode =1
 # This defines the max event window manager can
 # handle in 1 s. We may adjust this # for performance
@@ -19,6 +21,11 @@ windowsmgr.max_events_per_sec=90
 ro.ngp_available=1
 ro.modem_available=0
 
+# Turn on IMS by default
+persist.radio.imsregrequired=1
+persist.radio.imsallowmtsms=1
+persist.radio.imsfwloglevel=3
+
 # Default network type.
 # 7 => GLOBAL.
 ro.telephony.default_network=10
@@ -28,6 +35,7 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
 ro.config.vc_call_vol_steps=7
+ro.config.svlte1x=true
 
 # wlan interface
 wifi.interface = wlan0
@@ -89,8 +97,7 @@ persist.mot.usb.mediasync = 1
 # persist.usb.android_config = 1
 
 # System property for Security Middleware Component
-#ro.service.start.smc=1
-ro.service.start.smc=0
+ro.service.start.smc=1
 ro.HorizontalBUA=true
 #Proximity sensor debounce time
 mot.proximity.delay=450
@@ -280,11 +287,11 @@ ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.build.version.full=JB_Version.4.1.1_r3.XT912.Verizon.en.US
 ro.mot.hidden_keyboards=evfwd
 ro.setupwizard.enable_bypass=1
 persist.sys.usb.config=mass_storage,adb
 
+# Additions
 com.ti.omap_enhancement=true
 hwui.render_dirty_regions=false
 persist.sys.root_access=3
