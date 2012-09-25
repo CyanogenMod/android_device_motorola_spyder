@@ -6,6 +6,7 @@ on early-init
     mkdir /mnt 0775 root system
     # for backwards compatibility
     symlink /storage/sdcard0 /sdcard
+    rmdir /mnt/sdcard
     symlink /storage/sdcard0 /mnt/sdcard
 
 on init
@@ -21,6 +22,7 @@ on init
     mkdir /storage/sdcard1 0000 system system
     # for backwards compatibility
     symlink /storage/sdcard1 /sdcard-ext
+    rmdir /mnt/sdcard-ext
     symlink /storage/sdcard1 /mnt/sdcard-ext
 
     # create removable USB Mass Storage mountpoints
