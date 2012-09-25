@@ -25,6 +25,11 @@
     <!-- Maximum message size in bytes for a MMS message -->
     <int name="maxMessageSize">1228800</int>
 
+    <!-- Maximum height for an attached image -->
+    <int name="maxImageHeight">2448</int>
+    <!-- Maximum width for an attached image -->
+    <int name="maxImageWidth">3264</int>
+
     <!-- UAProf URL -->
     <string name="uaProfUrl">http://uaprof.vtext.com/mot/xt912/xt912.xml</string>
 
