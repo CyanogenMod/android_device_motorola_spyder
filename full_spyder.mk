@@ -27,7 +27,7 @@ PRODUCT_PACKAGES := \
 
 #if we do this after the full_base_telephony is included some of these don't get picked up..
 PRODUCT_COPY_FILES += \
-    vendor/motorola/spyder/proprietary/etc/apns-conf.xml:system/etc/apns-conf.xml \
+    vendor/motorola/common/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml
 
 # Inherit from those products. Most specific first.
