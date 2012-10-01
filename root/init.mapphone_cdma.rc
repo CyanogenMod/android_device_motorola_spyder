@@ -70,7 +70,6 @@ on post-fs
     # Create mountpoints and mount tmpfs
     mkdir /misc 0770 system misc
     mkdir /sd-ext 0771 system system
-    mkdir /data/tmp 0777 system system
     symlink /data/tmp /tmp
     mount tmpfs tmpfs /tmp
 
@@ -176,6 +175,7 @@ on post-fs
     exec /system/bin/motobox mkswap /dev/block/zram0
     exec /system/bin/motobox swapon /dev/block/zram0
 on post-fs-data
+    mkdir /data/tmp 0777 system system
     copy /proc/apanic_app_threads /data/dontpanic/apanic_app_threads
     chown root log /data/dontpanic/apanic_app_threads
     chmod 0660 /data/dontpanic/apanic_app_threads
