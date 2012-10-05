@@ -62,7 +62,7 @@ on post-fs
     chown system system /pds
     chmod 0775 /pds
 
-    mount ext3 /dev/block/mmcblk1p22 /system ro noatime nodiratime remount
+    mount ext3 /dev/block/system /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
 # Backward compatibility
     symlink /dev /dev/netmux
