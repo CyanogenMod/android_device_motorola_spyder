@@ -2,7 +2,7 @@
 
 /sdcard-ext     vfat            /dev/block/mmcblk0p1    /dev/block/mmcblk0
 /sdcard         vfat            /dev/block/emstorage
-/system         auto            /dev/block/system
+/system         ext3            /dev/block/system
 /data           ext3            /dev/block/userdata
 /cache          ext3            /dev/block/cache
 /systemorig     auto            /dev/block/systemorig
