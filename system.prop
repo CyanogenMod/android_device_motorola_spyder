@@ -292,4 +292,5 @@ ro.hwc.legacy_api=true
 ro.product.use_charge_counter=1
 ril.subscription.types=NV,RUIM
 ro.cdma.subscribe_on_ruim_ready=true
-ro.telephony.ril.v3=motoril
+persist.ril.moto_oem=true
+persist.ril.imsi_fix=true
