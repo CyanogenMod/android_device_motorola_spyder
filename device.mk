@@ -73,11 +73,6 @@ PRODUCT_COPY_FILES += \
 
 #    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
-# SU binary for AOSP builds
-ifeq ($(TARGET_PRODUCT),full_spyder)
-PRODUCT_COPY_FILES += vendor/motorola/common/prebuilt/bin/su:system/xbin/su
-endif
-
 # copy all kernel modules under the "modules" directory to system/lib/modules
 ifneq ($(BOARD_USES_KEXEC),true)
 PRODUCT_COPY_FILES += $(shell \
