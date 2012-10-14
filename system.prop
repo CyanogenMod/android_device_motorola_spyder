@@ -294,3 +294,4 @@ ril.subscription.types=NV,RUIM
 ro.cdma.subscribe_on_ruim_ready=true
 persist.sys.moto_oem_telephony=true
 persist.sys.moto_imsi_fix=true
+ro.config.not_world_phone=false
