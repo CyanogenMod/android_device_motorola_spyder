@@ -30,6 +30,8 @@ PRODUCT_COPY_FILES += \
     vendor/motorola/common/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml
 
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=cdma_spyder
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # This is where we'd set a backup provider if we had one
@@ -42,4 +44,5 @@ $(call inherit-product, device/motorola/spyder/device.mk)
 PRODUCT_NAME := full_spyder
 PRODUCT_DEVICE := spyder
 PRODUCT_BRAND := verizon
+PRODUCT_MANUFACTURER := Motorola
 PRODUCT_MODEL := DROID RAZR
