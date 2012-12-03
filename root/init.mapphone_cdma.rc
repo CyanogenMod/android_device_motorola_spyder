@@ -11,9 +11,6 @@ on early-init
 on init
     loglevel 8
 
-    exec /sbin/fixboot.sh
-
-    export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
     export EXTERNAL_STORAGE /storage/sdcard1
@@ -51,10 +48,28 @@ on init
 
 
 on fs
-    mount ext3 /dev/block/system /system wait noatime nodiratime barrier=1
+# begin SS3 setup
+    mount rootfs rootfs / rw remount
+    mkdir /ss 0777 root root
+    mount vfat /dev/block/emstorage /ss
+#    exec /sbin/bbx mknod -m600 /dev/block/loop-system b 7 99
+#    exec /sbin/bbx mknod -m600 /dev/block/loop-userdata b 7 98
+#    exec /sbin/bbx mknod -m600 /dev/block/loop-cache b 7 97
+#    exec /sbin/bbx mv /dev/block/system /dev/block/systemorig
+#    exec /sbin/bbx mv /dev/block/userdata /dev/block/userdataorig
+#    exec /sbin/bbx mv /dev/block/cache /dev/block/cacheorig
+#    exec /sbin/bbx losetup /dev/block/loop-system /ss/safestrap/rom-slot1/system.img
+#    exec /sbin/bbx losetup /dev/block/loop-userdata /ss/safestrap/rom-slot1/userdata.img
+#    exec /sbin/bbx losetup /dev/block/loop-cache /ss/safestrap/rom-slot1/cache.img
+#    exec /sbin/bbx ln -s /dev/block/loop-system /dev/block/system
+#    exec /sbin/bbx ln -s /dev/block/loop-userdata /dev/block/userdata
+#    exec /sbin/bbx ln -s /dev/block/loop-cache /dev/block/cache
+    exec /sbin/bbx ls -l /dev/block/* > /ss/block-dir.txt
+# end SS3 setup
+    mount ext3 loop@/ss/safestrap/rom-slot1/system.img /system wait noatime nodiratime barrier=1
     mount ext3 /dev/block/pds /pds nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/userdata /data nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/cache /cache nosuid nodev noatime nodiratime
+    mount ext3 loop@/ss/safestrap/rom-slot1/userdata.img /data nosuid nodev noatime nodiratime
+    mount ext3 loop@/ss/safestrap/rom-slot1/cache.img /cache nosuid nodev noatime nodiratime
 on post-fs
 # Enable PVR modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
