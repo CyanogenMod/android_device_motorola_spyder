@@ -41,14 +41,14 @@ PRODUCT_COPY_FILES += device/motorola/common/prebuilt/etc/rootfs/init:root/init
 endif
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/kexec/devtree:system/etc/kexec/devtree \
+    $(OUT)/ramdisk.img:system/etc/kexec/ramdisk.img \
     $(DEVICE_FOLDER)/prebuilt/etc/firmware/ducati-m3.bin:system/etc/firmware/ducati-m3.bin \
-    out/target/product/spyder/ramdisk.img:system/etc/kexec/ramdisk.img \
-    out/target/product/spyder/kernel:system/etc/kexec/kernel
+    $(OUT)/kernel:system/etc/kexec/kernel
 else
 ifeq ($(TARGET_PRODUCT),full_spyder)
 PRODUCT_COPY_FILES += device/motorola/common/prebuilt/etc/rootfs/init:system/etc/rootfs/init
 else
-PRODUCT_COPY_FILES += out/target/product/spyder/root/init:system/etc/rootfs/init
+PRODUCT_COPY_FILES += $(OUT)/root/init:system/etc/rootfs/init
 endif
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/default.prop:/system/etc/rootfs/default.prop \
@@ -58,7 +58,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/ueventd.rc:/system/etc/rootfs/ueventd.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_cdma.rc:/system/etc/rootfs/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_umts.rc:/system/etc/rootfs/ueventd.mapphone_umts.rc \
-    out/target/product/spyder/root/sbin/adbd:system/etc/rootfs/sbin/adbd
+    $(OUT)/root/sbin/adbd:system/etc/rootfs/sbin/adbd
 endif
 
 # Prebuilts
