@@ -11,7 +11,6 @@ on early-init
 on init
     loglevel 8
 
-    export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
     export EXTERNAL_STORAGE /storage/sdcard1
     export SECONDARY_STORAGE /storage/sdcard0
@@ -150,6 +149,8 @@ on post-fs
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
+    chown bluetooth net_bt_stack /dev/ttyO1
+    chmod 0660 /dev/ttyO1
     # following dir is for storing BP Flex and PDS files. NVM Daemon is using this
     mkdir /pds/bp_nvm 0770 radio radio
     # create the lost+found directories, so as to enforce our permissions
