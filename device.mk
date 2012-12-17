@@ -1,11 +1,18 @@
 #
 # This is the product configuration for a full spyder
 #
+$(call inherit-product, device/motorola/common/common.mk)
 
 DEVICE_FOLDER := device/motorola/spyder
 
 # Device overlay
     DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay/aosp
+
+# Hardware HALs
+PRODUCT_PACKAGES += \
+    camera.spyder \
+
+#    hwcomposer.spyder \
 
 # Audio
 PRODUCT_COPY_FILES += \
@@ -14,10 +21,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/audio/audio_policy.omap4.so:/system/lib/hw/audio_policy.omap4.so \
     $(DEVICE_FOLDER)/audio/libasound.so:/system/lib/libasound.so \
     $(DEVICE_FOLDER)/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
-
-# Hardware HALs
-PRODUCT_PACKAGES += \
-    hwcomposer.spyder
 
 # Modem
 PRODUCT_PACKAGES += \
@@ -30,7 +33,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
     $(DEVICE_FOLDER)/root/init.mapphone_cdma.rc:/root/init.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/init.mapphone_umts.rc:/root/init.mapphone_umts.rc \
-    $(DEVICE_FOLDER)/root/ueventd.rc:/root/ueventd.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone.rc:/root/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone.rc:/root/ueventd.mapphone_umts.rc
 
@@ -52,10 +54,10 @@ PRODUCT_COPY_FILES += $(OUT)/root/init:system/etc/rootfs/init
 endif
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/default.prop:/system/etc/rootfs/default.prop \
-    system/core/rootdir/init.rc:/system/etc/rootfs/init.rc \
+    $(OUT)/root/init.rc:/system/etc/rootfs/init.rc \
     $(DEVICE_FOLDER)/root/init.mapphone_cdma.rc:/system/etc/rootfs/init.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/init.mapphone_umts.rc:/system/etc/rootfs/init.mapphone_umts.rc \
-    $(DEVICE_FOLDER)/root/ueventd.rc:/system/etc/rootfs/ueventd.rc \
+    $(OUT)/root/ueventd.rc:/system/etc/rootfs/ueventd.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone.rc:/system/etc/rootfs/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone.rc:/system/etc/rootfs/ueventd.mapphone_umts.rc \
     $(OUT)/root/sbin/adbd:system/etc/rootfs/sbin/adbd
@@ -80,7 +82,6 @@ PRODUCT_COPY_FILES += $(shell \
     | tr '\n' ' ')
 endif
 
-$(call inherit-product, device/motorola/common/common.mk)
 $(call inherit-product-if-exists, vendor/motorola/common/proprietary/apps/verizon.mk)
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 ifneq ($(BOARD_USES_KEXEC),true)
