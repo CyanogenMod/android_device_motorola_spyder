@@ -258,12 +258,10 @@ ro.media.capture.flashIntensity=100
 ro.media.capture.classification=classF
 ro.media.panorama.defres=3264x1840
 ro.media.panorama.frameres=1280x720
-ro.sf.lcd_density=240
 ro.mot.phonemode.vzw4gphone=1
 ro.mot.lte_on_cdma=1
 ro.mot.tmp.telephony.refactor=true
 ro.cdma.subscription=0
-ro.telephony.default_network=10
 lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
 cdma_ril.libpath=/system/lib/libmoto_ril.so
 ril.rat=LTE
@@ -274,8 +272,6 @@ ro.com.android.dataroaming=true
 ro.cdma.data_retry_config=max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000
 ro.gsm.data_retry_config=default_randomization=2000,max_retries=infinite,0,0,80000,125000,485000,905000
 ro.gsm.2nd_data_retry_config=max_retries=infinite,default_randomization=2000,0,0,80000,125000,485000,905000
-net.bt.name=Android
-dalvik.vm.stack-trace-file=/data/anr/traces.txt
 ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
@@ -288,7 +284,6 @@ persist.sys.usb.config=mass_storage,adb
 com.ti.omap_enhancement=true
 hwui.render_dirty_regions=false
 persist.sys.root_access=3
-ro.hwc.legacy_api=true
 ro.product.use_charge_counter=1
 ril.subscription.types=NV,RUIM
 ro.cdma.subscribe_on_ruim_ready=true
