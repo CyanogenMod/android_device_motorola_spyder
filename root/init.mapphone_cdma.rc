@@ -1,31 +1,20 @@
-on early-init
-
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    mkdir /mnt 0775 root system
-    # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
-    rmdir /mnt/sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-
 on init
     loglevel 8
 
-    export SD_EXT_DIRECTORY /sd-ext
     export EXTERNAL_STORAGE /storage/sdcard1
     export SECONDARY_STORAGE /storage/sdcard0
 
+    mkdir /storage/sdcard0 0000 system system
     mkdir /storage/sdcard1 0000 system system
     # for backwards compatibility
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
     symlink /storage/sdcard1 /sdcard-ext
-    rmdir /mnt/sdcard-ext
     symlink /storage/sdcard1 /mnt/sdcard-ext
 
     # create removable USB Mass Storage mountpoints
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
-
-    mkdir /mnt/external1 0000 system system
 
     mkdir /pds 0775 system system
     mkdir /preinstall 0771 system system
