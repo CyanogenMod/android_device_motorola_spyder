@@ -5,7 +5,7 @@ $(call inherit-product, device/motorola/spyder/full_spyder.mk)
 $(call inherit-product-if-exists, vendor/nos/killrom/config/common.mk)
 $(call inherit-product-if-exists, vendor/google/killrom/config/common.mk)
 
-#DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/killrom
+DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/killrom
 
 #
 # Setup device specific product configuration.
