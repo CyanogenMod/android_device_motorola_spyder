@@ -5,15 +5,10 @@
 rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyO0
 telephony.lteOnCdmaDevice=1
-ro.sf.lcd_density=240
 ro.mot.ril.danlist=611,*611,#611
 persist.ril.ecclist=911,*911,#911
 
 persist.ril.modem.mode =1
-# This defines the max event window manager can
-# handle in 1 s. We may adjust this # for performance
-# reason later
-windowsmgr.max_events_per_sec=90
 
 # USB modes allowed for UI and switching
 ro.ngp_available=1
@@ -27,32 +22,7 @@ ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
-ro.config.vc_call_vol_steps=7
 ro.config.svlte1x=true
-
-# wlan interface
-wifi.interface = wlan0
-softap.interface = wlan0
-wifi.ap.interface = wlan0
-
-# Time between scans in seconds. Keep it high to minimize battery drain.
-# This only affects the case in which there are remembered access points,
-# but none are in range.
-wifi.supplicant_scan_interval = 90
-
-# Indicate carrier OTA SP number schema
-# refer to frameworks/base/telephony/java/com/android/
-# internal/telephony/cdma/CDMAPhone.java for the schema:
-ro.cdma.otaspnumschema=SELC,1,80,99
-
-# The OpenGL ES API level that is natively supported by this device.
-# This is a 16.16 fixed point number
-ro.opengles.version = 131072
-
-# This is a high density device with more memory, so larger vm heaps for it.
-dalvik.vm.heapsize=76m
-# The URL for safety information
-#ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal
 
 # our HTML browser (not WAP browser ) based on requirements IKHSS6-1061 need to specify UAProf URL
 ro.mot.hw.uaprof=http://uaprof.vtext.com/mot/xt912/xt912.xml
@@ -89,17 +59,10 @@ ro.cdma.nbpcd=1
 persist.mot.usb.mediasync = 1
 # persist.usb.android_config = 1
 
-# System property for Security Middleware Component
-ro.service.start.smc=1
-ro.HorizontalBUA=true
 #Proximity sensor debounce time
 mot.proximity.delay=450
 # disable touch below 60 pixels
 mot.proximity.distance=60
-
-# BEGIN Motorola, qpmc46, 05-Jul-2010, IKMAIN-311
-persist.ril.mux.noofchannels = 8
-# END  Motorola, qpmc46, 05-Jul-2010, IKMAIN-311
 
 #BEGIN Motorola, nfjb73, 21-jun-2010,
 # this is for feature 34386, other features for vzw global phone
@@ -133,34 +96,11 @@ ro.cdma.home.operator.isnan=1
 ro.mot.dpmext = true
 # EDM feature - IKDROIDPRO-381 -End
 
-# BEGIN Moto,IKDROIDPRO-430, a17673
-# Feature33857 on DroidWE, support DualMode switch, UMTS/CDMA
-##### Override in cdma_spyder.mk until LTE + Global support. ######
-#ro.mot.FTR.33857=true
-# END IKDROIDPRO-430
-
-# This is necessary for framework to support
-# the LTE and eHRPD capability.
-##### Override in cdma_spyder.mk until LTE + Global support. ######
-#ro.mot.lte_on_cdma=1
-
-# BEGIN Moto, IKSTABLETWO-1284, nfjb73
-# without this property, the lock screen would take global phone as UMTS
-# block user to operate before setup
-keyguard.no_require_sim = true
-# End Moto
-
 # BEGIN Moto, IKSTABLETWO-689, nfjb73, for 34387,33857
 # when phone in Global mode, FW need to know the last phone mode beore power off
 # when phone power up, it would use the right mode to avoid switch
 persist.radio.ap.phonetype=2
 # END IKSTABLETWO-689
-
-# Multimode RIL Paths
-##### Override in cdma_spyder.mk until LTE + Global support. ######
-#lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
-#cdma_ril.libpath=/system/lib/libmoto_ril.so
-#ril.rat=LTE
 
 # BEGIN Motorola, hwqc67, 22-Jun-2011, IKLOCSEN-317, FID 36426
 # Gps Smart Battery Savings
@@ -181,11 +121,6 @@ ril.dumpstate.timeout=60
 persist.dbg.kwdt.report=0
 # END IKSTABLE6-8304
 
-# BEGIN Motorola, w15439, 19-Aug-2011, IKSTABLE6-9125
-ro.hdcp.support=2
-# END IKSTABLE6-9125
-
-
 # BEGIN Motorola, atzakis, 12-Oct-2011, IKSTABLE6-18830
 ro.mot.hw.navkeyboard.devname=cy8c201xx
 # END IKSTABLE6-18830
@@ -197,26 +132,16 @@ com.motorola.cg.tnHeight=160
 com.motorola.cg.tndisplay=1
 # END IKHSS7-2427
 
-#
-# ADDITIONAL_BUILD_PROPERTIES
-#
-dalvik.vm.heapstartsize=5m
-dalvik.vm.heapgrowthlimit=42m
-dalvik.vm.heapsize=128m
-drm.service.enabled=true
 ro.com.google.clientidbase=android-motorola
 ro.com.google.clientidbase.ms=android-verizon
 ro.com.google.clientidbase.am=android-verizon
 ro.com.google.clientidbase.gmm=android-motorola
 ro.com.google.clientidbase.yt=android-verizon
-ro.kernel.android.ril=yes
-persist.ril.mux.noofchannels=10
 persist.ril.mux.ttydevice=/dev/ttyO0
 persist.ril.modem.ttydevice=/dev/usb/tty2-1:1.4
 persist.ril.tcmd.ttydevice=/dev/usb/tty2-1:1.3
 persist.ril.diag.ttydevice=/dev/usb/tty2-1:1.0
 persist.ril.features=0x90A
-persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
 persist.ril.rssi.enable.param6=1
 ril.wrigley.modem.tty=/dev/usb/tty1-2:1.10
@@ -224,12 +149,6 @@ persist.radio.lte.mm.disable=0
 rild.libpath=/system/lib/moto-ril-multimode.so
 gsm.sim.mot.simswap=1
 ro.com.google.gmsversion=4.0_r2
-ro.crypto.state=unencrypted
-ro.media.enc.aud.fileformat=qcp
-ro.media.enc.aud.codec=qcelp
-ro.media.enc.aud.bps=13300
-ro.media.enc.aud.ch=1
-ro.media.enc.aud.hz=8000
 ro.mot.setuptype=2
 ro.HorizontalBUA=true
 ro.HorizontalVVM=true
@@ -239,25 +158,6 @@ ro.horizontalVMM=false
 ro.horizontalMOD=false
 ro.horizontalVOD=false
 ro.horizontalEmail=false
-ro.media.camcorder.1080p=mp4,h264,30,15000000,aac,128000,44100,2
-ro.media.camcorder.720p=mp4,h264,30,10000000,aac,128000,44100,2
-ro.media.camcorder.d1NTSC=mp4,h264,30,6000000,aac,128000,44100,2
-ro.media.camcorder.vga=mp4,h264,30,4000000,aac,128000,44100,2
-ro.media.camcorder.cif=mp4,h264,30,1500000,aac,128000,44100,2
-ro.media.camcorder.qvga=mp4,h264,15,500000,aac,64000,44100,2
-ro.media.camcorder.mms=3gp,h264,15,128000,amrnb,12200,8000,1
-ro.media.camcorder.mmsres=qvga
-ro.camcorder.zoom=true
-ro.media.capture.maxres=5m
-ro.media.capture.fast.fps=4
-ro.media.capture.slow.fps=120
-ro.media.capture.flash=led
-ro.media.capture.flashMinV=3300000
-ro.media.capture.torchIntensity=40
-ro.media.capture.flashIntensity=100
-ro.media.capture.classification=classF
-ro.media.panorama.defres=3264x1840
-ro.media.panorama.frameres=1280x720
 ro.mot.phonemode.vzw4gphone=1
 ro.mot.lte_on_cdma=1
 ro.mot.tmp.telephony.refactor=true
@@ -266,7 +166,6 @@ lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
 cdma_ril.libpath=/system/lib/libmoto_ril.so
 ril.rat=LTE
 lte_ril.netcfg_to=90
-ro.telephony.call_ring.multiple=false
 ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83
 ro.com.android.dataroaming=true
 ro.cdma.data_retry_config=max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000
@@ -277,14 +176,8 @@ ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.mot.hidden_keyboards=evfwd
-ro.setupwizard.enable_bypass=1
-persist.sys.usb.config=mass_storage,adb
 
 # Additions
-com.ti.omap_enhancement=true
-hwui.render_dirty_regions=false
-persist.sys.root_access=3
-ro.product.use_charge_counter=1
 ril.subscription.types=NV,RUIM
 ro.cdma.subscribe_on_ruim_ready=true
 ro.telephony.ril.v3=writeaidonly
