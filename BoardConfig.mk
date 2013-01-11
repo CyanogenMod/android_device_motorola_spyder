@@ -7,6 +7,8 @@
 # Processor
 TARGET_BOOTLOADER_BOARD_NAME := spyder
 
+COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
+
 # Kernel
 ifeq ($(BOARD_USES_KEXEC),true)
 BOARD_KERNEL_CMDLINE := root=/dev/ram0 rw mem=1024M@0x80000000 console=ttyO2,115200n8 init=/init ip=off mmcparts=mmcblk1:p7(pds),p8(utags),p14(boot),p15(recovery),p16(cdrom),p17(misc),p18(cid),p19(kpanic),p20(system),p21(cache),p22(preinstall),p23(webtop),p24(userdata),p25(emstorage) mot_sst=1 androidboot.bootloader=0x0A72
@@ -24,12 +26,3 @@ else
 TARGET_KERNEL_SOURCE := kernel/motorola/omap4_xt912
 TARGET_KERNEL_CONFIG := mapphone_defconfig
 endif
-
-# gps
-BOARD_VENDOR_TI_GPS_HARDWARE := omap4
-BOARD_GPS_LIBRARIES := libgps
-
-# adb has root
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
-
