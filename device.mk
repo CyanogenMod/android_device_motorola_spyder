@@ -20,10 +20,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/audio/audio.primary.omap4.so:/system/lib/hw/audio.primary.spyder.so \
     $(DEVICE_FOLDER)/audio/libaudio_ext.so:/system/lib/libaudio_ext.so
 
-PRODUCT_PACKAGES += \
-    audio_policy.spyder \
-    libasound
-
 # Modem
 PRODUCT_PACKAGES += \
     nc \
