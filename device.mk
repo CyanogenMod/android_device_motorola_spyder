@@ -11,8 +11,9 @@ DEVICE_FOLDER := device/motorola/spyder
 # Hardware HALs
 PRODUCT_PACKAGES += \
     camera.spyder \
+    lights.spyder
 
-#    hwcomposer.spyder \
+#    hwcomposer.spyder
 
 # Audio
 PRODUCT_COPY_FILES += \
