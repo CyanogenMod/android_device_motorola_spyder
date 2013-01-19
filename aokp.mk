@@ -2,7 +2,7 @@
 $(call inherit-product, device/motorola/spyder/full_spyder.mk)
 
 # Inherit common product files.
-$(call inherit-product, vendor/aokp/configs/common_phone.mk)
+$(call inherit-product, vendor/aokp/configs/common.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/aokp
 
