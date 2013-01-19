@@ -6,6 +6,10 @@ $(call inherit-product, vendor/aokp/configs/common.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/aokp
 
+# AOKP-specific init file for SafeStrap
+PRODUCT_COPY_FILES += \
+    vendor/aokp/prebuilt/common/etc/init.local.rc:system/etc/rootfs/init.aokp.rc
+
 # Setup device specific product configuration.
 PRODUCT_NAME := aokp_spyder
 PRODUCT_BRAND := verizon
