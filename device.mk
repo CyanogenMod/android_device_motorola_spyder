@@ -62,6 +62,7 @@ PRODUCT_COPY_FILES += $(shell \
     | tr '\n' ' ')
 endif
 
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/motorola/common/proprietary/vzw/verizon.mk)
 $(call inherit-product-if-exists, vendor/motorola/spyder/spyder-vendor.mk)
 ifneq ($(BOARD_USES_KEXEC),true)
