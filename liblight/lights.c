@@ -33,11 +33,6 @@
 
 #include <hardware/lights.h>
 
-// taken from led-lm3530.h in kernel source, these are als modes
-#define MANUAL          0
-#define AUTOMATIC       1
-#define MANUAL_SENSOR   2
-
 /******************************************************************************/
 
 #define CHARGE_LED_OFF   0
@@ -54,17 +49,14 @@ static struct light_state_t g_notification;
 static int g_charge_led_active;
 static int g_last_button_brightness;
 
-char const*const LCD_FILE = "/sys/class/leds/lcd-backlight/brightness";
-char const*const ALS_FILE = "/sys/class/leds/lcd-backlight/als";
+char const*const LCD_FILE = "/sys/class/backlight/430_540_960_amoled_bl/brightness";
 char const*const BUTTON_ON_FILE = "/sys/class/leds/button-backlight/brightness";
-char const*const BUTTON_BRIGHT_FILE = "/proc/backlight/brightness";
 
 /* RGB file descriptors */
 char const*const RED_LED_FILE = "/sys/class/leds/red/brightness";
 char const*const RED_BLINK_FILE = "/sys/class/leds/red/blink";
 char const*const GREEN_LED_FILE = "/sys/class/leds/green/brightness";
 char const*const BLUE_LED_FILE = "/sys/class/leds/blue/brightness";
-char const*const CHARGE_LED_FILE = "/sys/class/leds/usb/brightness";
 
 void init_globals(void)
 {
@@ -121,23 +113,9 @@ set_light_backlight(struct light_device_t* dev,
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
-    int als_mode;
-
-    switch (state->brightnessMode) {
-        case BRIGHTNESS_MODE_SENSOR:
-            als_mode = AUTOMATIC;
-            break;
-        case BRIGHTNESS_MODE_USER:
-        default:
-            als_mode = MANUAL_SENSOR;
-            break;
-    }
 
     pthread_mutex_lock(&g_lock);
-    err = write_int(ALS_FILE, als_mode);
-    if (!err) {
-        err = write_int(LCD_FILE, brightness);
-    }
+    err = write_int(LCD_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
 
     return err;
@@ -158,10 +136,6 @@ set_light_buttons(struct light_device_t* dev,
     {
         err = write_int(BUTTON_ON_FILE, brightness ? 1 : 0);
     }
-
-//    if (err == 0 && brightness > 0 && brightness != g_last_button_brightness) {
-        err = write_int(BUTTON_BRIGHT_FILE, brightness);
-//    }
 
     g_last_button_brightness = brightness;
 
@@ -210,8 +184,6 @@ handle_light_locked(struct light_device_t *dev)
     } else {
         retval = set_light_locked(dev, &g_battery);
     }
-
-    write_int(CHARGE_LED_FILE, show_charge);
 
     return retval;
 }
@@ -269,11 +241,6 @@ static int open_lights(const struct hw_module_t* module, char const* name,
     if (0 == strcmp(LIGHT_ID_BACKLIGHT, name)) {
         set_light = set_light_backlight;
     }
-#ifdef HAVE_KEYBOARD
-    else if (0 == strcmp(LIGHT_ID_KEYBOARD, name)) {
-        set_light = set_light_buttons;
-    }
-#endif
     else if (0 == strcmp(LIGHT_ID_BUTTONS, name)) {
         set_light = set_light_buttons;
     }
@@ -316,7 +283,7 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_major = 1,
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
-    .name = "OMAP4 lights Module",
+    .name = "Spyder lights Module",
     .author = "STS-Dev-Team, AOSP, Google",
     .methods = &lights_module_methods,
 };
