@@ -4,10 +4,8 @@ $(call inherit-product, device/motorola/spyder/full_spyder.mk)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-# Inherit some common CM stuff.
-#$(call inherit-product, vendor/cm/config/gsm.mk)
-
-DEVICE_PACKAGE_OVERLAYS += device/motorola/spyder/overlay/cm
+# Inherit some common CDMA stuff.
+$(call inherit-product, vendor/cm/config/cdma.mk)
 
 # CM-specific init file for SafeStrap
 PRODUCT_COPY_FILES += \

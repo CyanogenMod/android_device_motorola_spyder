@@ -27,17 +27,13 @@ PRODUCT_PACKAGES := \
 
 #if we do this after the full_base_telephony is included some of these don't get picked up..
 PRODUCT_COPY_FILES += \
-    vendor/motorola/common/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml
 
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=cdma_spyder
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-# This is where we'd set a backup provider if we had one
-#$(call inherit-product, device/sample/products/backup_overlay.mk)
 # Inherit from spyder device
-$(call inherit-product-if-exists, device/motorola/kexec/kexec.mk)
 $(call inherit-product, device/motorola/spyder/device.mk)
 
 # Set those variables here to overwrite the inherited values.
