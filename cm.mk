@@ -7,10 +7,6 @@ $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 # Inherit some common CDMA stuff.
 $(call inherit-product, vendor/cm/config/cdma.mk)
 
-# CM-specific init file for SafeStrap
-PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.local.rc:system/etc/rootfs/init.cm.rc
-
 #
 # Setup device specific product configuration.
 #
