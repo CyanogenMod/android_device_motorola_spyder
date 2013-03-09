@@ -1,14 +1,10 @@
 # system/bin
 bin/akmd8975
-bin/ap_gain.bin
-bin/ap_gain_mmul.bin
 bin/batch
 bin/battd
 bin/chat-ril
-bin/crda
 bin/dbvc_atvc_property_set
 bin/dumpe2fs
-bin/dund
 bin/ecckeyd
 bin/enc_mgt_tool
 bin/ftmipcd
@@ -20,15 +16,12 @@ bin/mount_ext3.sh
 bin/msp430
 bin/secclkd
 bin/startup_smc.sh
-bin/tcmd
-bin/tcmdhelp
 bin/testpppd
 bin/thermaldaemon
 bin/tty2ttyd
 bin/whisperd
 
 # system/etc
-etc/btpan.conf
 etc/ecryptfs.tab
 etc/encrypt.tab
 etc/excluded-input-devices.xml
@@ -40,6 +33,7 @@ etc/smc_pa_pk_4_ipa.bin
 etc/mspfirmware/mspfirmware.bin
 etc/mspfirmware/version.txt
 etc/firmware/ap_bt_data.bin
+system/etc/firmware/TIInit_10.6.15.bts
 etc/ppp/peers/pppd-ril.options
 etc/wifi/wlan_fem.ini
 
@@ -47,39 +41,17 @@ etc/wifi/wlan_fem.ini
 usr/bin/gki_pd_notifier
 usr/bin/panic_daemon
 usr/idc/Motorola_Mobility_Motorola_HD_Dock.idc
-usr/keychars/omap4-keypad.kcm
 usr/keylayout/cpcap-key.kl
 usr/keylayout/cy8c201xx.kl
-usr/keylayout/omap4-keypad.kl
 
 # system/lib
-lib/crda/regulatory.bin
-lib/libadkutils.so
-lib/libamcm.so
 lib/libbattd.so
 lib/libbcbmsg.so
-lib/libbt-aptx-4.0.3.so
-lib/libcaps.so
-lib/libcapsjava.so
 lib/libdataencrypt.so
 lib/libdataencrypt_tpa.so
 lib/libdataencrypt_utils.so
-lib/libdevicestats.so
-lib/libdlnahttpjni.so
-lib/libdlnajni.so
-lib/libdlnaprofileparser.so
-lib/libdlnasysjni.so
-lib/libdmengine.so
-lib/libdmjavaplugin.so
-lib/libdockcommjni.so
-lib/libevbridge.so
-lib/libexempi.so
-lib/libextdispjni.so
 lib/libhdcp.so
 lib/libhdmi.so
-lib/libimage_jni.so
-lib/libjni_nwp.so
-lib/libmetainfo.so
 lib/libmot_atcmd.so
 lib/libmotodbgutils.so
 lib/libmoto_netutil.so
@@ -88,16 +60,8 @@ lib/libmss.so.sig
 lib/libnbgm.so
 lib/libnmea.so
 lib/libOMX.ITTIAM.AAC.encode.so
-lib/libpanorama.so
-lib/libpanorama_jni.so
-lib/libPhotoEditor.so
-lib/libphotoflow.so
 lib/libpkip.so
-lib/libportaljni.so
 lib/libpppd_plugin-ril.so
-lib/libprovlib.so
-lib/libquicksec.so
-lib/libscalado.so
 lib/libsensorhub_jni.so
 lib/libsmapi.so
 lib/libthermal_config.so
@@ -105,11 +69,6 @@ lib/libthermal_manager.so
 lib/libtpa.so
 lib/libtpa_core.so
 lib/libui3d.so
-lib/libvideoeditorlite.so
-lib/libwbxmlparser.so
-lib/libWifiAPHardware.so
-lib/libxmpcore.so
-lib/libXmp_jni.so
 
 # RIL files
 bin/base64
@@ -139,13 +98,6 @@ lib/libims_client_jni.so
 lib/hw/gps.spyder.so
 lib/hw/sensorhub.spyder.so
 lib/hw/sensors.spyder.so
-
-# TCMD libs
-lib/libaudiotcmd.so
-lib/libfmchr.so
-lib/libfm_stack.so
-lib/libmcphal.so
-lib/libtcmdcameraservice.so
 
 # system/vendor PVR
 vendor/bin/pvrsrvinit
