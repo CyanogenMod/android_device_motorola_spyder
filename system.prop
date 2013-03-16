@@ -17,7 +17,6 @@ ro.modem_available=0
 # Default network type.
 # 7 => GLOBAL.
 ro.telephony.default_network=10
-ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.cdma.home.operator.numeric=310004
@@ -29,10 +28,6 @@ ro.mot.hw.uaprof=http://uaprof.vtext.com/mot/xt912/xt912.xml
 
 # Enable HAC to also display Call Setting Menu Option.
 ro.mot.hw.HAC=1
-# Motorola, a19622, 12/28/2009, IKSHADOW-204 / Location Settings for android
-# Property to set enabling state of the location privacy setting feature.
-# Motorola, a19622, 03/16/2010, IKSHADOW-2141 / Disable feature 33067
-#ro.mot.settings.locprivacy=1
 # ERI feature
 # 0 OFF
 # 1 ON
@@ -52,10 +47,6 @@ persist.mot.proximity.touch=1
 ro.cdma.nbpcd=1
 # END IKSHADOW-702
 
-# BEGIN Motorola, a22976, 12-Mar-2010, IKSHADOW-1784, Power Up Tone
-# Motorola, a22976, 12-Apr-2010, IKSHADOW-3298, Remove temporary power up tone
-# persist.mot.powerup.tone=/system/media/bootup.ogg
-# END IKSHADOW-1784
 persist.mot.usb.mediasync = 1
 # persist.usb.android_config = 1
 
@@ -132,6 +123,14 @@ com.motorola.cg.tnHeight=160
 com.motorola.cg.tndisplay=1
 # END IKHSS7-2427
 
+# system prop for requesting Master role in incoming Bluetooth connection.
+#
+ro.bluetooth.request.master=true
+#
+# system prop for Bluetooth Auto connect for remote initated connections
+#
+ro.bluetooth.remote.autoconnect=true
+
 ro.com.google.clientidbase=android-motorola
 ro.com.google.clientidbase.ms=android-verizon
 ro.com.google.clientidbase.am=android-verizon
@@ -148,29 +147,30 @@ ril.wrigley.modem.tty=/dev/usb/tty1-2:1.10
 persist.radio.lte.mm.disable=0
 rild.libpath=/system/lib/moto-ril-multimode.so
 gsm.sim.mot.simswap=1
-ro.com.google.gmsversion=4.0_r2
-ro.mot.setuptype=2
+ro.com.google.gmsversion=4.1_r3
 ro.HorizontalBUA=true
 ro.HorizontalVVM=true
-ro.horizontalIM=true
 ro.horizontalNGM=false
 ro.horizontalVMM=false
 ro.horizontalMOD=false
 ro.horizontalVOD=false
 ro.horizontalEmail=false
 ro.mot.phonemode.vzw4gphone=1
-ro.mot.lte_on_cdma=1
-ro.mot.tmp.telephony.refactor=true
+ro.com.android.dataroaming=true
 ro.cdma.subscription=0
 lte_ril.libpath=/system/lib/lib-mot-lte-ril.so
 cdma_ril.libpath=/system/lib/libmoto_ril.so
 ril.rat=LTE
 lte_ril.netcfg_to=90
 ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83
-ro.com.android.dataroaming=true
 ro.cdma.data_retry_config=max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000
 ro.gsm.data_retry_config=default_randomization=2000,max_retries=infinite,0,0,80000,125000,485000,905000
 ro.gsm.2nd_data_retry_config=max_retries=infinite,default_randomization=2000,0,0,80000,125000,485000,905000
+ro.mot.setuptype=2
+ro.horizontalIM=true
+ro.ril.svlte1x=true
+ro.mot.lte_on_cdma=1
+ro.mot.tmp.telephony.refactor=true
 ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
