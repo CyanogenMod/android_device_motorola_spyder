@@ -182,3 +182,6 @@ ril.subscription.types=NV,RUIM
 ro.cdma.subscribe_on_ruim_ready=true
 ro.telephony.ril.v3=writeaidonly
 
+# Vold switchability uncomment second line to swap
+ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
+#persist.sys.vold.switchexternal=1
