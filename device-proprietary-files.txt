@@ -1,20 +1,21 @@
-# system/bin (from spyder 98.72.16 JB OTA JB 4.1.2)
-bin/akmd8975
+# system/bin
 bin/msp430
 
-# system/etc (from spyder 98.72.16 JB OTA JB 4.1.2)
-etc/firmware/ducati-m3.bin
-etc/firmware/TIInit_10.6.15.bts
+# system/etc
 etc/mspfirmware/mspfirmware.bin
 etc/mspfirmware/version.txt
 
-# system/usr (from spyder 98.72.16 JB OTA JB 4.1.2)
+# system/usr
 usr/keylayout/cy8c201xx.kl
 
-# system/lib/hw (from spyder 98.72.16 JB OTA JB 4.1.2)
+# system/lib/hw
+lib/hw/gps.spyder.so
 lib/hw/sensorhub.spyder.so
 lib/hw/sensors.spyder.so
 lib/libsensorhub_jni.so
 
-# system/etc/omapcam/module2 (from spyder 98.72.16 JB OTA JB 4.1.2)
+# system/lib
+lib/libnbgm_9.0.1.so
+
+# system/etc/omapcam/module2
 etc/omapcam/module2/cid1044_mt9m114_sensor_config_dcc.bin
