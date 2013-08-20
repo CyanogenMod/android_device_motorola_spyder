@@ -21,7 +21,7 @@ ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 ro.cdma.home.operator.numeric=310004
 ro.cdma.home.operator.alpha=Verizon
-ro.config.svlte1x=true
+ro.config.svdo=true
 
 # our HTML browser (not WAP browser ) based on requirements IKHSS6-1061 need to specify UAProf URL
 ro.mot.hw.uaprof=http://uaprof.vtext.com/mot/xt912/xt912.xml
