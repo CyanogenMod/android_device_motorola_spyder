@@ -1,3 +1,14 @@
 on init
-    symlink /dev/block/mmcblk1p25 /dev/block/emstorage
     symlink /dev/block/mmcblk1p7 /dev/block/pds
+    symlink /dev/block/mmcblk1p14 /dev/block/boot
+    symlink /dev/block/mmcblk1p15 /dev/block/recovery
+    symlink /dev/block/mmcblk1p16 /dev/block/cdrom
+    symlink /dev/block/mmcblk1p17 /dev/block/misc
+    symlink /dev/block/mmcblk1p18 /dev/block/cid
+    symlink /dev/block/mmcblk1p19 /dev/block/kpanic
+    symlink /dev/block/mmcblk1p20 /dev/block/system
+    symlink /dev/block/mmcblk1p21 /dev/block/cache
+    symlink /dev/block/mmcblk1p22 /dev/block/preinstall
+    symlink /dev/block/mmcblk1p23 /dev/block/webtop
+    symlink /dev/block/mmcblk1p24 /dev/block/userdata
+    symlink /dev/block/mmcblk1p25 /dev/block/emstorage
