@@ -19,7 +19,7 @@ ro.modem_available=0
 ro.telephony.default_network=10
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.cdma.home.operator.numeric=310004
+ro.cdma.home.operator.numeric=311480
 ro.cdma.home.operator.alpha=Verizon
 ro.config.svdo=true
 
@@ -179,7 +179,6 @@ ro.mot.hidden_keyboards=evfwd
 
 # Additions
 ril.subscription.types=NV,RUIM
-ro.cdma.subscribe_on_ruim_ready=true
 ro.telephony.ril.v3=writeaidonly
 
 # Vold switchability uncomment second line to swap
