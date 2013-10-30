@@ -179,7 +179,7 @@ ro.mot.hidden_keyboards=evfwd
 
 # Additions
 ril.subscription.types=NV,RUIM
-ro.telephony.ril.v3=writeaidonly,usevoicetechfordata,skipdatareg
+ro.telephony.ril.v3=writeaidonly,usevoicetechfordata
 
 # Vold switchability uncomment second line to swap
 ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
