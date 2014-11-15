@@ -12,3 +12,7 @@ on init
     symlink /dev/block/mmcblk1p23 /dev/block/webtop
     symlink /dev/block/mmcblk1p24 /dev/block/userdata
     symlink /dev/block/mmcblk1p25 /dev/block/emstorage
+
+service wrigleyd /system/bin/wrigleyd
+    class main
+    user root

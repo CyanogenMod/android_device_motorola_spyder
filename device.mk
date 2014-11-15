@@ -33,7 +33,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     nc \
     Stk \
-    libreference-cdma-sms
+    libreference-cdma-sms \
+    wrigleyd
 
 # Kexec files
 PRODUCT_COPY_FILES += \
