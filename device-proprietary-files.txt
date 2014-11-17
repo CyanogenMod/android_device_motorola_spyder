@@ -5,9 +5,6 @@ bin/msp430
 etc/mspfirmware/mspfirmware.bin
 etc/mspfirmware/version.txt
 
-# system/usr
-usr/keylayout/cy8c201xx.kl
-
 # system/lib/hw
 lib/hw/gps.spyder.so
 lib/hw/sensorhub.spyder.so
