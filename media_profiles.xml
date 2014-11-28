@@ -38,7 +38,7 @@
 <!ATTLIST Audio sampleRate CDATA #REQUIRED>
 <!ATTLIST Audio channels (1|2) #REQUIRED>
 <!ELEMENT ImageEncoding EMPTY>
-<!ATTLIST ImageEncoding quality (90|80|70|60|50|40) #REQUIRED>
+<!ATTLIST ImageEncoding quality (95|90|80|70|60|50|40) #REQUIRED>
 <!ELEMENT ImageDecoding EMPTY>
 <!ATTLIST ImageDecoding memCap CDATA #REQUIRED>
 <!ELEMENT Camera EMPTY>
@@ -89,7 +89,7 @@
 <MediaSettings>
     <!-- Each camcorder profile defines a set of predefined configuration parameters -->
     <CamcorderProfiles cameraId="0">
-    <!--
+
         <EncoderProfile quality="high" fileFormat="mp4" duration="60">
             <Video codec="h264"
                    bitRate="15000000"
@@ -145,7 +145,7 @@
                    channels="2" />
 
         </EncoderProfile>
--->
+
         <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
              <Video codec="m4v"
                     bitRate="6000000"
@@ -158,7 +158,7 @@
                     sampleRate="44100"
                     channels="2" />
          </EncoderProfile>
-<!--
+
         <EncoderProfile quality="vga" fileFormat="mp4" duration="30">
              <Video codec="h264"
                     bitRate="4000000"
@@ -291,9 +291,9 @@
                     sampleRate="44100"
                     channels="2" />
          </EncoderProfile>
--->
 
-        <ImageEncoding quality="100" />
+        <!--<ImageEncoding quality="100" />-->
+        <ImageEncoding quality="95" />
         <ImageEncoding quality="80" />
         <ImageEncoding quality="70" />
         <ImageDecoding memCap="20000000" />
@@ -303,7 +303,7 @@
     </CamcorderProfiles>
 
     <CamcorderProfiles cameraId="1">
-<!--
+
         <EncoderProfile quality="high" fileFormat="mp4" duration="60">
             <Video codec="h264"
                    bitRate="10000000"
@@ -345,7 +345,7 @@
                    channels="2" />
 
         </EncoderProfile>
--->
+
         <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
              <Video codec="m4v"
                     bitRate="6000000"
@@ -358,7 +358,7 @@
                     sampleRate="44100"
                     channels="2" />
         </EncoderProfile>
-<!--
+
         <EncoderProfile quality="vga" fileFormat="mp4" duration="30">
              <Video codec="h264"
                     bitRate="4000000"
@@ -478,8 +478,8 @@
                     sampleRate="44100"
                     channels="2" />
          </EncoderProfile>
--->
-        <ImageEncoding quality="100" />
+
+        <ImageEncoding quality="95" />
         <ImageEncoding quality="80" />
         <ImageEncoding quality="70" />
         <ImageDecoding memCap="20000000" />

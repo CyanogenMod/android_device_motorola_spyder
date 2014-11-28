@@ -19,4 +19,6 @@
 
 #define BTM_DEF_LOCAL_NAME   "Motorola Droid Razr"
 
+#define BLE_INCLUDED TRUE
+
 #endif
