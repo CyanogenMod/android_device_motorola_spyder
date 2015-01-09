@@ -37,10 +37,10 @@ PRODUCT_PACKAGES += \
     wrigleyd
 
 # Kexec files
+PRODUCT_PACKAGES += etc/kexec/ramdisk.img
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/init.target.rc:root/init.target.rc \
     $(DEVICE_FOLDER)/kexec/devtree:system/etc/kexec/devtree \
-    $(OUT)/ramdisk.img:system/etc/kexec/ramdisk.img \
     $(OUT)/kernel:system/etc/kexec/kernel
 
 # Prebuilts
