@@ -180,6 +180,7 @@ ro.mot.hidden_keyboards=evfwd
 # Additions
 ril.subscription.types=NV,RUIM
 ro.telephony.ril.config=writeaidonly,usevoicetechfordata
+ro.telephony.get_imsi_from_sim=true
 
 # Vold switchability uncomment second line to swap
 ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
