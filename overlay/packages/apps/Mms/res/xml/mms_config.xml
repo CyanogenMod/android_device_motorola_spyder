@@ -87,16 +87,4 @@
     <!-- this is default to "x-wap-profile". Override if necessary. Optional -->
     <string name="uaProfTagName">profile</string>
 
-    <!-- Reference for additional http parameters used in MMS http request.
-         Parameters are seperated by '|'. Optional.
-    -->
-    <string name="httpParams">
-        accept-charset: US-ASCII, ISO-8859-1, UTF-8|x-up-calling-line-id: ##LINE1##|x-vzw-mdn: ##LINE1##
-    </string>
-
-    <!-- Reference for the substitution key to be used when adding the users telephone number
-         (Line1) to the httpPrams at runtime. Optional.
-    -->
-    <string name="httpParamsLine1Key">##LINE1##</string>
-
 </mms_config>
