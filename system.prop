@@ -73,7 +73,7 @@ persist.radio.vzw.cdma.mdn=
 # This is part of the VZW World-phone Feature. SMS are always sent to a US SMSC and then injected
 # into that network. This allows for billing and give the user the impression that the device is
 # still in the US.
-ro.telephony.gsm-routes-us-smsc = 1
+ro.telephony.gsm-routes-us-smsc=1
 # END  Motorola, qmfd78, 14-Jul-2010, IKMAIN-884
 
 # BEGIN Motorola, a22600 qmfd78, 16-Jul-2010, IKDROIDPRO-423
