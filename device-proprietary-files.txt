@@ -6,7 +6,7 @@ etc/mspfirmware/mspfirmware.bin
 etc/mspfirmware/version.txt
 
 # system/lib/hw
-lib/hw/gps.spyder.so
+lib/hw/gps.vendor.so
 lib/hw/sensorhub.spyder.so
 lib/hw/sensors.spyder.so
 lib/libsensorhub_jni.so
