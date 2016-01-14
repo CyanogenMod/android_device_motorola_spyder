@@ -1,0 +1,4 @@
+# Devices
+/dev/block/mmcblk1p20           u:object_r:system_block_device:s0
+/dev/block/mmcblk1p24           u:object_r:userdata_block_device:s0
+/dev/block/mmcblk1p21           u:object_r:cache_block_device:s0
