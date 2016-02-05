@@ -19,6 +19,6 @@
 
 #define BTM_DEF_LOCAL_NAME   "Motorola Droid Razr"
 
-#define BLE_INCLUDED TRUE
+#include "../../omap4-common/bluetooth/bdroid_common.h"
 
 #endif
